@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import type { Product } from '../../data/catalog.schema';
-import { buildProductJsonLd, jsonLdGraph } from './structured-data';
+import type { Product } from '@/domain/catalog/catalog.schema';
+import { buildProductJsonLd, jsonLdGraph } from '@/domain/seo/structured-data';
 
 const product: Product = {
   id: 'test',

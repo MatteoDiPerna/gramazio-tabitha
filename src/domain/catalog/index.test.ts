@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { catalog, getPublishedProducts, getProductBySlug } from './catalog';
-import { catalogSchema } from './catalog.schema';
+import { catalog, catalogSchema, getProductBySlug, getPublishedProducts } from '@/domain/catalog';
 
 describe('catalog', () => {
   it('parses and exposes published products', () => {

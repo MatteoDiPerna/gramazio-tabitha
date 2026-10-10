@@ -1,5 +1,5 @@
-import type { Product, ProductVariant } from '../data/catalog.schema';
-import { formatEuros } from './money';
+import type { Product, ProductVariant } from '@/domain/catalog/catalog.schema';
+import { formatEuros } from '@/domain/order/money';
 
 export function formatVariantPrice(variant: ProductVariant): string {
   if (variant.priceCents == null) return 'Prezzo su richiesta';

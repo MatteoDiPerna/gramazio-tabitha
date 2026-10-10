@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { buildOrderMessage } from './orderMessage';
-import { buildWhatsAppUrl } from './whatsapp';
-import { buildMailtoUrl } from './mailto';
+import { buildMailtoUrl } from '@/domain/order/mailto';
+import { buildOrderMessage } from '@/domain/order/orderMessage';
+import { buildWhatsAppUrl } from '@/domain/order/whatsapp';
 
 describe('buildOrderMessage', () => {
   it('includes products, totals and customer fields', () => {

@@ -11,7 +11,7 @@ Usare insieme a [deployment.md](./deployment.md) e `npm run check:release`.
 
 ## Contenuti (F14.02)
 
-- [ ] Prezzi e formati in `src/data/catalog.ts`
+- [ ] Prezzi e formati in `src/domain/catalog/products.data.ts`
 - [ ] Foto prodotto reali
 - [ ] Note legali / privacy approvate
 

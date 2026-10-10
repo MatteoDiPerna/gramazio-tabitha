@@ -3,7 +3,7 @@ import {
   CART_STORAGE_VERSION,
   type CartLine,
   type PersistedCart,
-} from './types';
+} from '@/domain/cart/types';
 
 export function loadCartLines(): CartLine[] {
   if (typeof localStorage === 'undefined') return [];

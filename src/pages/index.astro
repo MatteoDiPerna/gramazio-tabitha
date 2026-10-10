@@ -1,9 +1,9 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Button from '../components/ui/Button.astro';
-import ProductCard from '../components/catalog/ProductCard.astro';
-import { siteConfig } from '../config/site.config';
-import { getPublishedProducts } from '../data/catalog';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/ui/Button.astro';
+import ProductCard from '@/components/catalog/ProductCard.astro';
+import { siteConfig } from '@/config/site.config';
+import { getPublishedProducts } from '@/domain/catalog';
 
 const products = getPublishedProducts().slice(0, 3);
 ---

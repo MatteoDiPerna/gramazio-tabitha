@@ -1,5 +1,6 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { faqIntro, faqItems } from '@/content/faq';
 ---
 
 <BaseLayout
@@ -8,47 +9,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 >
   <div class="container page">
     <h1 class="page-title">Ordini, spedizioni e pagamenti</h1>
-    <p class="lead">
-      Informazioni generali sul funzionamento del sito. I dettagli commerciali definitivi
-      saranno comunicati dall'azienda al momento della conferma dell'ordine.
-    </p>
+    <p class="lead">{faqIntro}</p>
     <dl class="faq">
-      <div>
-        <dt>Come posso ordinare?</dt>
-        <dd>
-          Potrai comporre l'ordine dal catalogo e inviarci una richiesta (telefono o email).
-          Non serve creare un account. Attualmente puoi contattarci dalla pagina
-          <a href="/contatti">Contatti</a>.
-        </dd>
-      </div>
-      <div>
-        <dt>L'ordine online è immediatamente confermato?</dt>
-        <dd>
-          No. L'invio è una <strong>richiesta d'ordine</strong>. Ti ricontattiamo per confermare
-          disponibilità, costi di spedizione, modalità di pagamento e tempi.
-        </dd>
-      </div>
-      <div>
-        <dt>Quali sono i costi di spedizione?</dt>
-        <dd>
-          Da definire con l'azienda e pubblicati qui appena disponibili. Non mostriamo importi
-          non confermati.
-        </dd>
-      </div>
-      <div>
-        <dt>Quali metodi di pagamento accettate?</dt>
-        <dd>
-          Da concordare al momento della conferma (es. bonifico, contrassegno — da verificare con
-          l'azienda).
-        </dd>
-      </div>
-      <div>
-        <dt>Perché alcuni prezzi non sono visibili?</dt>
-        <dd>
-          Pubblicheremo listino e formati ufficiali non appena forniti. Fino ad allora compare
-          «Prezzo su richiesta».
-        </dd>
-      </div>
+      {
+        faqItems.map((item) => (
+          <div>
+            <dt>{item.question}</dt>
+            <dd set:html={item.answerHtml} />
+          </div>
+        ))
+      }
     </dl>
   </div>
 </BaseLayout>

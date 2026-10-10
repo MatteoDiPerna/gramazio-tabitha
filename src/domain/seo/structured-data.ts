@@ -1,6 +1,6 @@
-import type { Product } from '../../data/catalog.schema';
-import { siteConfig } from '../../config/site.config';
-import { absoluteUrl } from './urls';
+import type { Product } from '@/domain/catalog/catalog.schema';
+import { siteConfig } from '@/config/site.config';
+import { absoluteUrl } from '@/domain/seo/urls';
 
 type JsonLd = Record<string, unknown>;
 

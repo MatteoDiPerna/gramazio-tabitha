@@ -1,4 +1,4 @@
-import type { Product } from './catalog.schema';
+import type { Product } from '@/domain/catalog/catalog.schema';
 
 export const catalogCategories = [
   { id: 'olio', label: 'Olio' },

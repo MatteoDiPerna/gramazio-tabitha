@@ -1,4 +1,4 @@
-import { siteConfig } from '../../config/site.config';
+import { siteConfig } from '@/config/site.config';
 
 export function getSiteOrigin(): string {
   const fromEnv =

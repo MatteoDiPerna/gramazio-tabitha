@@ -1,5 +1,5 @@
-import { formatEuros, lineTotalCents, sumCents } from './money';
-import { siteConfig } from '../config/site.config';
+import { siteConfig } from '@/config/site.config';
+import { formatEuros, lineTotalCents, sumCents } from '@/domain/order/money';
 
 export type OrderLine = {
   name: string;
@@ -52,14 +52,14 @@ export function buildOrderMessage(
     ...productLines,
     '',
     totalLine,
-    'Spedizione e pagamento: da concordare con l\'azienda.',
+    "Spedizione e pagamento: da concordare con l'azienda.",
     '',
     `Note: ${customer.notes?.trim() || '—'}`,
     `Nome: ${customer.name?.trim() || '—'}`,
     `Telefono: ${customer.phone?.trim() || '—'}`,
     `Consegna: ${customer.deliveryAddress?.trim() || '—'}`,
     '',
-    'Inviato dal sito web. La richiesta sarà confermata secondo le condizioni commerciali dell\'azienda.',
+    "Inviato dal sito web. La richiesta sarà confermata secondo le condizioni commerciali dell'azienda.",
   ];
 
   return parts.join('\n');

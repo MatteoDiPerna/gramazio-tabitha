@@ -1,15 +1,15 @@
 ---
-import type { Product } from '../../data/catalog.schema';
+import type { Product } from '@/domain/catalog/catalog.schema';
 import Badge from '../ui/Badge.astro';
 import Button from '../ui/Button.astro';
 import Card from '../ui/Card.astro';
 import { AddToCartButton } from '../cart/AddToCartButton';
-import { canAddProductToCart } from '../../lib/cart/logic';
+import { canAddProductToCart } from '@/domain/cart/logic';
 import {
   formatVariantPrice,
   pricePerLiter,
   productAvailabilityLabel,
-} from '../../lib/catalogDisplay';
+} from '@/domain/catalog/display';
 
 interface Props {
   product: Product;

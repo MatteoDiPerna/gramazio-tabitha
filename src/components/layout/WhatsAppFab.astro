@@ -1,6 +1,6 @@
 ---
-import { siteConfig } from '../../config/site.config';
-import { buildWhatsAppUrl } from '../../lib/whatsapp';
+import { siteConfig } from '@/config/site.config';
+import { buildWhatsAppUrl } from '@/domain/order/whatsapp';
 
 const intro = `Buongiorno, vorrei informazioni sui prodotti de ${siteConfig.name}.`;
 const e164 = siteConfig.whatsappE164.replace(/\D/g, '');

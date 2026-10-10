@@ -1,4 +1,5 @@
 // @ts-check
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
@@ -10,4 +11,11 @@ const SITE = process.env.SITE_URL ?? 'https://example.com';
 export default defineConfig({
   site: SITE,
   integrations: [react(), sitemap()],
+  vite: {
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
+    },
+  },
 });

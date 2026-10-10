@@ -1,5 +1,6 @@
 ---
-import { siteConfig } from '../../config/site.config';
+import { siteConfig } from '@/config/site.config';
+import { footerInfoLinks } from '@/content/navigation';
 
 const { address } = siteConfig;
 const addressLine = `${address.street}, ${address.postalCode} ${address.city} (${address.province})`;
@@ -21,10 +22,11 @@ const addressLine = `${address.street}, ${address.postalCode} ${address.city} ($
     <div>
       <p class="footer__label">Informazioni</p>
       <ul class="footer__links">
-        <li><a href="/faq">Ordini e spedizioni</a></li>
-        <li><a href="/privacy">Privacy</a></li>
-        <li><a href="/cookie">Cookie</a></li>
-        <li><a href="/note-legali">Note legali</a></li>
+        {footerInfoLinks.map((link) => (
+          <li>
+            <a href={link.href}>{link.label}</a>
+          </li>
+        ))}
       </ul>
     </div>
   </div>

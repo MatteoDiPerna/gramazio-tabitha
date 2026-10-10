@@ -1,6 +1,6 @@
-import type { Product } from '../../data/catalog.schema';
-import { lineTotalCents, sumCents } from '../money';
-import type { CartLine } from './types';
+import type { Product } from '@/domain/catalog/catalog.schema';
+import { lineTotalCents, sumCents } from '@/domain/order/money';
+import type { CartLine } from '@/domain/cart/types';
 
 export function cartLineKey(productId: string, variantId: string): string {
   return `${productId}:${variantId}`;

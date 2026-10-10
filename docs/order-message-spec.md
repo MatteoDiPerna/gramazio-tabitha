@@ -1,6 +1,6 @@
 # Specifiche messaggio ordine (F02.06)
 
-Implementazione prevista: `src/lib/orderMessage.ts`, `src/lib/whatsapp.ts`, `src/lib/mailto.ts`.
+Implementazione: `src/domain/order/orderMessage.ts`, `whatsapp.ts`, `mailto.ts`.
 
 ## WhatsApp
 

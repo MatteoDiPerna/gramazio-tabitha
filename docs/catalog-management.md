@@ -2,12 +2,12 @@
 
 ## Dove sono i dati
 
-- Schema: `src/data/catalog.schema.ts`
-- Catalogo: `src/data/catalog.ts` (array prodotti validato con Zod)
+- Schema: `src/domain/catalog/catalog.schema.ts`
+- Dati prodotti: `src/domain/catalog/products.data.ts` (validati via `src/domain/catalog/index.ts`)
 
 ## Aggiornare prodotti e prezzi
 
-1. Modifica `src/data/catalog.ts` (o estrai in `catalog.json` importato da TS, se preferito).
+1. Modifica `src/domain/catalog/products.data.ts` (o estrai in JSON importato da TS, se preferito).
 2. Per ogni variante, imposta `priceCents` (intero, centesimi EUR) oppure `null` se non pubblicato.
 3. `published: false` esclude il prodotto dal sito; `available: false` mostra “disponibilità da confermare”.
 4. Esegui `npm test` e `npm run build`.

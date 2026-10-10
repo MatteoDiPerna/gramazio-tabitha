@@ -9,6 +9,6 @@ Assortimento commerciale ufficiale per il sito, allineato alle informazioni pubb
 | La Favetta | legumi | — |
 | Patè di fave | condimenti | — |
 
-Implementazione tecnica: `src/data/catalog.ts`.
+Implementazione tecnica: `src/domain/catalog/products.data.ts`.
 
 I prezzi in euro (per formato) si impostano in `variants[].priceCents` quando comunicati; fino ad allora il sito mostra **Prezzo su richiesta** e calcola l'ordine di conseguenza.

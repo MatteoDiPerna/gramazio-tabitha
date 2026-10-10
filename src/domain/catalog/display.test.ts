@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatVariantPrice, pricePerLiter } from './catalogDisplay';
+import { formatVariantPrice, pricePerLiter } from '@/domain/catalog/display';
 
 describe('catalogDisplay', () => {
   it('shows request price when cents null', () => {

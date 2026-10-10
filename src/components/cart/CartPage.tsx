@@ -1,15 +1,15 @@
 import { useMemo, useState, type FC } from 'react';
-import { siteConfig } from '../../config/site.config';
+import { siteConfig } from '@/config/site.config';
 import {
   cartLineKey,
   computeCartTotals,
   toOrderLines,
-} from '../../lib/cart/logic';
-import { formatEuros } from '../../lib/money';
-import { buildMailtoUrl } from '../../lib/mailto';
-import { buildOrderMessage } from '../../lib/orderMessage';
-import { buildWhatsAppUrl } from '../../lib/whatsapp';
-import { useCart } from '../../hooks/useCart';
+} from '@/domain/cart/logic';
+import { buildMailtoUrl } from '@/domain/order/mailto';
+import { buildOrderMessage } from '@/domain/order/orderMessage';
+import { formatEuros } from '@/domain/order/money';
+import { buildWhatsAppUrl } from '@/domain/order/whatsapp';
+import { useCart } from '@/hooks/useCart';
 import { QuantityStepper } from '../ui/QuantityStepper';
 
 export const CartPage: FC = () => {

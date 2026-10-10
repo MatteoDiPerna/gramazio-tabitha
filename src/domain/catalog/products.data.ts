@@ -1,7 +1,5 @@
-import { catalogSchema, type Product } from './catalog.schema';
-
-/** Placeholder immagini — sostituire con foto reali (F01.02). */
-const rawCatalog = [
+/** Dati prodotti — allineare a docs/listino.md. Immagini: public/images/. */
+export const rawCatalog = [
   {
     id: 'olio-evo-bio',
     slug: 'olio-extravergine-biologico',
@@ -39,7 +37,7 @@ const rawCatalog = [
     id: 'la-favetta',
     slug: 'la-favetta',
     name: 'La Favetta',
-    shortDescription: 'Prodotto dell\'azienda agricola — listino v1.',
+    shortDescription: "Prodotto dell'azienda agricola — listino v1.",
     category: 'legumi' as const,
     image: {
       src: '/images/placeholder-product.svg',
@@ -64,17 +62,3 @@ const rawCatalog = [
     available: true,
   },
 ];
-
-export const catalog: Product[] = catalogSchema.parse(rawCatalog);
-
-export function getPublishedProducts(): Product[] {
-  return catalog.filter((p) => p.published);
-}
-
-export function getProductBySlug(slug: string): Product | undefined {
-  return catalog.find((p) => p.slug === slug && p.published);
-}
-
-export function getProductById(id: string): Product | undefined {
-  return catalog.find((p) => p.id === id);
-}

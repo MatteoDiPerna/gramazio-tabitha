@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { Product } from '../../data/catalog.schema';
+import type { Product } from '@/domain/catalog/catalog.schema';
 import {
   addLine,
   cartItemCount,
@@ -8,8 +8,8 @@ import {
   removeLine,
   setLineQty,
   syncCartWithCatalog,
-} from './logic';
-import type { CartLine } from './types';
+} from '@/domain/cart/logic';
+import type { CartLine } from '@/domain/cart/types';
 
 const sampleProduct: Product = {
   id: 'olio-evo-bio',

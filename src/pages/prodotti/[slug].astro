@@ -1,16 +1,16 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Badge from '../../components/ui/Badge.astro';
-import Button from '../../components/ui/Button.astro';
-import { AddToCartButton } from '../../components/cart/AddToCartButton';
-import { canAddProductToCart } from '../../lib/cart/logic';
-import { getPublishedProducts, getProductBySlug } from '../../data/catalog';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Badge from '@/components/ui/Badge.astro';
+import Button from '@/components/ui/Button.astro';
+import { AddToCartButton } from '@/components/cart/AddToCartButton';
+import { canAddProductToCart } from '@/domain/cart/logic';
+import { getProductBySlug, getPublishedProducts } from '@/domain/catalog';
 import {
   formatVariantPrice,
   pricePerLiter,
   productAvailabilityLabel,
-} from '../../lib/catalogDisplay';
-import { buildProductJsonLd } from '../../lib/seo/structured-data';
+} from '@/domain/catalog/display';
+import { buildProductJsonLd } from '@/domain/seo/structured-data';
 
 export function getStaticPaths() {
   return getPublishedProducts().map((product) => ({

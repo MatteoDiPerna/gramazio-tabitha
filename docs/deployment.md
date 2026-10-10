@@ -28,7 +28,14 @@ npm run preview
 npm run check:release
 ```
 
-## Netlify (consigliato)
+## Vercel (target iniziale)
+
+1. Collegare repository GitHub a Vercel.
+2. Framework: Astro — impostazioni in [vercel.json](../vercel.json) (`dist`, header di sicurezza base).
+3. Variabile d'ambiente **`SITE_URL`** = URL produzione (es. dominio custom).
+4. Deploy → verificare HTTPS e pagine statiche.
+
+## Netlify (alternativa)
 
 1. Collegare repository GitHub.
 2. Build command / publish directory: già in [netlify.toml](../netlify.toml).
@@ -42,13 +49,7 @@ npm run check:release
 - Variabile `SITE_URL` uguale al dominio Pages/custom domain.
 - Header di sicurezza: usare regole Transform Rules o [public/_headers](../public/_headers) se supportati.
 
-## Vercel
-
-- Framework preset: Astro
-- Output: `dist`
-- Env: `SITE_URL`
-
-## Post-deploy (F15 smoke)
+## Post-deploy (F15 smoke — fase finale)
 
 1. Homepage, catalogo, scheda prodotto, carrello.
 2. Ordine test → email / copia testo / telefono; WhatsApp dopo configurazione E.164.

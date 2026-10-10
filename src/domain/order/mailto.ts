@@ -1,4 +1,4 @@
-import { siteConfig } from '../config/site.config';
+import { siteConfig } from '@/config/site.config';
 
 const MAILTO_MAX_LENGTH = 1800;
 

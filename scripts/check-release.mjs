@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const configPath = path.join(root, 'src/config/site.config.ts');
-const catalogPath = path.join(root, 'src/data/catalog.ts');
+const catalogPath = path.join(root, 'src/domain/catalog/products.data.ts');
 
 const warnings = [];
 

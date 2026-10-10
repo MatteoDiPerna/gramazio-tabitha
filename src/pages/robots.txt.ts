@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { getSiteOrigin } from '../lib/seo/urls';
+import { getSiteOrigin } from '@/domain/seo/urls';
 
 export const GET: APIRoute = () => {
   const site = getSiteOrigin();

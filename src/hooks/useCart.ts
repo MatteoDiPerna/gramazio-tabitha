@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { catalog } from '../data/catalog';
+import { catalog } from '@/domain/catalog';
 import {
   addLine,
   cartItemCount,
@@ -7,9 +7,9 @@ import {
   removeLine,
   setLineQty,
   syncCartWithCatalog,
-} from '../lib/cart/logic';
-import { loadCartLines, saveCartLines } from '../lib/cart/storage';
-import type { CartLine } from '../lib/cart/types';
+} from '@/domain/cart/logic';
+import { loadCartLines, saveCartLines } from '@/domain/cart/storage';
+import type { CartLine } from '@/domain/cart/types';
 
 function commit(next: CartLine[]) {
   const synced = syncCartWithCatalog(next, catalog);

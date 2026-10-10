@@ -5,7 +5,7 @@
 - Analisi di riferimento: [docs/strctural_analysis.md](./docs/strctural_analysis.md)
 - Test manuali: [docs/testing.md](./docs/testing.md)
 - **Ultimo aggiornamento stato implementazione:** 2026-03-21
-- **Blocco attuale:** **F15 deploy** (dominio/hosting) + collaudo manuale; WhatsApp **aperto**
+- **Blocco attuale:** **miglioramento v1**; F15 deploy **posticipato** (Vercel); WhatsApp **aperto**
 
 **Legenda:** `[x]` fatto · `[ ]` da fare · `⏸` collaudo umano pendente · `🚫` bloccato (dati esterni)
 
@@ -82,34 +82,34 @@
 
 ## F06 — Catalogo
 
-- [x] `F06.01` — Schema Zod → `src/data/catalog.schema.ts`
-- [x] `F06.02` — Catalogo v1 → `src/data/catalog.ts` + [listino.md](./docs/listino.md)
+- [x] `F06.01` — Schema Zod → `src/domain/catalog/catalog.schema.ts`
+- [x] `F06.02` — Catalogo v1 → `src/domain/catalog/` + [listino.md](./docs/listino.md)
 - [x] `F06.03` — Griglia `/catalogo`
 - [x] `F06.03b` — Filtri per categoria → `/catalogo?categoria=`
 - [x] `F06.04` — Pagine `/prodotti/[slug]`
-- [x] `F06.05` — Calcolo €/L → `src/lib/catalogDisplay.ts`
+- [x] `F06.05` — Calcolo €/L → `src/domain/catalog/display.ts`
 - [x] `F06.06` — Non disponibile / prezzo su richiesta
 
 ## F07 — Carrello
 
-- [x] `F07.01` — Store + localStorage versionato → `src/lib/cart/storage.ts`, `types.ts`
+- [x] `F07.01` — Store + localStorage versionato → `src/domain/cart/`
 - [x] `F07.02` — Aggiungi / modifica / rimuovi → catalogo, schede, `useCart`
 - [x] `F07.03` — Pagina `/carrello` → `CartPage.tsx`
 - [x] `F07.04` — Campi note + dati contatto opzionali
-- [x] `F07.05` — Test unitari → `src/lib/cart/logic.test.ts`
+- [x] `F07.05` — Test unitari → `src/domain/cart/logic.test.ts`
 
 ## F08 — WhatsApp
 
 - [ ] `F08.01` — Numero E.164 in config ⏸ **aperto — configurazione posticipata**
-- [x] `F08.02` — `buildOrderMessage()` → `src/lib/orderMessage.ts`
-- [x] `F08.03` — `buildWhatsAppUrl()` + test → `src/lib/whatsapp.ts`
+- [x] `F08.02` — `buildOrderMessage()` → `src/domain/order/orderMessage.ts`
+- [x] `F08.03` — `buildWhatsAppUrl()` + test → `src/domain/order/whatsapp.ts`
 - [x] `F08.04` — Copy UX e pulsante ordine in UI carrello (`CartPage`)
 - [x] `F08.05` — Fallback copia messaggio + tel in UI ordine  
   - [x] FAB/contatti: fallback **Chiama** se WhatsApp non configurato
 
 ## F09 — Email
 
-- [x] `F09.01` — `buildMailtoUrl()` → `src/lib/mailto.ts`
+- [x] `F09.01` — `buildMailtoUrl()` → `src/domain/order/mailto.ts`
 - [ ] `F09.02` — Test su dispositivi reali ⏸
 - [x] `F09.03` — Limiti `mailto:` in README
 
@@ -123,7 +123,7 @@
 
 - [x] `F11.01` — Title + meta description per pagina *(BaseLayout)*
 - [x] `F11.01b` — Open Graph + Twitter card + canonical
-- [x] `F11.02` — JSON-LD LocalBusiness + Product su schede → `src/lib/seo/structured-data.ts`
+- [x] `F11.02` — JSON-LD LocalBusiness + Product → `src/domain/seo/structured-data.ts`
 - [x] `F11.03` — `@astrojs/sitemap` + `src/pages/robots.txt.ts`
 - [ ] `F11.04` — Immagini WebP ottimizzate *(solo placeholder SVG)* 🚫 asset cliente
 
@@ -205,6 +205,6 @@ Procedura dettagliata: [docs/testing.md](./docs/testing.md).
 
 ## Prossimo passo (dopo tuo OK collaudo)
 
-1. **Go-live:** dominio + `SITE_URL` (F14.01) → deploy hosting (F15.01) → smoke email (F15.03).  
-2. **WhatsApp:** configurare `whatsappE164` quando pronto (F08.01) → F15.02.  
-3. Collaudo manuale: [docs/testing.md](./docs/testing.md) (F10-M01 Lighthouse, tabella sotto).
+1. **Miglioramento v1** — UX, contenuti, immagini ([docs/architecture.md](./docs/architecture.md)).  
+2. Collaudo manuale / Lighthouse ([docs/testing.md](./docs/testing.md)).  
+3. **Go-live (ultimo):** Vercel + dominio + `SITE_URL` (F14–F15); WhatsApp (F08.01) quando pronto.

@@ -1,8 +1,11 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import ProductCard from '../../components/catalog/ProductCard.astro';
-import { getPublishedProducts } from '../../data/catalog';
-import { catalogCategories, isCatalogCategory } from '../../data/catalogCategories';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ProductCard from '@/components/catalog/ProductCard.astro';
+import {
+  catalogCategories,
+  getPublishedProducts,
+  isCatalogCategory,
+} from '@/domain/catalog';
 
 const rawCategory = Astro.url.searchParams.get('categoria');
 const activeCategory = isCatalogCategory(rawCategory) ? rawCategory : null;
