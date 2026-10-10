@@ -7,9 +7,16 @@ const path = Astro.url.pathname;
 
 <header class="header">
   <div class="container header__inner">
-    <a class="header__brand" href="/">
-      <span class="header__name">{siteConfig.shortName}</span>
-      <span class="header__tag">Carpino · Gargano</span>
+    <a class="header__brand" href="/" aria-label={`${siteConfig.shortName} — home`}>
+      <img
+        class="header__logo"
+        src="/logo.png"
+        alt=""
+        width="1190"
+        height="1190"
+        decoding="async"
+        fetchpriority="high"
+      />
     </a>
     <button
       type="button"
@@ -67,26 +74,32 @@ const path = Astro.url.pathname;
     align-items: center;
     justify-content: space-between;
     min-height: var(--header-height);
+    padding-block: var(--space-sm);
     gap: var(--space-md);
   }
 
   .header__brand {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    line-height: 0;
     text-decoration: none;
     color: inherit;
   }
 
-  .header__name {
+  .header__logo {
     display: block;
-    font-family: var(--font-display);
-    font-size: 1.35rem;
-    font-weight: 600;
-    color: var(--color-primary);
-    line-height: 1.2;
+    width: auto;
+    height: auto;
+    max-height: var(--header-logo-max);
+    object-fit: contain;
+    object-position: left center;
   }
 
-  .header__tag {
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
+  @media (min-width: 768px) {
+    .header__logo {
+      max-height: 3.5rem;
+    }
   }
 
   .header__toggle {

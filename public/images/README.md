@@ -24,6 +24,16 @@ products/pate-di-fave.webp
 
 Se manca, resta il placeholder definito in `products.data.ts` (`placeholder-product.svg`).
 
+## Logo e favicon
+
+Sorgente: `public/logo.jpg`. Rigenerare PNG e favicon dopo un nuovo logo:
+
+```bash
+python scripts/process-logo.py
+```
+
+Output: `logo.png`, `favicon.ico`, `favicon.png`, `favicon.svg`, `apple-touch-icon.png`.
+
 ## Altri asset
 
 - `og-default.svg` — anteprima social di default

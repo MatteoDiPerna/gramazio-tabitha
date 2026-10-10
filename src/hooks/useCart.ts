@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { catalog } from '@/domain/catalog';
+import { catalog } from '@/domain/catalog/catalog.client';
 import {
   addLine,
   cartItemCount,
