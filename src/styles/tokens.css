@@ -27,6 +27,13 @@
   --radius-lg: 12px;
 
   --header-height: 4rem;
-  --content-max: 72rem;
+  /** Larghezza contenuto: quasi tutta la viewport, con padding laterale responsivo */
+  --content-max: 100%;
+  --container-padding-inline: clamp(1rem, 3vw, 2rem);
   --touch-min: 44px;
+
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
 }

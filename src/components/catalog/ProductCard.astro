@@ -10,12 +10,14 @@ import {
   pricePerLiter,
   productAvailabilityLabel,
 } from '@/domain/catalog/display';
+import { resolveProductImageSrc } from '@/domain/catalog/productImage';
 
 interface Props {
   product: Product;
 }
 
 const { product } = Astro.props;
+const imageSrc = resolveProductImageSrc(product);
 const variant = product.variants[0];
 const perLiter = pricePerLiter(variant);
 const canAdd = canAddProductToCart(product);
@@ -23,7 +25,7 @@ const canAdd = canAddProductToCart(product);
 
 <Card as="article" class="product-card">
   <a href={`/prodotti/${product.slug}`} class="product-card__media">
-    <img src={product.image.src} alt={product.image.alt} width="400" height="400" loading="lazy" />
+    <img src={imageSrc} alt={product.image.alt} width="400" height="400" loading="lazy" />
   </a>
   <div class="product-card__body">
     <div class="product-card__badges">
@@ -34,27 +36,31 @@ const canAdd = canAddProductToCart(product);
       <a href={`/prodotti/${product.slug}`}>{product.name}</a>
     </h2>
     <p class="product-card__desc">{product.shortDescription}</p>
-    <p class="product-card__meta">
-      <span>{variant.label}</span>
-      ·
-      <strong>{formatVariantPrice(variant)}</strong>
-      {perLiter && <span class="product-card__liter"> ({perLiter})</span>}
-    </p>
-    <p class="product-card__avail">{productAvailabilityLabel(product)}</p>
-    <AddToCartButton
-      client:load
-      productId={product.id}
-      variantId={variant.id}
-      canAdd={canAdd}
-      compact
-    />
-    <Button
-      href={`/prodotti/${product.slug}`}
-      variant="ghost"
-      class="product-card__cta"
-    >
-      Dettagli
-    </Button>
+    <div class="product-card__meta-block">
+      <p class="product-card__meta">
+        <span>{variant.label}</span>
+        ·
+        <strong>{formatVariantPrice(variant)}</strong>
+        {perLiter && <span class="product-card__liter"> ({perLiter})</span>}
+      </p>
+      <p class="product-card__avail">{productAvailabilityLabel(product)}</p>
+    </div>
+    <div class="product-card__actions">
+      <AddToCartButton
+        client:load
+        productId={product.id}
+        variantId={variant.id}
+        canAdd={canAdd}
+        compact
+      />
+      <Button
+        href={`/prodotti/${product.slug}`}
+        variant="ghost"
+        class="product-card__cta"
+      >
+        Dettagli
+      </Button>
+    </div>
   </div>
 </Card>
 
@@ -91,7 +97,9 @@ const canAdd = canAddProductToCart(product);
   .product-card__badges {
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-start;
     gap: var(--space-xs);
+    min-height: 1.625rem;
   }
 
   .product-card__title {
@@ -99,9 +107,15 @@ const canAdd = canAddProductToCart(product);
     font-size: 1.35rem;
     margin: 0;
     line-height: 1.2;
+    min-height: calc(2 * 1.2 * 1.35rem);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
   }
 
   .product-card__title a {
+    display: block;
     text-decoration: none;
     color: var(--color-primary);
   }
@@ -111,6 +125,15 @@ const canAdd = canAddProductToCart(product);
     font-size: 0.9375rem;
     color: var(--color-text-muted);
     flex: 1;
+    min-height: calc(3 * 1.5 * 0.9375rem);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+
+  .product-card__meta-block {
+    min-height: 3.25rem;
   }
 
   .product-card__meta {
@@ -129,8 +152,16 @@ const canAdd = canAddProductToCart(product);
     color: var(--color-accent-warm);
   }
 
+  .product-card__actions {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    min-height: 8.5rem;
+  }
+
   .product-card__cta {
     width: 100%;
-    margin-top: var(--space-sm);
+    margin-top: 0;
   }
 </style>

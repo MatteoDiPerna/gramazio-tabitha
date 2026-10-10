@@ -17,7 +17,11 @@ Il carrello **risincronizza** prezzi e nomi dal catalogo al caricamento pagina.
 
 ## Immagini
 
-Sostituire `public/images/placeholder-product.svg` con file reali (WebP consigliato, F11.04) e aggiornare `product.image.src` / `alt`.
+Vedi [public/images/README.md](../public/images/README.md).
+
+- **Prodotti:** salva `public/images/products/{slug}.webp` (o `.jpg` / `.png`). Alla build il catalogo risolve automaticamente il file per slug; `alt` resta in `products.data.ts`.
+- **Home:** banner e fasce orizzontali in `public/images/home/` (`hero-banner`, `strip-chi-siamo`, `strip-territorio`) — stessa regola di estensione.
+- Fallback catalogo: `placeholder-product.svg` se manca il file per slug.
 
 ## SEO prodotti
 

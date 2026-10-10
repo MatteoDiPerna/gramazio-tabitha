@@ -54,8 +54,45 @@ a:hover {
 }
 
 .container {
-  width: min(100% - 2 * var(--space-md), var(--content-max));
+  width: 100%;
+  max-width: var(--content-max);
   margin-inline: auto;
+  padding-inline: var(--container-padding-inline);
+}
+
+.container--wide {
+  padding-inline: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.product-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-lg);
+  grid-template-columns: 1fr;
+}
+
+.product-grid > li {
+  display: flex;
+  min-width: 0;
+}
+
+.product-grid > li > * {
+  flex: 1;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .page-title {

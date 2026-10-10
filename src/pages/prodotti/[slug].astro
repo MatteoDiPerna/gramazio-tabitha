@@ -10,6 +10,7 @@ import {
   pricePerLiter,
   productAvailabilityLabel,
 } from '@/domain/catalog/display';
+import { resolveProductImageSrc } from '@/domain/catalog/productImage';
 import { buildProductJsonLd } from '@/domain/seo/structured-data';
 
 export function getStaticPaths() {
@@ -28,6 +29,7 @@ if (!product) {
 const variant = product.variants[0];
 const perLiter = pricePerLiter(variant);
 const canAdd = canAddProductToCart(product);
+const imageSrc = resolveProductImageSrc(product);
 ---
 
 <BaseLayout
@@ -35,14 +37,14 @@ const canAdd = canAddProductToCart(product);
   description={product.shortDescription}
   canonicalPath={`/prodotti/${product.slug}`}
   ogType="product"
-  ogImagePath={product.image.src}
+  ogImagePath={imageSrc}
   jsonLdNodes={[buildProductJsonLd(product)]}
 >
   <article class="container page product-detail">
     <div class="product-detail__grid">
       <div class="product-detail__media">
         <img
-          src={product.image.src}
+          src={imageSrc}
           alt={product.image.alt}
           width="600"
           height="600"
