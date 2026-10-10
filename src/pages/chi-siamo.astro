@@ -1,12 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageContainer from '@/components/layout/PageContainer.astro';
 ---
 
 <BaseLayout
   title="Chi siamo"
   description="Storia e valori dell'Azienda Agricola Gramazio Tabitha a Carpino, nel Gargano."
 >
-  <div class="container page prose">
+  <PageContainer prose centered>
     <h1 class="page-title">Chi siamo</h1>
     <p class="lead">
       Siamo un'azienda agricola a Carpino (FG), nel cuore del Gargano, dedicata a olio
@@ -28,11 +29,5 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       Testi, certificazioni e immagini definitive saranno aggiornati con materiali approvati
       dall'azienda. Per visite o approfondimenti, contattaci direttamente.
     </p>
-  </div>
+  </PageContainer>
 </BaseLayout>
-
-<style>
-  .page {
-    padding: var(--space-xl) 0 var(--space-2xl);
-  }
-</style>

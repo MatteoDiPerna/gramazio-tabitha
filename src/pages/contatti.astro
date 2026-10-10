@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageContainer from '@/components/layout/PageContainer.astro';
 import Button from '../components/ui/Button.astro';
 import { siteConfig } from '../config/site.config';
 
@@ -10,7 +11,7 @@ const mapsQuery = encodeURIComponent(
 ---
 
 <BaseLayout title="Contatti" description="Telefono, email e indirizzo dell'azienda agricola.">
-  <div class="container page">
+  <PageContainer centered prose>
     <h1 class="page-title">Contatti</h1>
     <p class="lead">Parla direttamente con noi per ordini, disponibilità e spedizioni.</p>
     <dl class="contact-list">
@@ -43,14 +44,10 @@ const mapsQuery = encodeURIComponent(
         Apri indirizzo in mappe
       </a>
     </p>
-  </div>
+  </PageContainer>
 </BaseLayout>
 
 <style>
-  .page {
-    padding: var(--space-xl) 0 var(--space-2xl);
-  }
-
   .contact-list {
     display: grid;
     gap: var(--space-lg);
@@ -69,6 +66,7 @@ const mapsQuery = encodeURIComponent(
   .contact-actions {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: var(--space-md);
   }
 

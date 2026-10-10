@@ -28,9 +28,14 @@
 
   --header-height: 5rem;
   --header-logo-max: 3.25rem;
-  /** Larghezza contenuto: quasi tutta la viewport, con padding laterale responsivo */
+  /** Larghezza contenuto e gutter (allineati a logo / «Ordine» in header) */
   --content-max: 100%;
-  --container-padding-inline: clamp(1rem, 3vw, 2rem);
+  --layout-inline-padding: clamp(1.25rem, 5vw, 2.75rem);
+  /** Compensa trasparenza nel PNG del logo e padding link Ordine */
+  --content-inset-start: 0.625rem;
+  --content-inset-end: 0.5rem;
+  /** @deprecated — usare --layout-inline-padding */
+  --container-padding-inline: var(--layout-inline-padding);
   --touch-min: 44px;
 
   --bp-sm: 480px;

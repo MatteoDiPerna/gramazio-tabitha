@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageContainer from '@/components/layout/PageContainer.astro';
 import { faqIntro, faqItems } from '@/content/faq';
 ---
 
@@ -7,7 +8,7 @@ import { faqIntro, faqItems } from '@/content/faq';
   title="FAQ ordini e spedizioni"
   description="Come ordinare, spedizioni e pagamenti — Azienda Agricola Gramazio Tabitha."
 >
-  <div class="container page">
+  <PageContainer centered prose>
     <h1 class="page-title">Ordini, spedizioni e pagamenti</h1>
     <p class="lead">{faqIntro}</p>
     <dl class="faq">
@@ -20,14 +21,10 @@ import { faqIntro, faqItems } from '@/content/faq';
         ))
       }
     </dl>
-  </div>
+  </PageContainer>
 </BaseLayout>
 
 <style>
-  .page {
-    padding: var(--space-xl) 0 var(--space-2xl);
-  }
-
   .faq {
     margin-top: var(--space-xl);
     display: grid;
@@ -42,7 +39,7 @@ import { faqIntro, faqItems } from '@/content/faq';
   }
 
   .faq dd {
-    margin: 0;
+    margin: 0 auto;
     color: var(--color-text-muted);
     max-width: 40rem;
   }

@@ -19,6 +19,10 @@ body {
   background: var(--color-bg);
 }
 
+main {
+  overflow-x: clip;
+}
+
 img {
   max-width: 100%;
   height: auto;
@@ -53,11 +57,82 @@ a:hover {
   left: var(--space-md);
 }
 
+/** Barre full-bleed (header, footer, banner): sfondo a tutta viewport */
+.layout-bleed {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: 0;
+}
+
+/**
+ * Colonna contenuto pagine — stessi limiti orizzontali del logo (sx) e «Ordine» (dx).
+ */
+.site-rail,
 .container {
   width: 100%;
   max-width: var(--content-max);
   margin-inline: auto;
-  padding-inline: var(--container-padding-inline);
+  padding-inline-start: calc(var(--layout-inline-padding) + var(--content-inset-start));
+  padding-inline-end: calc(var(--layout-inline-padding) + var(--content-inset-end));
+  box-sizing: border-box;
+}
+
+/** Header: il logo rientra visivamente nel rail tramite margine negativo sull’immagine */
+.site-rail--header {
+  padding-inline-start: var(--layout-inline-padding);
+  padding-inline-end: var(--layout-inline-padding);
+}
+
+/**
+ * Carrello in header (React island): fuori dallo scope Astro di Header.astro.
+ */
+.header .header__cart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-min);
+  min-width: var(--touch-min);
+  padding-inline: var(--space-xs);
+  padding-inline-end: var(--content-inset-end);
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--color-primary);
+  border-radius: var(--radius-sm);
+  position: relative;
+}
+
+.header .header__cart:hover {
+  color: var(--color-primary-hover);
+  background: var(--color-bg);
+}
+
+.header .header__cart-icon {
+  display: flex;
+  line-height: 0;
+}
+
+.header .header__cart-icon svg {
+  width: 1.35rem;
+  height: 1.35rem;
+  display: block;
+  flex-shrink: 0;
+}
+
+.header .header__cart-badge {
+  position: absolute;
+  top: 0.35rem;
+  right: 0;
+  min-width: 1.125rem;
+  height: 1.125rem;
+  padding: 0 0.25rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.125rem;
+  text-align: center;
+  color: #fff;
+  background: var(--color-accent-warm);
+  border-radius: 999px;
 }
 
 .container--wide {
@@ -93,6 +168,54 @@ a:hover {
   .product-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+}
+
+.page {
+  padding-block: var(--space-xl) var(--space-2xl);
+}
+
+.page.page--centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  max-width: 42rem;
+  min-height: calc(100svh - var(--header-height) - 14rem);
+}
+
+.page.page--centered.prose {
+  max-width: 42rem;
+}
+
+.page.page--centered .lead {
+  margin-inline: auto;
+}
+
+.page.page--centered :is(dl, ul, ol) {
+  width: 100%;
+  text-align: center;
+}
+
+.page.page--centered .contact-actions {
+  justify-content: center;
+}
+
+.page.page--centered .cart-page,
+.page.page--centered .cart-empty,
+.page.page--centered .cart-loading {
+  width: 100%;
+  text-align: center;
+}
+
+.page.page--centered .cart-actions {
+  justify-content: center;
+}
+
+.page.page--centered .cart-line,
+.page.page--centered .cart-fields {
+  text-align: left;
 }
 
 .page-title {

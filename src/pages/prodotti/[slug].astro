@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageContainer from '@/components/layout/PageContainer.astro';
 import Badge from '@/components/ui/Badge.astro';
 import Button from '@/components/ui/Button.astro';
 import { AddToCartButton } from '@/components/cart/AddToCartButton';
@@ -11,6 +12,8 @@ import {
   productAvailabilityLabel,
 } from '@/domain/catalog/display';
 import { resolveProductImageSrc } from '@/domain/catalog/productImage';
+import { productSpinFrameUrls } from '@/domain/catalog/productSpin';
+import { ProductSpinViewer } from '@/components/catalog/ProductSpinViewer';
 import { buildProductJsonLd } from '@/domain/seo/structured-data';
 
 export function getStaticPaths() {
@@ -30,6 +33,7 @@ const variant = product.variants[0];
 const perLiter = pricePerLiter(variant);
 const canAdd = canAddProductToCart(product);
 const imageSrc = resolveProductImageSrc(product);
+const spinFrames = productSpinFrameUrls(product.slug);
 ---
 
 <BaseLayout
@@ -40,14 +44,15 @@ const imageSrc = resolveProductImageSrc(product);
   ogImagePath={imageSrc}
   jsonLdNodes={[buildProductJsonLd(product)]}
 >
-  <article class="container page product-detail">
+  <PageContainer as="article" class="product-detail">
     <div class="product-detail__grid">
       <div class="product-detail__media">
-        <img
-          src={imageSrc}
+        <ProductSpinViewer
+          client:visible
+          slug={product.slug}
           alt={product.image.alt}
-          width="600"
-          height="600"
+          fallbackSrc={imageSrc}
+          frameUrls={spinFrames}
         />
       </div>
       <div>
@@ -96,14 +101,10 @@ const imageSrc = resolveProductImageSrc(product);
         </section>
       )
     }
-  </article>
+  </PageContainer>
 </BaseLayout>
 
 <style>
-  .page {
-    padding: var(--space-xl) 0 var(--space-2xl);
-  }
-
   .product-detail__grid {
     display: grid;
     gap: var(--space-xl);
@@ -123,10 +124,8 @@ const imageSrc = resolveProductImageSrc(product);
     overflow: hidden;
   }
 
-  .product-detail__media img {
-    width: 100%;
+  .product-detail__media :global(.product-spin) {
     aspect-ratio: 1;
-    object-fit: cover;
   }
 
   .product-detail__badges {

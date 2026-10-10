@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageContainer from '@/components/layout/PageContainer.astro';
 import ProductCard from '@/components/catalog/ProductCard.astro';
 import {
   catalogCategories,
@@ -20,7 +21,7 @@ const products = activeCategory
   description="Olio extravergine biologico e prodotti agricoli dell'Azienda Agricola Gramazio Tabitha."
   canonicalPath={activeCategory ? `/catalogo?categoria=${activeCategory}` : '/catalogo'}
 >
-  <div class="container page">
+  <PageContainer>
     <h1 class="page-title">Catalogo</h1>
     <p class="lead">
       Prezzi e formati definitivi saranno pubblicati dopo conferma del listino. Puoi comunque
@@ -70,14 +71,10 @@ const products = activeCategory
         </ul>
       )
     }
-  </div>
+  </PageContainer>
 </BaseLayout>
 
 <style>
-  .page {
-    padding: var(--space-xl) 0 var(--space-2xl);
-  }
-
   .catalog-filters {
     margin-top: var(--space-lg);
   }

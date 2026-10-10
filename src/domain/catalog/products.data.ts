@@ -11,7 +11,7 @@ export const rawCatalog = [
     category: 'olio' as const,
     image: {
       src: '/images/placeholder-product.svg',
-      alt: 'Placeholder confezione olio extravergine biologico',
+      alt: 'Lattina di olio extravergine di oliva biologico Nine',
     },
     variants: [{ id: 'standard', label: 'Formato da concordare', priceCents: null }],
     published: true,
@@ -26,7 +26,7 @@ export const rawCatalog = [
     category: 'legumi' as const,
     image: {
       src: '/images/placeholder-product.svg',
-      alt: 'Placeholder fava di Carpino',
+      alt: 'Confezione di Fava di Carpino Presidio Slow Food',
     },
     variants: [{ id: 'standard', label: 'Formato da concordare', priceCents: null }],
     published: true,
@@ -41,7 +41,7 @@ export const rawCatalog = [
     category: 'legumi' as const,
     image: {
       src: '/images/placeholder-product.svg',
-      alt: 'Placeholder La Favetta',
+      alt: 'Confezione La Favetta, fave spezzate di Carpino',
     },
     variants: [{ id: 'standard', label: 'Formato da concordare', priceCents: null }],
     published: true,
@@ -55,7 +55,7 @@ export const rawCatalog = [
     category: 'condimenti' as const,
     image: {
       src: '/images/placeholder-product.svg',
-      alt: 'Placeholder patè di fave',
+      alt: 'Vaso di patè di fave con Fava di Carpino',
     },
     variants: [{ id: 'standard', label: 'Formato da concordare', priceCents: null }],
     published: true,

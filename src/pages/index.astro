@@ -8,24 +8,24 @@ import { homeMedia } from '@/config/home.media';
 import { getPublishedProducts } from '@/domain/catalog';
 
 const products = getPublishedProducts().slice(0, 3);
+
+/** PNG hero — path fisso sotto `public/` (evita che lo sfondo bianco copra l’immagine). */
+const heroBannerImage = '/images/home/hero-banner.png';
 ---
 
 <BaseLayout>
-  {
-    homeMedia.heroBanner && (
-      <div class="hero-banner">
-        <img
-          src={homeMedia.heroBanner}
-          alt="Panorama dell'azienda agricola e del territorio del Gargano"
-          width="1920"
-          height="640"
-          fetchpriority="high"
-          decoding="async"
-        />
-      </div>
-    )
-  }
-  <section class="hero">
+  <section class="hero hero--photo layout-bleed">
+    <img
+      class="hero__photo"
+      src={heroBannerImage}
+      alt=""
+      width="1920"
+      height="640"
+      fetchpriority="high"
+      decoding="async"
+      aria-hidden="true"
+    />
+    <div class="hero__scrim" aria-hidden="true" />
     <div class="container hero__inner">
       <p class="hero__eyebrow">Carpino · Gargano · FG</p>
       <h1 class="hero__title">{siteConfig.name}</h1>
@@ -35,7 +35,9 @@ const products = getPublishedProducts().slice(0, 3);
       </p>
       <div class="hero__actions">
         <Button href="/catalogo" variant="primary" size="lg">Scopri i prodotti</Button>
-        <Button href="/contatti" variant="secondary" size="lg">Contattaci</Button>
+        <Button href="/contatti" variant="secondary" size="lg" class="hero__btn-secondary">
+          Contattaci
+        </Button>
       </div>
     </div>
   </section>
@@ -108,26 +110,51 @@ const products = getPublishedProducts().slice(0, 3);
 </BaseLayout>
 
 <style>
-  .hero-banner {
-    width: 100%;
-    max-height: min(42vh, 28rem);
+  .hero {
+    position: relative;
     overflow: hidden;
+    width: 100%;
+    min-height: clamp(22rem, 52vh, 36rem);
+    display: flex;
+    align-items: center;
+    padding: var(--space-2xl) 0;
     border-bottom: 1px solid var(--color-border);
-    background: var(--color-bg);
+    background: var(--color-surface);
   }
 
-  .hero-banner img {
+  .hero--photo {
+    background: #1a1f18;
+  }
+
+  .hero__photo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
     width: 100%;
     height: 100%;
-    min-height: 12rem;
+    max-width: none;
     object-fit: cover;
-    display: block;
+    object-position: center 42%;
   }
 
-  .hero {
-    background: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
-    padding: var(--space-2xl) 0;
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      105deg,
+      rgb(28 32 24 / 0.82) 0%,
+      rgb(28 32 24 / 0.55) 42%,
+      rgb(28 32 24 / 0.18) 68%,
+      rgb(28 32 24 / 0.08) 100%
+    );
+  }
+
+  .hero__inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
   }
 
   .hero__eyebrow {
@@ -139,6 +166,10 @@ const products = getPublishedProducts().slice(0, 3);
     margin: 0 0 var(--space-sm);
   }
 
+  .hero--photo .hero__eyebrow {
+    color: #e8c4a8;
+  }
+
   .hero__title {
     font-family: var(--font-display);
     font-size: clamp(2.25rem, 6vw, 3.25rem);
@@ -148,6 +179,11 @@ const products = getPublishedProducts().slice(0, 3);
     max-width: 22ch;
   }
 
+  .hero--photo .hero__title {
+    color: #fafaf7;
+    text-shadow: 0 1px 2px rgb(0 0 0 / 0.35);
+  }
+
   .hero__lead {
     font-size: 1.125rem;
     color: var(--color-text-muted);
@@ -155,10 +191,28 @@ const products = getPublishedProducts().slice(0, 3);
     margin: 0 0 var(--space-xl);
   }
 
+  .hero--photo .hero__lead {
+    color: rgb(250 250 247 / 0.92);
+    max-width: 38rem;
+    text-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
+  }
+
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-md);
+  }
+
+  .hero--photo :global(.hero__btn-secondary) {
+    background: rgb(255 255 255 / 0.1);
+    border-color: rgb(255 255 255 / 0.85);
+    color: #fff;
+  }
+
+  .hero--photo :global(.hero__btn-secondary:hover) {
+    background: #fff;
+    color: var(--color-primary);
+    border-color: #fff;
   }
 
   .section {

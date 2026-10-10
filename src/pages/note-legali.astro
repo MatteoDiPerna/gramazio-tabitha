@@ -1,10 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageContainer from '@/components/layout/PageContainer.astro';
 import { siteConfig } from '../config/site.config';
 ---
 
 <BaseLayout title="Note legali" description="Informazioni legali e note sul sito.">
-  <div class="container page prose">
+  <PageContainer prose>
     <h1 class="page-title">Note legali</h1>
     <p class="legal-notice">
       <strong>Dati societari da completare.</strong> P.IVA, REA e ragione sociale formale vanno
@@ -22,14 +23,10 @@ import { siteConfig } from '../config/site.config';
       I prezzi indicati sul sito, quando presenti, hanno valore indicativo fino a conferma
       scritta dell'ordine da parte dell'azienda.
     </p>
-  </div>
+  </PageContainer>
 </BaseLayout>
 
 <style>
-  .page {
-    padding: var(--space-xl) 0 var(--space-2xl);
-  }
-
   .legal-notice {
     padding: var(--space-md);
     background: #fff8e6;

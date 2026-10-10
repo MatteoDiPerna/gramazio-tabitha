@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageContainer from '@/components/layout/PageContainer.astro';
 ---
 
 <BaseLayout title="Cookie" description="Informazioni sull'uso dei cookie.">
-  <div class="container page prose">
+  <PageContainer prose>
     <h1 class="page-title">Cookie</h1>
     <p class="legal-notice">
       <strong>Bozza tecnica.</strong> Aggiornare se verranno introdotti strumenti di analitica o
@@ -14,14 +15,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       (ad esempio preferenze locali del carrello in memoria del browser). Non utilizziamo cookie
       di profilazione senza consenso esplicito.
     </p>
-  </div>
+  </PageContainer>
 </BaseLayout>
 
 <style>
-  .page {
-    padding: var(--space-xl) 0 var(--space-2xl);
-  }
-
   .legal-notice {
     padding: var(--space-md);
     background: #fff8e6;

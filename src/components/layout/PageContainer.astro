@@ -1,0 +1,16 @@
+---
+/** Stessi margini orizzontali della home (`.container` + header). */
+interface Props {
+  class?: string;
+  prose?: boolean;
+  /** Colonna di testo centrata (orizzontale e verticale), come Chi siamo. */
+  centered?: boolean;
+  as?: 'div' | 'article' | 'section';
+}
+
+const { class: className, prose = false, centered = false, as: Tag = 'div' } = Astro.props;
+---
+
+<Tag class:list={['container', 'page', prose && 'prose', centered && 'page--centered', className]}>
+  <slot />
+</Tag>

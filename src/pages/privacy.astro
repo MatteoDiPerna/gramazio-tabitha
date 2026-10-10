@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageContainer from '@/components/layout/PageContainer.astro';
 ---
 
 <BaseLayout title="Privacy" description="Informativa sul trattamento dei dati personali.">
-  <div class="container page prose">
+  <PageContainer prose>
     <h1 class="page-title">Informativa privacy</h1>
     <p class="legal-notice">
       <strong>Bozza tecnica.</strong> Testo da sostituire con informativa redatta dal titolare
@@ -18,14 +19,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       Per esercitare i diritti previsti dal Regolamento UE 2016/679 o per chiarimenti, usa i
       contatti nella pagina <a href="/contatti">Contatti</a>.
     </p>
-  </div>
+  </PageContainer>
 </BaseLayout>
 
 <style>
-  .page {
-    padding: var(--space-xl) 0 var(--space-2xl);
-  }
-
   .legal-notice {
     padding: var(--space-md);
     background: #fff8e6;

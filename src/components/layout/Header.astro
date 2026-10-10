@@ -5,8 +5,8 @@ import { CartNavLink } from '../cart/CartNavLink';
 const path = Astro.url.pathname;
 ---
 
-<header class="header">
-  <div class="container header__inner">
+<header class="header layout-bleed">
+  <div class="site-rail site-rail--header header__inner">
     <a class="header__brand" href="/" aria-label={`${siteConfig.shortName} — home`}>
       <img
         class="header__logo"
@@ -18,15 +18,6 @@ const path = Astro.url.pathname;
         fetchpriority="high"
       />
     </a>
-    <button
-      type="button"
-      class="header__toggle"
-      aria-expanded="false"
-      aria-controls="site-nav"
-      id="nav-toggle"
-    >
-      Menu
-    </button>
     <nav class="header__nav" id="site-nav" aria-label="Principale">
       <ul class="header__list">
         {
@@ -42,11 +33,20 @@ const path = Astro.url.pathname;
             </li>
           ))
         }
-        <li class="header__cart-wrap">
-          <CartNavLink client:load />
-        </li>
       </ul>
     </nav>
+    <div class="header__actions">
+      <CartNavLink client:load />
+      <button
+        type="button"
+        class="header__toggle"
+        aria-expanded="false"
+        aria-controls="site-nav"
+        id="nav-toggle"
+      >
+        Menu
+      </button>
+    </div>
   </div>
 </header>
 
@@ -72,7 +72,6 @@ const path = Astro.url.pathname;
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     min-height: var(--header-height);
     padding-block: var(--space-sm);
     gap: var(--space-md);
@@ -92,6 +91,7 @@ const path = Astro.url.pathname;
     width: auto;
     height: auto;
     max-height: var(--header-logo-max);
+    margin-inline-start: calc(-1 * var(--content-inset-start));
     object-fit: contain;
     object-position: left center;
   }
@@ -100,6 +100,14 @@ const path = Astro.url.pathname;
     .header__logo {
       max-height: 3.5rem;
     }
+  }
+
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-inline-start: auto;
+    flex-shrink: 0;
   }
 
   .header__toggle {
@@ -121,13 +129,13 @@ const path = Astro.url.pathname;
   .header__nav.is-open {
     display: block;
     position: absolute;
-    left: calc(-1 * var(--container-padding-inline));
-    right: calc(-1 * var(--container-padding-inline));
-    width: calc(100% + 2 * var(--container-padding-inline));
+    left: calc(-1 * var(--layout-inline-padding));
+    right: calc(-1 * var(--layout-inline-padding));
+    width: calc(100% + 2 * var(--layout-inline-padding));
     top: var(--header-height);
     background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
-    padding: var(--space-md) var(--container-padding-inline);
+    padding: var(--space-md) var(--layout-inline-padding);
   }
 
   .header__list {
@@ -139,30 +147,23 @@ const path = Astro.url.pathname;
     gap: var(--space-sm);
   }
 
-  .header__link,
-  .header__cart {
+  .header__link {
     display: flex;
     align-items: center;
     min-height: var(--touch-min);
-    padding: 0 var(--space-sm);
+    padding: 0;
     text-decoration: none;
     font-weight: 500;
     color: var(--color-text);
     border-radius: var(--radius-sm);
   }
 
-  .header__link:hover,
-  .header__cart:hover {
+  .header__link:hover {
     color: var(--color-primary);
     background: var(--color-bg);
   }
 
   .header__link.is-active {
-    color: var(--color-primary);
-    font-weight: 600;
-  }
-
-  .header__cart {
     color: var(--color-primary);
     font-weight: 600;
   }
@@ -181,12 +182,19 @@ const path = Astro.url.pathname;
       position: static;
       padding: 0;
       border: none;
+      flex: 1;
     }
 
     .header__list {
       flex-direction: row;
       align-items: center;
+      justify-content: flex-end;
       gap: var(--space-md);
+      padding-inline-end: var(--space-sm);
+    }
+
+    .header__actions {
+      margin-inline-start: 0;
     }
   }
 </style>
