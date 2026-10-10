@@ -1,0 +1,33 @@
+---
+import { siteConfig } from '../config/site.config';
+---
+
+<html lang="it">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content={siteConfig.description} />
+		<meta name="generator" content={Astro.generator} />
+		<title>{siteConfig.name} — Sito in costruzione</title>
+	</head>
+	<body>
+		<main>
+			<h1>{siteConfig.name}</h1>
+			<p>{siteConfig.description}</p>
+			<p>
+				<em>Sito in fase di sviluppo (F03+). Catalogo e ordini in arrivo.</em>
+			</p>
+		</main>
+	</body>
+</html>
+
+<style>
+	body {
+		font-family: system-ui, sans-serif;
+		margin: 2rem;
+		max-width: 40rem;
+		line-height: 1.5;
+	}
+</style>
