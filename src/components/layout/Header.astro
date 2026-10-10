@@ -1,0 +1,178 @@
+---
+import { siteConfig } from '../../config/site.config';
+import { CartNavLink } from '../cart/CartNavLink';
+
+const path = Astro.url.pathname;
+---
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="header__brand" href="/">
+      <span class="header__name">{siteConfig.shortName}</span>
+      <span class="header__tag">Carpino · Gargano</span>
+    </a>
+    <button
+      type="button"
+      class="header__toggle"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      id="nav-toggle"
+    >
+      Menu
+    </button>
+    <nav class="header__nav" id="site-nav" aria-label="Principale">
+      <ul class="header__list">
+        {
+          siteConfig.nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={['header__link', { 'is-active': path.startsWith(item.href) }]}
+                aria-current={path.startsWith(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li class="header__cart-wrap">
+          <CartNavLink client:load />
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const nav = document.getElementById('site-nav');
+  toggle?.addEventListener('click', () => {
+    const open = nav?.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+</script>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .header__inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--header-height);
+    gap: var(--space-md);
+  }
+
+  .header__brand {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .header__name {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    line-height: 1.2;
+  }
+
+  .header__tag {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  .header__toggle {
+    display: flex;
+    min-height: var(--touch-min);
+    padding: 0 var(--space-md);
+    font: inherit;
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    cursor: pointer;
+  }
+
+  .header__nav {
+    display: none;
+  }
+
+  .header__nav.is-open {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: var(--header-height);
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-md);
+  }
+
+  .header__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .header__link,
+  .header__cart {
+    display: flex;
+    align-items: center;
+    min-height: var(--touch-min);
+    padding: 0 var(--space-sm);
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--color-text);
+    border-radius: var(--radius-sm);
+  }
+
+  .header__link:hover,
+  .header__cart:hover {
+    color: var(--color-primary);
+    background: var(--color-bg);
+  }
+
+  .header__link.is-active {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .header__cart {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  @media (min-width: 768px) {
+    .header {
+      position: relative;
+    }
+
+    .header__toggle {
+      display: none;
+    }
+
+    .header__nav {
+      display: block;
+      position: static;
+      padding: 0;
+      border: none;
+    }
+
+    .header__list {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-md);
+    }
+  }
+</style>

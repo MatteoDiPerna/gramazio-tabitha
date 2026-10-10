@@ -1,0 +1,43 @@
+---
+interface Props {
+  variant?: 'default' | 'bio' | 'slow-food' | 'muted';
+}
+
+const { variant = 'default' } = Astro.props;
+---
+
+<span class:list={['badge', `badge--${variant}`]}>
+  <slot />
+</span>
+
+<style>
+  .badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .badge--default {
+    background: var(--color-accent);
+    color: var(--color-text);
+  }
+
+  .badge--bio {
+    background: #e8f0e4;
+    color: var(--color-primary);
+  }
+
+  .badge--slow-food {
+    background: #f5ebe3;
+    color: var(--color-accent-warm);
+  }
+
+  .badge--muted {
+    background: var(--color-border);
+    color: var(--color-text-muted);
+  }
+</style>

@@ -9,105 +9,99 @@ Sito web per **Azienda Agricola Gramazio Tabitha** (Carpino, FG): catalogo prodo
 - Permettere di comporre un ordine e inviarlo al produttore senza account.
 
 Analisi completa: [docs/strctural_analysis.md](./docs/strctural_analysis.md)  
-Checklist operativa: [docs/implementation-checklist.md](./docs/implementation-checklist.md)
+Checklist operativa: [implementation-checklist.md](./implementation-checklist.md)  
+Listino prodotti v1: [docs/listino.md](./docs/listino.md)
 
-## Funzionalità
+## Funzionalità implementate (prima release)
 
-### Previste (v1)
+- Homepage, chi siamo, contatti, FAQ
+- Catalogo con filtri per categoria e schede prodotto
+- Carrello (`localStorage`) e pagina `/carrello`
+- Invio richiesta ordine: email (`mailto:`), copia testo, telefono; WhatsApp quando configurato
+- SEO: sitemap, robots.txt, Open Graph, JSON-LD
+- CI: test, build, `check:release`
+- Documentazione deploy e manutenzione
 
-- Catalogo e schede prodotto
-- Carrello leggero (localStorage)
-- Riepilogo e invio WhatsApp / email
-- Pagine istituzionali, SEO base, responsive mobile-first
+### Escluse da questa release
 
-### Escluse dalla v1
-
-- Pagamenti online, login, CMS, gestione stock realtime
+- Pagamenti online, account utente, CMS admin, magazzino in tempo reale, analytics con cookie banner
 
 ## Stato progetto
 
-| Fase | Stato |
+| Area | Stato |
 |------|--------|
-| F00–F02 | Documentazione e ADR |
-| F03 | Setup Astro + lib ordini + test |
-| F04+ | In coda |
+| Sviluppo funzionale v1 | Completato in repo |
+| Collaudo manuale | Da eseguire ([docs/testing.md](./docs/testing.md)) |
+| Deploy produzione (F15) | Da attivare su hosting |
 
-**Bloccante:** listino prezzi e asset da cliente ([information-gaps.md](./docs/information-gaps.md)).
+## Punti aperti dopo la prima implementazione
 
-## Stack e motivazioni
+Questi elementi restano **da completare** prima o subito dopo il go-live pubblico. Non bloccano la revisione del codice in staging.
 
-- **Astro 7** — sito statico performante
-- **TypeScript** — tipi catalogo/carrello
-- **React** (islands) — carrello (fasi successive)
-- **Vitest** — test logica ordini e totali
+### Configurazione e canali
 
-Dettaglio decisione: [docs/decisions/001-static-stack.md](./docs/decisions/001-static-stack.md)
+- [ ] **WhatsApp (`whatsappE164`)** — da configurare in `src/config/site.config.ts` quando pronto; fino ad allora ordini via email, copia testo e telefono
+- [ ] **Dominio produzione** — registrare DNS e impostare `SITE_URL` in build (vedi [docs/deployment.md](./docs/deployment.md))
+- [ ] **Smoke test ordini reali** — prova WhatsApp/email da dispositivo reale post-deploy (F15)
 
-## Architettura (target)
+### Contenuti e listino
 
-```
-src/
-  config/site.config.ts   # contatti e testi globali
-  data/                   # catalogo (F06)
-  lib/                    # carrello, messaggi ordine
-  components/
-  pages/
-docs/                     # analisi, checklist, test manuali
-```
+- [ ] **Prezzi numerici in `catalog.ts`** — assortimento prodotti confermato ([docs/listino.md](./docs/listino.md)); valorizzare `priceCents` per formato quando si vogliono totali automatici e JSON-LD `Offer`
+- [ ] **Formati confezione** — sostituire «Formato da concordare» con varianti reali (es. 500 ml, 750 ml) nel catalogo
+- [ ] **Fotografie prodotto** — sostituire placeholder in `public/images/`
+- [ ] **Testi istituzionali** — revisione copy chi siamo/territorio con l'azienda
+- [ ] **FAQ spedizioni e pagamenti** — allineare a condizioni commerciali effettive
 
-## Prerequisiti
+### Legale e compliance
 
-- Node.js **≥ 22.12** (vedi `package.json` engines)
-- npm
+- [ ] **Privacy, cookie, note legali** — bozze in sito; **revisione professionista** obbligatoria prima del live
+- [ ] **Dati societari** — P.IVA, REA, ragione sociale completa in note legali ([docs/information-gaps.md](./docs/information-gaps.md))
+- [ ] **Banner cookie** — solo se verranno aggiunti analytics/marketing (F12.02)
 
-## Installazione
+### Qualità e processo
 
-```bash
-git clone https://github.com/MatteoDiPerna/gramazio-tabitha.git
-cd gramazio-tabitha
-npm ci
-```
+- [ ] **Collaudo manuale completo** — tabella in [implementation-checklist.md](./implementation-checklist.md) / [docs/testing.md](./docs/testing.md)
+- [ ] **Lighthouse / accessibilità** — obiettivo ≥ 90 (F10-M01)
+- [ ] **ESLint / Prettier** — non ancora introdotti (F03 opzionale)
+- [ ] **Sign-off formale analisi** — F02.07 se richiesto per contratto/progetto
+
+### Evoluzione futura (non v1)
+
+- CMS o pannello per aggiornare catalogo senza Git
+- Modulo email serverless se `mailto:` risultasse insufficiente
+- Blog/ricette, recensioni, multilingua
+- Pagamenti online e area ordini (esplicitamente fuori scope v1)
+
+## Stack
+
+- Astro 7, TypeScript, React (islands), Vitest, `@astrojs/sitemap`
+
+Dettaglio: [docs/decisions/001-static-stack.md](./docs/decisions/001-static-stack.md)
 
 ## Comandi
 
 | Comando | Descrizione |
 |---------|-------------|
 | `npm run dev` | Server di sviluppo |
-| `npm run build` | Build produzione in `dist/` |
+| `npm run build` | Build in `dist/` |
 | `npm run preview` | Anteprima build |
-| `npm test` | Test unitari (Vitest) |
+| `npm test` | Test unitari |
+| `npm run check:release` | Avvisi pre-produzione |
 
-## Configurazione contatti
+## Configurazione
 
-Modificare **`src/config/site.config.ts`**:
+File centrali: `src/config/site.config.ts`, catalogo `src/data/catalog.ts`.
 
-- `email`, `ordersEmail`, `phoneDisplay`, `phoneTel`
-- `whatsappE164` — solo cifre con prefisso IT (es. `393334125391`), **dopo conferma WhatsApp**
-- `url` — dominio produzione
+Non committare `.env` — usare [.env.example](./.env.example).
 
-Non committare segreti o file `.env` con credenziali.
+## Documentazione
 
-## Ordini (logica attuale)
-
-- `src/lib/orderMessage.ts` — testo ordine
-- `src/lib/whatsapp.ts` — URL wa.me (null se WhatsApp non configurato)
-- `src/lib/mailto.ts` — link email con troncamento sicuro
-
-Specifiche: [docs/order-message-spec.md](./docs/order-message-spec.md)
-
-## Test e collaudo
-
-- Automatici: `npm test`, `npm run build`
-- Manuali per fase: [docs/testing.md](./docs/testing.md)
-
-## Deployment
-
-Build statica: deploy della cartella `dist/` su Netlify, Cloudflare Pages o Vercel collegati al repository GitHub.
+- [docs/catalog-management.md](./docs/catalog-management.md)
+- [docs/deployment.md](./docs/deployment.md)
+- [docs/release-go-live.md](./docs/release-go-live.md)
+- [docs/maintenance.md](./docs/maintenance.md)
+- [docs/order-message-spec.md](./docs/order-message-spec.md)
 
 ## Git
 
-Conventional Commits (`feat:`, `docs:`, `fix:`, …). Commit solo dopo test pertinenti.
-
-## Roadmap
-
-Vedi checklist F04–F16 in [docs/implementation-checklist.md](./docs/implementation-checklist.md).
+Conventional Commits. Eseguire `npm test` e `npm run build` prima dei commit significativi.

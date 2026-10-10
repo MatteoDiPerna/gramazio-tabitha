@@ -1,0 +1,171 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Badge from '../../components/ui/Badge.astro';
+import Button from '../../components/ui/Button.astro';
+import { AddToCartButton } from '../../components/cart/AddToCartButton';
+import { canAddProductToCart } from '../../lib/cart/logic';
+import { getPublishedProducts, getProductBySlug } from '../../data/catalog';
+import {
+  formatVariantPrice,
+  pricePerLiter,
+  productAvailabilityLabel,
+} from '../../lib/catalogDisplay';
+import { buildProductJsonLd } from '../../lib/seo/structured-data';
+
+export function getStaticPaths() {
+  return getPublishedProducts().map((product) => ({
+    params: { slug: product.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const product = slug ? getProductBySlug(slug) : undefined;
+
+if (!product) {
+  return Astro.redirect('/catalogo');
+}
+
+const variant = product.variants[0];
+const perLiter = pricePerLiter(variant);
+const canAdd = canAddProductToCart(product);
+---
+
+<BaseLayout
+  title={product.name}
+  description={product.shortDescription}
+  canonicalPath={`/prodotti/${product.slug}`}
+  ogType="product"
+  ogImagePath={product.image.src}
+  jsonLdNodes={[buildProductJsonLd(product)]}
+>
+  <article class="container page product-detail">
+    <div class="product-detail__grid">
+      <div class="product-detail__media">
+        <img
+          src={product.image.src}
+          alt={product.image.alt}
+          width="600"
+          height="600"
+        />
+      </div>
+      <div>
+        <div class="product-detail__badges">
+          {product.badges?.includes('bio') && <Badge variant="bio">Bio</Badge>}
+          {product.badges?.includes('slow-food') && (
+            <Badge variant="slow-food">Slow Food</Badge>
+          )}
+        </div>
+        <h1 class="page-title">{product.name}</h1>
+        <p class="lead">{product.shortDescription}</p>
+        <dl class="product-detail__facts">
+          <div>
+            <dt>Formato</dt>
+            <dd>{variant.label}</dd>
+          </div>
+          <div>
+            <dt>Prezzo</dt>
+            <dd>
+              {formatVariantPrice(variant)}
+              {perLiter && ` · ${perLiter}`}
+            </dd>
+          </div>
+          <div>
+            <dt>Stato</dt>
+            <dd>{productAvailabilityLabel(product)}</dd>
+          </div>
+        </dl>
+        <AddToCartButton
+          client:load
+          productId={product.id}
+          variantId={variant.id}
+          canAdd={canAdd}
+        />
+        <div class="product-detail__actions">
+          <Button href="/catalogo" variant="secondary">Torna al catalogo</Button>
+          <Button href="/carrello" variant="primary">Vai al riepilogo ordine</Button>
+        </div>
+      </div>
+    </div>
+    {
+      product.description && (
+        <section class="product-detail__long prose">
+          <h2>Informazioni</h2>
+          <p>{product.description}</p>
+        </section>
+      )
+    }
+  </article>
+</BaseLayout>
+
+<style>
+  .page {
+    padding: var(--space-xl) 0 var(--space-2xl);
+  }
+
+  .product-detail__grid {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  @media (min-width: 768px) {
+    .product-detail__grid {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .product-detail__media {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .product-detail__media img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+
+  .product-detail__badges {
+    display: flex;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+  }
+
+  .product-detail__facts {
+    margin: var(--space-lg) 0;
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .product-detail__facts dt {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .product-detail__facts dd {
+    margin: 0.25rem 0 0;
+    font-weight: 600;
+  }
+
+  .product-detail__note {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+  }
+
+  .product-detail__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+  }
+
+  .product-detail__long {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border);
+  }
+</style>

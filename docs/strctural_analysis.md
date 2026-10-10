@@ -441,130 +441,10 @@ type Product = {
 
 ## CHECKLIST MASTER DI IMPLEMENTAZIONE E COLLAUDO
 
-Stato iniziale: da fare — espandibile in `docs/implementation-checklist.md` in fase sviluppo.
+**Stato aggiornato (non duplicare qui):** fonte unica → **[docs/implementation-checklist.md](./implementation-checklist.md)**  
+Aggiornare quella checklist ad ogni stop per collaudo manuale.
 
-### F00 — Analisi iniziale e repository
-
-- [ ] `F00.01` — Verificare remote GitHub e permessi push  
-  - Obiettivo: deploy collegato. Dipendenze: —. Completamento: `git remote -v` documentato. Test: manuale.
-- [ ] `F00.02` — Inventario branch e policy (main protetto?)
-- [ ] `F00.03` — Definire `.gitignore` Node/Astro
-- [ ] `F00.04` — Registrare decisione stack in `docs/decisions/001-static-stack.md`
-
-### F01 — Analisi aziendale e competitiva
-
-- [ ] `F01.01` — Scheda dati aziendali verificati (Cibovagare)
-- [ ] `F01.02` — Raccolta listino e asset da cliente (**bloccante**)
-- [ ] `F01.03` — Benchmark competitor (tabella §3) aggiornata se nuovi siti
-- [ ] `F01.04` — Elenco informazioni mancanti firmato dal cliente
-
-### F02 — Requisiti e progettazione
-
-- [ ] `F02.01` — Documento requisiti funzionali v1/v2
-- [ ] `F02.02` — Sitemap approvata
-- [ ] `F02.03` — User journey 8 step
-- [ ] `F02.04` — Wireframe mobile catalogo + carrello
-- [ ] `F02.05` — Design tokens (Direction B)
-- [ ] `F02.06` — Specifiche messaggio WhatsApp/email
-- [ ] `F02.07` — Sign-off analisi (questo documento)
-
-### F03 — Setup tecnico
-
-- [ ] `F03.01` — Scaffold Astro + TS + ESLint + Prettier
-- [ ] `F03.02` — `config/site.config.ts` (contatti placeholder)
-- [ ] `F03.03` — README sezioni 1–15 minime
-- [ ] `F03.04` — Script `dev`, `build`, `test`, `preview`
-- [ ] `F03.05` — CI opzionale: build + test su PR
-
-### F04 — Design system
-
-- [ ] `F04.01` — Tipografia e colori CSS variables
-- [ ] `F04.02` — Button, Card, Badge, QuantityStepper
-- [ ] `F04.03` — Stati hover/focus/disabled accessibili
-
-### F05 — Struttura sito
-
-- [ ] `F05.01` — Header + nav + skip link
-- [ ] `F05.02` — Footer contatti + link legali
-- [ ] `F05.03` — Homepage sezioni P0
-- [ ] `F05.04` — Pagina Chi siamo
-- [ ] `F05.05` — Contatti + mappa (se coordinate OK)
-- [ ] `F05.06` — FAQ ordini/spedizioni (testi cliente)
-- [ ] `F05.07` — Privacy / cookie / note legali (testi legali)
-
-### F06 — Catalogo
-
-- [ ] `F06.01` — Schema Zod/TypeScript prodotti
-- [ ] `F06.02` — `catalog.json` popolato con dati reali
-- [ ] `F06.03` — Griglia catalogo + filtri categoria
-- [ ] `F06.04` — Pagine `/prodotti/[slug]`
-- [ ] `F06.05` — Calcolo €/L dove applicabile
-- [ ] `F06.06` — Stato non disponibile / non pubblicato
-
-### F07 — Carrello
-
-- [ ] `F07.01` — Store + localStorage versionato
-- [ ] `F07.02` — Aggiungi / modifica / rimuovi
-- [ ] `F07.03` — Pagina o drawer riepilogo
-- [ ] `F07.04` — Campi note + dati contatto opzionali
-- [ ] `F07.05` — Test unitari totali
-
-### F08 — WhatsApp
-
-- [ ] `F08.01` — Config numero E.164 verificato
-- [ ] `F08.02` — `buildOrderMessage()`
-- [ ] `F08.03` — `buildWhatsAppUrl()` + test accenti
-- [ ] `F08.04` — Copy UX conferma invio manuale
-- [ ] `F08.05` — Fallback copia + tel
-
-### F09 — Email
-
-- [ ] `F09.01` — `buildMailtoUrl()` con limiti lunghezza
-- [ ] `F09.02` — Test iOS/Android + desktop
-- [ ] `F09.03` — Documentare limiti in README
-
-### F10 — Responsive e a11y
-
-- [ ] `F10.01` — Breakpoint 320–1440
-- [ ] `F10.02` — axe/Lighthouse a11y ≥ 90
-- [ ] `F10.03` — FAB WhatsApp non copre CTA
-
-### F11 — SEO e performance
-
-- [ ] `F11.01` — Meta + OG per pagina
-- [ ] `F11.02` — JSON-LD Organization/Product
-- [ ] `F11.03` — sitemap.xml + robots.txt
-- [ ] `F11.04` — Immagini WebP + dimensioni
-
-### F12 — Sicurezza e privacy
-
-- [ ] `F12.01` — HTTPS forzato
-- [ ] `F12.02` — Banner cookie se analytics
-- [ ] `F12.03` — Link informativa privacy su form/carrello
-
-### F13 — Test e collaudo
-
-- [ ] `F13.01` — Esecuzione suite Vitest
-- [ ] `F13.02` — Collaudo manuale tabelle sotto
-- [ ] `F13.03` — Regressione post-fix
-
-### F14 — Preparazione rilascio
-
-- [ ] `F14.01` — Dominio DNS → hosting
-- [ ] `F14.02` — Verifica prezzi live vs listino
-- [ ] `F14.03` — Contatti produzione non placeholder
-
-### F15 — Pubblicazione
-
-- [ ] `F15.01` — Deploy produzione
-- [ ] `F15.02` — Smoke test WA reale
-- [ ] `F15.03` — Smoke test email reale
-- [ ] `F15.04` — Consegna doc manutenzione catalogo
-
-### F16 — Manutenzione
-
-- [ ] `F16.01` — Procedura aggiornamento prezzi
-- [ ] `F16.02` — Calendario review dipendenze trimestrale
+Sintesi al 2026-03-21: F00–F05 implementate (collaudo ⏸); F06 parziale (placeholder catalogo, no listino); F07+ da fare; lib ordini F08/F09 parziali in codice.
 
 ---
 
@@ -588,10 +468,5 @@ Stato iniziale: da fare — espandibile in `docs/implementation-checklist.md` in
 
 ## Prossimo passo
 
-In attesa di approvazione su:
-
-1. Raccomandazione **Astro statico + carrello + WA/email**
-2. Direzione grafica **B (+ accenti A)**
-3. Sitemap e priorità v1
-
-Dopo l'OK: F02/F03 (wireframe, setup repo, checklist in `docs/`), una fase alla volta, con collaudo manuale prima di avanzare.
+1. Eseguire collaudo manuale ([testing.md](./testing.md)) e aggiornare esiti in [implementation-checklist.md](./implementation-checklist.md).
+2. Dopo OK: **F07 — Carrello**, poi F08/F09 in UI.

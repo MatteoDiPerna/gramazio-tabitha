@@ -11,15 +11,18 @@
     "preview": "astro preview",
     "test": "vitest run",
     "test:watch": "vitest",
+    "check:release": "node scripts/check-release.mjs",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.1",
+    "@astrojs/sitemap": "^3.7.4",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "astro": "^7.3.8",
     "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react-dom": "^19.3.0",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "vitest": "^5.0.3"

@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site.config';
+---
+
+<BaseLayout title="Note legali" description="Informazioni legali e note sul sito.">
+  <div class="container page prose">
+    <h1 class="page-title">Note legali</h1>
+    <p class="legal-notice">
+      <strong>Dati societari da completare.</strong> P.IVA, REA e ragione sociale formale vanno
+      inseriti dopo acquisizione da parte dell'azienda (vedi information-gaps).
+    </p>
+    <p><strong>Titolare del sito:</strong> {siteConfig.name}</p>
+    <p>
+      {siteConfig.address.street}, {siteConfig.address.postalCode}{' '}
+      {siteConfig.address.city} ({siteConfig.address.province})
+    </p>
+    <p>
+      Email: <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+    </p>
+    <p>
+      I prezzi indicati sul sito, quando presenti, hanno valore indicativo fino a conferma
+      scritta dell'ordine da parte dell'azienda.
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding: var(--space-xl) 0 var(--space-2xl);
+  }
+
+  .legal-notice {
+    padding: var(--space-md);
+    background: #fff8e6;
+    border: 1px solid #e8dcc4;
+    border-radius: var(--radius-md);
+  }
+</style>

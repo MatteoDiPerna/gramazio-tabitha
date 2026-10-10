@@ -1,0 +1,136 @@
+---
+import type { Product } from '../../data/catalog.schema';
+import Badge from '../ui/Badge.astro';
+import Button from '../ui/Button.astro';
+import Card from '../ui/Card.astro';
+import { AddToCartButton } from '../cart/AddToCartButton';
+import { canAddProductToCart } from '../../lib/cart/logic';
+import {
+  formatVariantPrice,
+  pricePerLiter,
+  productAvailabilityLabel,
+} from '../../lib/catalogDisplay';
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const variant = product.variants[0];
+const perLiter = pricePerLiter(variant);
+const canAdd = canAddProductToCart(product);
+---
+
+<Card as="article" class="product-card">
+  <a href={`/prodotti/${product.slug}`} class="product-card__media">
+    <img src={product.image.src} alt={product.image.alt} width="400" height="400" loading="lazy" />
+  </a>
+  <div class="product-card__body">
+    <div class="product-card__badges">
+      {product.badges?.includes('bio') && <Badge variant="bio">Bio</Badge>}
+      {product.badges?.includes('slow-food') && <Badge variant="slow-food">Slow Food</Badge>}
+    </div>
+    <h2 class="product-card__title">
+      <a href={`/prodotti/${product.slug}`}>{product.name}</a>
+    </h2>
+    <p class="product-card__desc">{product.shortDescription}</p>
+    <p class="product-card__meta">
+      <span>{variant.label}</span>
+      ·
+      <strong>{formatVariantPrice(variant)}</strong>
+      {perLiter && <span class="product-card__liter"> ({perLiter})</span>}
+    </p>
+    <p class="product-card__avail">{productAvailabilityLabel(product)}</p>
+    <AddToCartButton
+      client:load
+      productId={product.id}
+      variantId={variant.id}
+      canAdd={canAdd}
+      compact
+    />
+    <Button
+      href={`/prodotti/${product.slug}`}
+      variant="ghost"
+      class="product-card__cta"
+    >
+      Dettagli
+    </Button>
+  </div>
+</Card>
+
+<style>
+  .product-card {
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .product-card__media {
+    display: block;
+    aspect-ratio: 1;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .product-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product-card__body {
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: var(--space-sm);
+  }
+
+  .product-card__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .product-card__title {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .product-card__title a {
+    text-decoration: none;
+    color: var(--color-primary);
+  }
+
+  .product-card__desc {
+    margin: 0;
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    flex: 1;
+  }
+
+  .product-card__meta {
+    margin: 0;
+    font-size: 0.9375rem;
+  }
+
+  .product-card__liter {
+    color: var(--color-text-muted);
+    font-weight: 400;
+  }
+
+  .product-card__avail {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--color-accent-warm);
+  }
+
+  .product-card__cta {
+    width: 100%;
+    margin-top: var(--space-sm);
+  }
+</style>

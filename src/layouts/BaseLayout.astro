@@ -1,0 +1,79 @@
+---
+import '../styles/global.css';
+import { siteConfig } from '../config/site.config';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import WhatsAppFab from '../components/layout/WhatsAppFab.astro';
+import { buildLocalBusinessJsonLd, jsonLdGraph } from '../lib/seo/structured-data';
+import { absoluteUrl } from '../lib/seo/urls';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Path for canonical/og:url, e.g. `/catalogo` */
+  canonicalPath?: string;
+  ogImagePath?: string;
+  ogType?: 'website' | 'product';
+  noindex?: boolean;
+  /** Extra JSON-LD nodes (e.g. Product) */
+  jsonLdNodes?: Record<string, unknown>[];
+}
+
+const {
+  title,
+  description = siteConfig.description,
+  canonicalPath,
+  ogImagePath = '/images/og-default.svg',
+  ogType = 'website',
+  noindex = false,
+  jsonLdNodes = [],
+} = Astro.props;
+
+const pageTitle = title ? `${title} | ${siteConfig.shortName}` : siteConfig.name;
+const canonical = absoluteUrl(canonicalPath ?? Astro.url.pathname);
+const ogImage = absoluteUrl(ogImagePath);
+
+const graphNodes = [buildLocalBusinessJsonLd(), ...jsonLdNodes];
+const jsonLd = jsonLdGraph(...graphNodes);
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:site_name" content={siteConfig.shortName} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{pageTitle}</title>
+    <script type="application/ld+json" set:html={jsonLd} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Vai al contenuto</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppFab />
+  </body>
+</html>

@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CartPage } from '../components/cart/CartPage';
+---
+
+<BaseLayout
+  title="Riepilogo ordine"
+  description="Componi la richiesta d'ordine e inviala via WhatsApp o email."
+>
+  <div class="container page">
+    <h1 class="page-title">Riepilogo ordine</h1>
+    <p class="lead">
+      Nessuna registrazione: invia una richiesta da confermare con l&apos;azienda.
+    </p>
+    <CartPage client:load />
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding: var(--space-xl) 0 var(--space-2xl);
+  }
+</style>

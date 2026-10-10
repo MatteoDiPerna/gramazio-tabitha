@@ -1,0 +1,68 @@
+---
+import { siteConfig } from '../../config/site.config';
+import { buildWhatsAppUrl } from '../../lib/whatsapp';
+
+const intro = `Buongiorno, vorrei informazioni sui prodotti de ${siteConfig.name}.`;
+const e164 = siteConfig.whatsappE164.replace(/\D/g, '');
+const waHref = e164 ? buildWhatsAppUrl(intro) : null;
+---
+
+{
+  waHref ? (
+    <a
+      class="wa-fab"
+      href={waHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Scrivici su WhatsApp"
+    >
+      WhatsApp
+    </a>
+  ) : (
+    <a
+      class="wa-fab wa-fab--call"
+      href={`tel:${siteConfig.phoneTel}`}
+      aria-label="Telefona all'azienda"
+    >
+      Chiama
+    </a>
+  )
+}
+
+<style>
+  .wa-fab {
+    position: fixed;
+    right: var(--space-md);
+    bottom: var(--space-md);
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--touch-min);
+    min-height: var(--touch-min);
+    padding: 0 var(--space-md);
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-decoration: none;
+    color: #fff;
+    background: var(--color-whatsapp);
+    border-radius: 999px;
+    border: 2px solid #fff;
+  }
+
+  .wa-fab--call {
+    background: var(--color-primary);
+  }
+
+  .wa-fab:hover {
+    filter: brightness(1.05);
+    color: #fff;
+  }
+
+  @media (min-width: 768px) {
+    .wa-fab {
+      right: var(--space-lg);
+      bottom: var(--space-lg);
+    }
+  }
+</style>

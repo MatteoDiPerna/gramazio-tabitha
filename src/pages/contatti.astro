@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+import { siteConfig } from '../config/site.config';
+
+const { address } = siteConfig;
+const mapsQuery = encodeURIComponent(
+  `${address.street}, ${address.postalCode} ${address.city}`,
+);
+---
+
+<BaseLayout title="Contatti" description="Telefono, email e indirizzo dell'azienda agricola.">
+  <div class="container page">
+    <h1 class="page-title">Contatti</h1>
+    <p class="lead">Parla direttamente con noi per ordini, disponibilità e spedizioni.</p>
+    <dl class="contact-list">
+      <div>
+        <dt>Indirizzo</dt>
+        <dd>
+          {address.street}<br />
+          {address.postalCode} {address.city} ({address.province})
+        </dd>
+      </div>
+      <div>
+        <dt>Telefono</dt>
+        <dd><a href={`tel:${siteConfig.phoneTel}`}>{siteConfig.phoneDisplay}</a></dd>
+      </div>
+      <div>
+        <dt>Email</dt>
+        <dd><a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a></dd>
+      </div>
+    </dl>
+    <div class="contact-actions">
+      <Button href={`tel:${siteConfig.phoneTel}`} variant="primary">Chiama</Button>
+      <Button href={`mailto:${siteConfig.email}`} variant="secondary">Scrivi email</Button>
+    </div>
+    <p class="map-link">
+      <a
+        href={`https://www.google.com/maps/search/?api=1&query=${mapsQuery}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Apri indirizzo in mappe
+      </a>
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding: var(--space-xl) 0 var(--space-2xl);
+  }
+
+  .contact-list {
+    display: grid;
+    gap: var(--space-lg);
+    margin: var(--space-xl) 0;
+  }
+
+  .contact-list dt {
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  .contact-list dd {
+    margin: var(--space-xs) 0 0;
+  }
+
+  .contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+  }
+
+  .map-link {
+    margin-top: var(--space-xl);
+    font-size: 0.9375rem;
+  }
+</style>

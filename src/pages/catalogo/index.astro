@@ -1,0 +1,139 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductCard from '../../components/catalog/ProductCard.astro';
+import { getPublishedProducts } from '../../data/catalog';
+import { catalogCategories, isCatalogCategory } from '../../data/catalogCategories';
+
+const rawCategory = Astro.url.searchParams.get('categoria');
+const activeCategory = isCatalogCategory(rawCategory) ? rawCategory : null;
+const allProducts = getPublishedProducts();
+const products = activeCategory
+  ? allProducts.filter((p) => p.category === activeCategory)
+  : allProducts;
+---
+
+<BaseLayout
+  title="Catalogo prodotti"
+  description="Olio extravergine biologico e prodotti agricoli dell'Azienda Agricola Gramazio Tabitha."
+  canonicalPath={activeCategory ? `/catalogo?categoria=${activeCategory}` : '/catalogo'}
+>
+  <div class="container page">
+    <h1 class="page-title">Catalogo</h1>
+    <p class="lead">
+      Prezzi e formati definitivi saranno pubblicati dopo conferma del listino. Puoi comunque
+      consultare le schede e contattarci per ordinare.
+    </p>
+
+    <nav class="catalog-filters" aria-label="Filtra per categoria">
+      <ul class="catalog-filters__list">
+        <li>
+          <a
+            href="/catalogo"
+            class:list={['catalog-filters__link', { 'is-active': !activeCategory }]}
+            aria-current={!activeCategory ? 'page' : undefined}
+          >
+            Tutti
+          </a>
+        </li>
+        {
+          catalogCategories.map((cat) => (
+            <li>
+              <a
+                href={`/catalogo?categoria=${cat.id}`}
+                class:list={[
+                  'catalog-filters__link',
+                  { 'is-active': activeCategory === cat.id },
+                ]}
+                aria-current={activeCategory === cat.id ? 'page' : undefined}
+              >
+                {cat.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    {
+      products.length === 0 ? (
+        <p role="status">Nessun prodotto in questa categoria.</p>
+      ) : (
+        <ul class="product-grid">
+          {products.map((product) => (
+            <li>
+              <ProductCard product={product} />
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding: var(--space-xl) 0 var(--space-2xl);
+  }
+
+  .catalog-filters {
+    margin-top: var(--space-lg);
+  }
+
+  .catalog-filters__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .catalog-filters__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--touch-min);
+    padding: 0 var(--space-md);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .catalog-filters__link:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .catalog-filters__link.is-active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+  }
+
+  .catalog-filters__link:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .product-grid {
+    list-style: none;
+    margin: var(--space-xl) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  @media (min-width: 640px) {
+    .product-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .product-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

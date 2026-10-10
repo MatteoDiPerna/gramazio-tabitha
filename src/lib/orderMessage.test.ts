@@ -23,13 +23,21 @@ describe('buildOrderMessage', () => {
     expect(body).toMatch(/Totale indicativo prodotti:/);
   });
 
+  it('handles null unit prices in message', () => {
+    const body = buildOrderMessage(
+      [{ name: 'Patè di Fave', format: '180 g', qty: 1, unitPriceCents: null }],
+      { notes: 'Per favore' },
+    );
+    expect(body).toContain('Prezzo da confermare');
+    expect(body).toContain('da confermare');
+  });
+
   it('encodes accents in whatsapp url', () => {
     const msg = buildOrderMessage(
       [{ name: 'Patè di Fave', format: '180 g', qty: 1, unitPriceCents: 500 }],
       { notes: 'Per favore' },
     );
     const url = buildWhatsAppUrl(msg);
-    // whatsappE164 empty → null until configured
     expect(url).toBeNull();
   });
 });
