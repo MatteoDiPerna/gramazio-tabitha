@@ -3,8 +3,8 @@
 ## Prerequisiti
 
 - [ ] Dominio registrato e DNS configurato (F14.01)
-- [ ] Listino e foto reali nel catalogo (F14.02 / F01.02)
-- [ ] `whatsappE164`, email e `siteConfig.url` verificati (F14.03)
+- [x] Assortimento listino allineato → [listino.md](./listino.md) (F14.02); foto prodotto ancora placeholder
+- [ ] Dominio + `SITE_URL` (F14.01); email/tel in `site.config.ts` OK · **`whatsappE164` da configurare** (F08.01, posticipato)
 - [ ] Testi legali revisionati da professionista
 
 ## Variabili d'ambiente
@@ -51,7 +51,7 @@ npm run check:release
 ## Post-deploy (F15 smoke)
 
 1. Homepage, catalogo, scheda prodotto, carrello.
-2. Ordine test → WhatsApp / email / copia testo.
+2. Ordine test → email / copia testo / telefono; WhatsApp dopo configurazione E.164.
 3. `/robots.txt` e `/sitemap-index.xml`.
 4. Link footer (privacy, contatti).
 
