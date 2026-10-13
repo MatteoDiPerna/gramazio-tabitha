@@ -5,7 +5,7 @@ import { CartNavLink } from '../cart/CartNavLink';
 const path = Astro.url.pathname;
 ---
 
-<header class="header layout-bleed">
+<header class="header header--overlay layout-bleed">
   <div class="site-rail site-rail--header header__inner">
     <a class="header__brand" href="/" aria-label={`${siteConfig.shortName} — home`}>
       <img
@@ -51,21 +51,66 @@ const path = Astro.url.pathname;
 </header>
 
 <script>
+  import { initHeaderScroll } from '@/scripts/headerScroll';
+
   const toggle = document.getElementById('nav-toggle');
   const nav = document.getElementById('site-nav');
   toggle?.addEventListener('click', () => {
     const open = nav?.classList.toggle('is-open');
     toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    initHeaderScroll();
   });
+
+  initHeaderScroll();
+  document.addEventListener('astro:page-load', initHeaderScroll);
 </script>
 
 <style>
   .header {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
     background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
+    transition:
+      background-color 0.28s ease,
+      border-color 0.28s ease,
+      box-shadow 0.28s ease;
+  }
+
+  .header.header--overlay:not(.header--solid) {
+    background: transparent;
+    border-bottom-color: transparent;
+    box-shadow: none;
+  }
+
+  .header.header--solid {
+    background: var(--color-surface);
+    border-bottom-color: var(--color-border);
+    box-shadow: 0 1px 0 rgb(0 0 0 / 0.04);
+  }
+
+  .header.header--overlay:not(.header--solid) .header__link {
+    color: #fff;
+    text-shadow: 0 1px 4px rgb(0 0 0 / 0.45);
+  }
+
+  .header.header--overlay:not(.header--solid) .header__link:hover {
+    color: #fff;
+    background: rgb(255 255 255 / 0.12);
+  }
+
+  .header.header--overlay:not(.header--solid) .header__link.is-active {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .header.header--overlay:not(.header--solid) .header__toggle {
+    color: #fff;
+    background: rgb(255 255 255 / 0.1);
+    border-color: rgb(255 255 255 / 0.55);
   }
 
   .header__inner {
@@ -169,10 +214,6 @@ const path = Astro.url.pathname;
   }
 
   @media (min-width: 768px) {
-    .header {
-      position: relative;
-    }
-
     .header__toggle {
       display: none;
     }

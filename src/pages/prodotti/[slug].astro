@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageContainer from '@/components/layout/PageContainer.astro';
+import PageHero from '@/components/layout/PageHero.astro';
 import Badge from '@/components/ui/Badge.astro';
 import Button from '@/components/ui/Button.astro';
 import { AddToCartButton } from '@/components/cart/AddToCartButton';
@@ -44,6 +45,7 @@ const spinFrames = productSpinFrameUrls(product.slug);
   ogImagePath={imageSrc}
   jsonLdNodes={[buildProductJsonLd(product)]}
 >
+  <PageHero title={product.name} lead="Scheda prodotto e disponibilità" imageSrc={imageSrc} />
   <PageContainer as="article" class="product-detail">
     <div class="product-detail__grid">
       <div class="product-detail__media">
@@ -62,8 +64,6 @@ const spinFrames = productSpinFrameUrls(product.slug);
             <Badge variant="slow-food">Slow Food</Badge>
           )}
         </div>
-        <h1 class="page-title">{product.name}</h1>
-        <p class="lead">{product.shortDescription}</p>
         <dl class="product-detail__facts">
           <div>
             <dt>Formato</dt>

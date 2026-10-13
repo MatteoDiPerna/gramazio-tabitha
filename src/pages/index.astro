@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/layout/PageHero.astro';
 import Button from '@/components/ui/Button.astro';
 import ProductCard from '@/components/catalog/ProductCard.astro';
 import { siteConfig } from '@/config/site.config';
@@ -19,44 +20,26 @@ import {
 const products = getPublishedProducts().slice(0, 3);
 
 const heroBannerImage = '/images/home/hero-banner.png';
-const countryImage =
-  homeMedia.stripTerritorio ??
-  homeMedia.stripChiSiamo ??
-  '/images/home/carpino-banner.png';
-const galleryImage = countryImage;
+const aboutPhoto = homeMedia.aboutPhoto;
+const bannerDividerImage = homeMedia.bannerDivider;
 
 const waIntro = `Buongiorno, vorrei informazioni sui prodotti de ${siteConfig.name}.`;
 const waHref = buildWhatsAppUrl(waIntro);
 ---
 
 <BaseLayout>
-  <section class="hero hero--photo layout-bleed">
-    <img
-      class="hero__photo"
-      src={heroBannerImage}
-      alt=""
-      width="1920"
-      height="640"
-      fetchpriority="high"
-      decoding="async"
-      aria-hidden="true"
-    />
-    <div class="hero__scrim" aria-hidden="true" />
-    <div class="container hero__inner">
-      <p class="hero__eyebrow">Carpino · Gargano · FG</p>
-      <h1 class="hero__title">{siteConfig.name}</h1>
-      <p class="hero__lead">
-        Olio extravergine biologico e prodotti agricoli del territorio, con cura per la
-        stagionalità e le cultivar autoctone.
-      </p>
-      <div class="hero__actions">
-        <Button href="/catalogo" variant="primary" size="lg">Scopri i prodotti</Button>
-        <Button href="/contatti" variant="secondary" size="lg" class="hero__btn-secondary">
-          Contattaci
-        </Button>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    size="home"
+    priority
+    title={siteConfig.name}
+    lead="Olio extravergine biologico e prodotti del Gargano"
+    imageSrc={heroBannerImage}
+  >
+    <Button slot="actions" href="/catalogo" variant="primary" size="lg">Scopri i prodotti</Button>
+    <Button slot="actions" href="/contatti" variant="secondary" size="lg" class="page-hero__btn-secondary">
+      Contattaci
+    </Button>
+  </PageHero>
 
   <section class="home-about section home-viewport-panel" aria-labelledby="home-about-title">
     <div class="container home-about__grid">
@@ -68,10 +51,10 @@ const waHref = buildWhatsAppUrl(waIntro);
         <figure class="home-about__figure">
           <img
             class="home-about__photo"
-            src={countryImage}
-            alt="Paesaggio e territorio agricolo del Gargano"
-            width="800"
-            height="960"
+            src={aboutPhoto}
+            alt="Olive su ulivo nel Gargano"
+            width="1200"
+            height="675"
             loading="lazy"
             decoding="async"
           />
@@ -126,7 +109,14 @@ const waHref = buildWhatsAppUrl(waIntro);
 
   <section class="home-divider layout-bleed home-snap-target" aria-label={homeBannerDivider.title}>
     <div class="home-divider__bg" aria-hidden="true">
-      <img src={heroBannerImage} alt="" width="1920" height="480" loading="lazy" decoding="async" />
+      <img
+        src={bannerDividerImage}
+        alt=""
+        width="1920"
+        height="480"
+        loading="lazy"
+        decoding="async"
+      />
     </div>
     <div class="home-divider__scrim" aria-hidden="true" />
     <div class="home-divider__content">
@@ -189,14 +179,14 @@ const waHref = buildWhatsAppUrl(waIntro);
       >
         <ul class="home-gallery__list">
           {
-            homeGallerySection.slides.map((slide, index) => (
+            homeGallerySection.slides.map((slide) => (
               <li>
                 <figure class="home-gallery__slide">
                   <img
-                    src={galleryImage}
-                    alt={`${slide.caption} — foto ${index + 1}`}
-                    width="520"
-                    height="680"
+                    src={slide.src}
+                    alt={slide.alt}
+                    width="320"
+                    height="427"
                     loading="lazy"
                     decoding="async"
                   />
@@ -337,111 +327,6 @@ const waHref = buildWhatsAppUrl(waIntro);
 </script>
 
 <style>
-  .hero {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    min-height: clamp(22rem, 52vh, 36rem);
-    display: flex;
-    align-items: center;
-    padding: var(--space-2xl) 0;
-    border-bottom: 1px solid var(--color-border);
-    background: var(--color-surface);
-  }
-
-  .hero--photo {
-    background: #1a1f18;
-  }
-
-  .hero__photo {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    object-fit: cover;
-    object-position: center 42%;
-  }
-
-  .hero__scrim {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background: linear-gradient(
-      105deg,
-      rgb(28 32 24 / 0.82) 0%,
-      rgb(28 32 24 / 0.55) 42%,
-      rgb(28 32 24 / 0.18) 68%,
-      rgb(28 32 24 / 0.08) 100%
-    );
-  }
-
-  .hero__inner {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-  }
-
-  .hero__eyebrow {
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--color-accent-warm);
-    margin: 0 0 var(--space-sm);
-  }
-
-  .hero--photo .hero__eyebrow {
-    color: #e8c4a8;
-  }
-
-  .hero__title {
-    font-family: var(--font-display);
-    font-size: clamp(2.25rem, 6vw, 3.25rem);
-    line-height: 1.1;
-    color: var(--color-primary);
-    margin: 0 0 var(--space-md);
-    max-width: 22ch;
-  }
-
-  .hero--photo .hero__title {
-    color: #fafaf7;
-    text-shadow: 0 1px 2px rgb(0 0 0 / 0.35);
-  }
-
-  .hero__lead {
-    font-size: 1.125rem;
-    color: var(--color-text-muted);
-    max-width: 52rem;
-    margin: 0 0 var(--space-xl);
-  }
-
-  .hero--photo .hero__lead {
-    color: rgb(250 250 247 / 0.92);
-    max-width: 38rem;
-    text-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
-  }
-
-  .hero__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-md);
-  }
-
-  .hero--photo :global(.hero__btn-secondary) {
-    background: rgb(255 255 255 / 0.1);
-    border-color: rgb(255 255 255 / 0.85);
-    color: #fff;
-  }
-
-  .hero--photo :global(.hero__btn-secondary:hover) {
-    background: #fff;
-    color: var(--color-primary);
-    border-color: #fff;
-  }
-
   .section {
     padding: var(--space-2xl) 0;
   }
@@ -612,12 +497,12 @@ const waHref = buildWhatsAppUrl(waIntro);
     z-index: 1;
     margin: 0 auto;
     width: 100%;
-    max-width: min(100%, 20rem);
+    max-width: min(100%, 26rem);
   }
 
   @media (min-width: 900px) {
     .home-about__figure {
-      max-width: min(100%, 22rem);
+      max-width: min(100%, 28rem);
     }
   }
 
@@ -626,7 +511,8 @@ const waHref = buildWhatsAppUrl(waIntro);
     border-radius: var(--radius-lg);
     box-shadow: 0 12px 40px rgb(44 42 38 / 0.12);
     object-fit: cover;
-    aspect-ratio: 4 / 5;
+    object-position: center;
+    aspect-ratio: 4 / 3;
     max-height: min(42svh, 18rem);
   }
 
@@ -900,6 +786,8 @@ const waHref = buildWhatsAppUrl(waIntro);
   }
 
   .home-gallery__track {
+    display: flex;
+    justify-content: flex-start;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
@@ -907,6 +795,12 @@ const waHref = buildWhatsAppUrl(waIntro);
     scrollbar-width: none;
     cursor: grab;
     padding-block: var(--space-sm) var(--space-lg);
+  }
+
+  @supports (justify-content: safe center) {
+    .home-gallery__track {
+      justify-content: safe center;
+    }
   }
 
   .home-gallery__track::-webkit-scrollbar {
@@ -924,36 +818,39 @@ const waHref = buildWhatsAppUrl(waIntro);
     margin: 0;
     padding: 0 var(--layout-inline-padding);
     display: flex;
+    flex-shrink: 0;
     gap: 3px;
   }
 
+  .home-gallery__list > li {
+    flex-shrink: 0;
+  }
+
   .home-gallery__slide {
+    --gallery-slide-width: min(78vw, 18rem);
+    --gallery-slide-height: calc(var(--gallery-slide-width) * 4 / 3);
+
     position: relative;
     margin: 0;
     scroll-snap-align: start;
-    flex: 0 0 min(78vw, 17.5rem);
+    flex: 0 0 var(--gallery-slide-width);
+    width: var(--gallery-slide-width);
+    height: var(--gallery-slide-height);
     overflow: hidden;
   }
 
   @media (min-width: 768px) {
     .home-gallery__slide {
-      flex-basis: min(32vw, 20rem);
-    }
-  }
-
-  @media (min-width: 1200px) {
-    .home-gallery__slide {
-      flex-basis: min(24vw, 22rem);
+      --gallery-slide-width: 20rem;
     }
   }
 
   .home-gallery__slide img {
     width: 100%;
-    height: auto;
-    aspect-ratio: 3 / 4;
-    min-height: clamp(18rem, 42vh, 28rem);
+    height: 100%;
     max-width: none;
     object-fit: cover;
+    object-position: center;
     display: block;
   }
 

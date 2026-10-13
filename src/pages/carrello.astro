@@ -1,18 +1,23 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageContainer from '@/components/layout/PageContainer.astro';
+import PageHero from '@/components/layout/PageHero.astro';
 import { CartPage } from '@/components/cart/CartPage';
+import { staticPageHeroes } from '@/content/pageHeroes';
+
+const hero = staticPageHeroes.carrello;
 ---
 
 <BaseLayout
   title="Riepilogo ordine"
   description="Componi la richiesta d'ordine e inviala via WhatsApp o email."
 >
+  <PageHero
+    title={hero.title}
+    lead={hero.lead}
+    imageSrc={hero.image}
+  />
   <PageContainer centered prose>
-    <h1 class="page-title">Riepilogo ordine</h1>
-    <p class="lead">
-      Nessuna registrazione: invia una richiesta da confermare con l&apos;azienda.
-    </p>
     <CartPage client:load />
   </PageContainer>
 </BaseLayout>

@@ -21,6 +21,7 @@ Modifiche a **header, footer, menu, SEO di base, stili globali** → allega alme
 | Stili globali + token | `src/styles/global.css`, `src/styles/tokens.css` |
 | Config build / sitemap | `astro.config.mjs` |
 | Loader navigazione / refresh | `src/components/layout/SiteLoader.astro`, `src/scripts/siteLoader.ts` |
+| **Banner titolo pagina** (foto + titolo + sottotitolo) | `src/components/layout/PageHero.astro`, `src/content/pageHeroes.ts` |
 
 Il carrello in header è un’isola React: `src/components/cart/CartNavLink.tsx`, `src/hooks/useCart.ts`.
 
@@ -39,9 +40,10 @@ Il carrello in header è un’isola React: `src/components/cart/CartNavLink.tsx`
 
 | Cosa modifichi | Path |
 |----------------|------|
-| Hero, sezioni homepage | `src/pages/index.astro` |
+| Hero, sezioni homepage | `src/pages/index.astro` (hero via `PageHero` size=`home`) |
 | Testi sezioni home (servizi, recensioni, …) | `src/content/homePage.ts` |
 | Immagini strip home | `src/config/home.media.ts`, asset in `public/images/home/` |
+| Foto about / banner / galleria home | `home.media.ts` (`aboutPhoto`, `bannerDivider`), `src/content/homePage.ts` (`homeGallerySection.slides`) |
 | Hero banner | `public/images/home/hero-banner.png` (path hardcoded in pagina) |
 | Anteprima prodotti in evidenza | anche `src/domain/catalog/products.data.ts`, `src/components/catalog/ProductCard.astro` |
 | Testi azienda / CTA | `src/config/site.config.ts` |

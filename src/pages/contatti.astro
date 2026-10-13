@@ -1,7 +1,11 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/layout/PageHero.astro';
 import Button from '@/components/ui/Button.astro';
 import { siteConfig } from '@/config/site.config';
+import { staticPageHeroes } from '@/content/pageHeroes';
+
+const contactHero = staticPageHeroes.contatti;
 
 const { address } = siteConfig;
 const addressLine1 = address.street;
@@ -16,16 +20,9 @@ const mapsDirectionsHref = `https://www.google.com/maps/search/?api=1&query=${ma
 ---
 
 <BaseLayout title="Contatti" description="Telefono, email e indirizzo dell'azienda agricola.">
-  <div class="contact-page">
-    <section class="contact-page__head" aria-labelledby="contact-title">
-      <div class="container contact-page__head-inner">
-        <h1 id="contact-title" class="contact-page__title">Contatti</h1>
-        <p class="contact-page__lead">
-          Siamo a disposizione per qualsiasi informazione su ordini, disponibilità e prodotti.
-        </p>
-      </div>
-    </section>
+  <PageHero title={contactHero.title} lead={contactHero.lead} imageSrc={contactHero.image} />
 
+  <div class="contact-page">
     <section class="contact-page__details" aria-label="Recapiti">
       <div class="container contact-page__grid">
         <div class="contact-block">
@@ -77,32 +74,6 @@ const mapsDirectionsHref = `https://www.google.com/maps/search/?api=1&query=${ma
 <style>
   .contact-page {
     background: var(--color-bg);
-  }
-
-  .contact-page__head {
-    padding: var(--space-xl) 0 var(--space-lg);
-    text-align: center;
-  }
-
-  .contact-page__head-inner {
-    max-width: 40rem;
-    margin-inline: auto;
-  }
-
-  .contact-page__title {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, 2.75rem);
-    font-weight: 600;
-    line-height: 1.15;
-    color: var(--color-primary);
-    margin: 0 0 var(--space-md);
-  }
-
-  .contact-page__lead {
-    margin: 0;
-    font-size: 1.0625rem;
-    color: var(--color-text-muted);
-    line-height: 1.55;
   }
 
   .contact-page__details {

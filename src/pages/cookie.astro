@@ -1,11 +1,19 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageContainer from '@/components/layout/PageContainer.astro';
+import PageHero from '@/components/layout/PageHero.astro';
+import { staticPageHeroes } from '@/content/pageHeroes';
+
+const hero = staticPageHeroes.cookie;
 ---
 
 <BaseLayout title="Cookie" description="Informazioni sull'uso dei cookie.">
+  <PageHero
+    title={hero.title}
+    lead={hero.lead}
+    imageSrc={hero.image}
+  />
   <PageContainer prose>
-    <h1 class="page-title">Cookie</h1>
     <p class="legal-notice">
       <strong>Bozza tecnica.</strong> Aggiornare se verranno introdotti strumenti di analitica o
       embed di terze parti.

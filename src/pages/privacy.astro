@@ -1,11 +1,19 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageContainer from '@/components/layout/PageContainer.astro';
+import PageHero from '@/components/layout/PageHero.astro';
+import { staticPageHeroes } from '@/content/pageHeroes';
+
+const hero = staticPageHeroes.privacy;
 ---
 
 <BaseLayout title="Privacy" description="Informativa sul trattamento dei dati personali.">
+  <PageHero
+    title={hero.title}
+    lead={hero.lead}
+    imageSrc={hero.image}
+  />
   <PageContainer prose>
-    <h1 class="page-title">Informativa privacy</h1>
     <p class="legal-notice">
       <strong>Bozza tecnica.</strong> Testo da sostituire con informativa redatta dal titolare
       del trattamento e/o professionista qualificato (GDPR).

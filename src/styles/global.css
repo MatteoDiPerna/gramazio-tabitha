@@ -135,6 +135,16 @@ a:hover {
   border-radius: 999px;
 }
 
+.header.header--overlay:not(.header--solid) .header__cart {
+  color: #fff;
+  text-shadow: 0 1px 4px rgb(0 0 0 / 0.45);
+}
+
+.header.header--overlay:not(.header--solid) .header__cart:hover {
+  color: #fff;
+  background: rgb(255 255 255 / 0.12);
+}
+
 .container--wide {
   padding-inline: clamp(0.75rem, 2vw, 1.5rem);
 }

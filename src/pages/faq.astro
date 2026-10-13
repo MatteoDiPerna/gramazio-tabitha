@@ -1,16 +1,19 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageContainer from '@/components/layout/PageContainer.astro';
-import { faqIntro, faqItems } from '@/content/faq';
+import PageHero from '@/components/layout/PageHero.astro';
+import { faqItems } from '@/content/faq';
+import { staticPageHeroes } from '@/content/pageHeroes';
+
+const faqHero = staticPageHeroes.faq;
 ---
 
 <BaseLayout
   title="FAQ ordini e spedizioni"
   description="Come ordinare, spedizioni e pagamenti — Azienda Agricola Gramazio Tabitha."
 >
+  <PageHero title={faqHero.title} lead={faqHero.lead} imageSrc={faqHero.image} />
   <PageContainer centered prose>
-    <h1 class="page-title">Ordini, spedizioni e pagamenti</h1>
-    <p class="lead">{faqIntro}</p>
     <dl class="faq">
       {
         faqItems.map((item) => (

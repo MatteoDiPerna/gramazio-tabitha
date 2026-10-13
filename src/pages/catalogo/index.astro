@@ -1,12 +1,16 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageContainer from '@/components/layout/PageContainer.astro';
+import PageHero from '@/components/layout/PageHero.astro';
 import ProductCard from '@/components/catalog/ProductCard.astro';
+import { staticPageHeroes } from '@/content/pageHeroes';
 import {
   catalogCategories,
   getPublishedProducts,
   isCatalogCategory,
 } from '@/domain/catalog';
+
+const catalogHero = staticPageHeroes.catalogo;
 
 const rawCategory = Astro.url.searchParams.get('categoria');
 const activeCategory = isCatalogCategory(rawCategory) ? rawCategory : null;
@@ -14,6 +18,9 @@ const allProducts = getPublishedProducts();
 const products = activeCategory
   ? allProducts.filter((p) => p.category === activeCategory)
   : allProducts;
+const categoryLabel = activeCategory
+  ? catalogCategories.find((c) => c.id === activeCategory)?.label
+  : null;
 ---
 
 <BaseLayout
@@ -21,13 +28,12 @@ const products = activeCategory
   description="Olio extravergine biologico e prodotti agricoli dell'Azienda Agricola Gramazio Tabitha."
   canonicalPath={activeCategory ? `/catalogo?categoria=${activeCategory}` : '/catalogo'}
 >
+  <PageHero
+    title={categoryLabel ? `Catalogo — ${categoryLabel}` : catalogHero.title}
+    lead={catalogHero.lead}
+    imageSrc={catalogHero.image}
+  />
   <PageContainer>
-    <h1 class="page-title">Catalogo</h1>
-    <p class="lead">
-      Prezzi e formati definitivi saranno pubblicati dopo conferma del listino. Puoi comunque
-      consultare le schede e contattarci per ordinare.
-    </p>
-
     <nav class="catalog-filters" aria-label="Filtra per categoria">
       <ul class="catalog-filters__list">
         <li>

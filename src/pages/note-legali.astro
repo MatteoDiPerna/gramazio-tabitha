@@ -1,12 +1,20 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageContainer from '@/components/layout/PageContainer.astro';
-import { siteConfig } from '../config/site.config';
+import PageHero from '@/components/layout/PageHero.astro';
+import { siteConfig } from '@/config/site.config';
+import { staticPageHeroes } from '@/content/pageHeroes';
+
+const hero = staticPageHeroes.noteLegali;
 ---
 
 <BaseLayout title="Note legali" description="Informazioni legali e note sul sito.">
+  <PageHero
+    title={hero.title}
+    lead={hero.lead}
+    imageSrc={hero.image}
+  />
   <PageContainer prose>
-    <h1 class="page-title">Note legali</h1>
     <p class="legal-notice">
       <strong>Dati societari da completare.</strong> P.IVA, REA e ragione sociale formale vanno
       inseriti dopo acquisizione da parte dell'azienda (vedi information-gaps).

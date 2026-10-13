@@ -52,14 +52,27 @@ export const homeServicesSection = {
 export const homeGallerySection = {
   eyebrow: 'Alcune foto dell’azienda',
   title: 'Il territorio',
-  /** Placeholder — stessa immagine; didascalie da sostituire con foto reali. */
   slides: [
-    { caption: 'Il paesaggio del Gargano' },
-    { caption: 'Gli oliveti' },
-    { caption: 'Carpino e il territorio' },
-    { caption: 'La produzione agricola' },
-    { caption: 'Olio extravergine biologico' },
-    { caption: 'Tradizione e cura del frutto' },
+    {
+      src: '/images/home/ulivi_2.jpg',
+      caption: 'Gli oliveti',
+      alt: 'Oliveto nel territorio del Gargano',
+    },
+    {
+      src: '/images/home/ulivi_3.jpg',
+      caption: 'Cura del frutto',
+      alt: 'Ulivi e paesaggio agricolo',
+    },
+    {
+      src: '/images/home/olive.jpg',
+      caption: 'Le olive',
+      alt: 'Olive su ulivo nel Gargano',
+    },
+    {
+      src: '/images/home/fiera_2.jpg',
+      caption: 'In fiera',
+      alt: 'Stand dell’azienda in fiera',
+    },
   ],
 } as const;
 
