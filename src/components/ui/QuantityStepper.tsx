@@ -7,6 +7,7 @@ type Props = {
   onChange: (value: number) => void;
   disabled?: boolean;
   label?: string;
+  compact?: boolean;
 };
 
 export const QuantityStepper: FC<Props> = ({
@@ -16,12 +17,13 @@ export const QuantityStepper: FC<Props> = ({
   onChange,
   disabled = false,
   label = 'Quantità',
+  compact = false,
 }) => {
   const dec = () => onChange(Math.max(min, value - 1));
   const inc = () => onChange(Math.min(max, value + 1));
 
   return (
-    <div className="qty" role="group" aria-label={label}>
+    <div className={compact ? 'qty qty--compact' : 'qty'} role="group" aria-label={label}>
       <button
         type="button"
         className="qty__btn"
@@ -75,6 +77,15 @@ export const QuantityStepper: FC<Props> = ({
           min-width: 2rem;
           text-align: center;
           font-weight: 600;
+        }
+        .qty--compact .qty__btn {
+          min-width: 2.25rem;
+          min-height: 2.25rem;
+          font-size: 1.0625rem;
+        }
+        .qty--compact .qty__value {
+          min-width: 1.75rem;
+          font-size: 0.9375rem;
         }
       `}</style>
     </div>

@@ -39,7 +39,7 @@ export const AddToCartButton: FC<Props> = ({
 
   return (
     <div className={compact ? 'add-cart add-cart--compact' : 'add-cart'}>
-      <QuantityStepper value={qty} min={1} onChange={setQty} />
+      <QuantityStepper value={qty} min={1} onChange={setQty} compact={compact} />
       <button type="button" className="add-cart__btn" onClick={onAdd}>
         Aggiungi all&apos;ordine
       </button>
@@ -59,6 +59,13 @@ export const AddToCartButton: FC<Props> = ({
         .add-cart--compact {
           flex-direction: column;
           align-items: stretch;
+          gap: 0.5rem;
+          margin-top: 0;
+        }
+        .add-cart--compact .add-cart__btn {
+          min-height: 2.5rem;
+          padding: 0 0.75rem;
+          font-size: 0.9375rem;
         }
         .add-cart__btn {
           min-height: 44px;

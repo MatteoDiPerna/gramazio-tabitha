@@ -1,9 +1,11 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import { siteConfig } from '@/config/site.config';
 import Header from '@/components/layout/Header.astro';
 import Footer from '@/components/layout/Footer.astro';
 import WhatsAppFab from '@/components/layout/WhatsAppFab.astro';
+import SiteLoader from '@/components/layout/SiteLoader.astro';
 import { buildLocalBusinessJsonLd, jsonLdGraph } from '@/domain/seo/structured-data';
 import { absoluteUrl } from '@/domain/seo/urls';
 
@@ -68,8 +70,10 @@ const jsonLd = jsonLdGraph(...graphNodes);
     />
     <title>{pageTitle}</title>
     <script type="application/ld+json" set:html={jsonLd} />
+    <ClientRouter />
   </head>
   <body>
+    <SiteLoader />
     <a class="skip-link" href="#main">Vai al contenuto</a>
     <Header />
     <main id="main">

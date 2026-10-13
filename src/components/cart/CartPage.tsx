@@ -40,9 +40,16 @@ export const CartPage: FC = () => {
   );
 
   const onCopy = async () => {
-    try {
+    const copy = async () => {
       await navigator.clipboard.writeText(orderMessage);
       setCopyStatus('Testo ordine copiato negli appunti.');
+    };
+    try {
+      if (window.siteLoader?.run) {
+        await window.siteLoader.run(copy);
+      } else {
+        await copy();
+      }
     } catch {
       setCopyStatus('Copia non riuscita: seleziona e copia manualmente il testo sotto.');
     }

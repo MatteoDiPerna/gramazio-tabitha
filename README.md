@@ -10,6 +10,7 @@ Sito web per **Azienda Agricola Gramazio Tabitha** (Carpino, FG): catalogo prodo
 
 Analisi completa: [docs/strctural_analysis.md](./docs/strctural_analysis.md)  
 Architettura codice: [docs/architecture.md](./docs/architecture.md)  
+Mappa URL → file pagina: [docs/page-paths.md](./docs/page-paths.md)  
 Checklist operativa: [implementation-checklist.md](./implementation-checklist.md)  
 Listino prodotti v1: [docs/listino.md](./docs/listino.md)
 

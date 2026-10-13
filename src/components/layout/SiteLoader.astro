@@ -1,0 +1,66 @@
+<div
+  id="site-loader"
+  class="site-loader"
+  role="status"
+  aria-live="polite"
+  aria-busy="true"
+  aria-label="Caricamento in corso"
+>
+  <img
+    class="site-loader__logo"
+    src="/logo.png"
+    alt=""
+    width="1190"
+    height="1190"
+    decoding="async"
+  />
+</div>
+
+<script>
+  import { initSiteLoader } from '@/scripts/siteLoader';
+
+  initSiteLoader();
+</script>
+
+<style is:global>
+  .site-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg);
+    transition:
+      opacity 0.35s ease,
+      visibility 0.35s ease;
+  }
+
+  .site-loader.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .site-loader__logo {
+    width: clamp(4.5rem, 14vw, 7.5rem);
+    height: auto;
+    object-fit: contain;
+    animation: site-loader-pulse 1s ease-in-out infinite;
+  }
+
+  @keyframes site-loader-pulse {
+    0%,
+    100% {
+      opacity: 0.2;
+    }
+
+    50% {
+      opacity: 1;
+    }
+  }
+
+  html.site-is-loading {
+    overflow: hidden;
+  }
+</style>
