@@ -1,5 +1,7 @@
 :root {
   --color-bg: #fafaf7;
+  /** Sfondo packshot prodotti (allineato a placeholder e foto in `public/images/products/`) */
+  --color-product-shot-bg: #f7f3ea;
   --color-surface: #ffffff;
   --color-text: #2c2a26;
   --color-text-muted: #5c574f;

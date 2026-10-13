@@ -1,77 +1,183 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import PageContainer from '@/components/layout/PageContainer.astro';
-import Button from '../components/ui/Button.astro';
-import { siteConfig } from '../config/site.config';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/ui/Button.astro';
+import { siteConfig } from '@/config/site.config';
 
 const { address } = siteConfig;
-const mapsQuery = encodeURIComponent(
-  `${address.street}, ${address.postalCode} ${address.city}`,
+const addressLine1 = address.street;
+const addressLine2 = `${address.city}, ${address.postalCode}, ${address.province}`;
+const addressLine3 = address.country === 'IT' ? 'Italia' : address.country;
+
+const mapsSearch = encodeURIComponent(
+  `${address.street}, ${address.postalCode} ${address.city} ${address.province}, Italia`,
 );
+const mapsEmbedSrc = `https://www.google.com/maps?q=${mapsSearch}&z=16&hl=it&output=embed`;
+const mapsDirectionsHref = `https://www.google.com/maps/search/?api=1&query=${mapsSearch}`;
 ---
 
 <BaseLayout title="Contatti" description="Telefono, email e indirizzo dell'azienda agricola.">
-  <PageContainer centered prose>
-    <h1 class="page-title">Contatti</h1>
-    <p class="lead">Parla direttamente con noi per ordini, disponibilità e spedizioni.</p>
-    <dl class="contact-list">
-      <div>
-        <dt>Indirizzo</dt>
-        <dd>
-          {address.street}<br />
-          {address.postalCode} {address.city} ({address.province})
-        </dd>
+  <div class="contact-page">
+    <section class="contact-page__head" aria-labelledby="contact-title">
+      <div class="container contact-page__head-inner">
+        <h1 id="contact-title" class="contact-page__title">Contatti</h1>
+        <p class="contact-page__lead">
+          Siamo a disposizione per qualsiasi informazione su ordini, disponibilità e prodotti.
+        </p>
       </div>
-      <div>
-        <dt>Telefono</dt>
-        <dd><a href={`tel:${siteConfig.phoneTel}`}>{siteConfig.phoneDisplay}</a></dd>
+    </section>
+
+    <section class="contact-page__details" aria-label="Recapiti">
+      <div class="container contact-page__grid">
+        <div class="contact-block">
+          <h2 class="contact-block__label">Indirizzo</h2>
+          <p class="contact-block__value">
+            {addressLine1}<br />
+            {addressLine2}<br />
+            {addressLine3}
+          </p>
+        </div>
+
+        <div class="contact-block">
+          <h2 class="contact-block__label">Telefono</h2>
+          <p class="contact-block__value">
+            <a href={`tel:${siteConfig.phoneTel}`}>{siteConfig.phoneDisplay}</a>
+          </p>
+          <Button href={`tel:${siteConfig.phoneTel}`} variant="secondary" class="contact-block__btn">
+            Chiama
+          </Button>
+        </div>
+
+        <div class="contact-block">
+          <h2 class="contact-block__label">E mail</h2>
+          <p class="contact-block__value">
+            <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+          </p>
+        </div>
       </div>
-      <div>
-        <dt>Email</dt>
-        <dd><a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a></dd>
-      </div>
-    </dl>
-    <div class="contact-actions">
-      <Button href={`tel:${siteConfig.phoneTel}`} variant="primary">Chiama</Button>
-      <Button href={`mailto:${siteConfig.email}`} variant="secondary">Scrivi email</Button>
-    </div>
-    <p class="map-link">
-      <a
-        href={`https://www.google.com/maps/search/?api=1&query=${mapsQuery}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Apri indirizzo in mappe
-      </a>
-    </p>
-  </PageContainer>
+    </section>
+
+    <section class="contact-map layout-bleed" aria-label="Mappa sede">
+      <iframe
+        class="contact-map__frame"
+        title={`Mappa — ${siteConfig.name}, ${addressLine1}, ${address.city}`}
+        src={mapsEmbedSrc}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+      />
+      <p class="contact-map__fallback container">
+        <a href={mapsDirectionsHref} target="_blank" rel="noopener noreferrer">
+          Apri indicazioni stradali in Google Maps
+        </a>
+      </p>
+    </section>
+  </div>
 </BaseLayout>
 
 <style>
-  .contact-list {
+  .contact-page {
+    background: var(--color-bg);
+  }
+
+  .contact-page__head {
+    padding: var(--space-xl) 0 var(--space-lg);
+    text-align: center;
+  }
+
+  .contact-page__head-inner {
+    max-width: 40rem;
+    margin-inline: auto;
+  }
+
+  .contact-page__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--color-primary);
+    margin: 0 0 var(--space-md);
+  }
+
+  .contact-page__lead {
+    margin: 0;
+    font-size: 1.0625rem;
+    color: var(--color-text-muted);
+    line-height: 1.55;
+  }
+
+  .contact-page__details {
+    padding: 0 0 var(--space-2xl);
+  }
+
+  .contact-page__grid {
     display: grid;
     gap: var(--space-lg);
-    margin: var(--space-xl) 0;
+    text-align: center;
+    max-width: 52rem;
+    margin-inline: auto;
   }
 
-  .contact-list dt {
+  @media (min-width: 768px) {
+    .contact-page__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: var(--space-xl);
+      row-gap: var(--space-lg);
+      align-items: start;
+    }
+  }
+
+  .contact-block__label {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
     font-weight: 600;
     color: var(--color-primary);
+    margin: 0 0 var(--space-md);
   }
 
-  .contact-list dd {
-    margin: var(--space-xs) 0 0;
+  .contact-block__value {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--color-text);
   }
 
-  .contact-actions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--space-md);
+  .contact-block__value a {
+    text-decoration: none;
+    color: inherit;
   }
 
-  .map-link {
+  .contact-block__value a:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  .contact-block__btn:global(.btn) {
     margin-top: var(--space-xl);
-    font-size: 0.9375rem;
+    min-width: 10.5rem;
+  }
+
+  .contact-map {
+    position: relative;
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+
+  .contact-map__frame {
+    display: block;
+    width: 100%;
+    height: clamp(16rem, 42vh, 28rem);
+    border: 0;
+    filter: grayscale(0.15) contrast(0.98);
+  }
+
+  .contact-map__fallback {
+    margin: 0;
+    padding: var(--space-sm) 0 var(--space-md);
+    text-align: center;
+    font-size: 0.875rem;
+  }
+
+  .contact-map__fallback a {
+    color: var(--color-text-muted);
   }
 </style>
