@@ -1,8 +1,12 @@
 ---
-import { siteConfig } from '@/config/site.config';
+import { siteConfig, isNavHrefActive } from '@/config/site.config';
 import { CartNavLink } from '../cart/CartNavLink';
 
 const path = Astro.url.pathname;
+
+function isGroupActive(links: readonly { href: string }[]): boolean {
+  return links.some((link) => isNavHrefActive(link.href, path));
+}
 ---
 
 <header class="header header--overlay layout-bleed">
@@ -21,17 +25,57 @@ const path = Astro.url.pathname;
     <nav class="header__nav" id="site-nav" aria-label="Principale">
       <ul class="header__list">
         {
-          siteConfig.nav.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                class:list={['header__link', { 'is-active': path.startsWith(item.href) }]}
-                aria-current={path.startsWith(item.href) ? 'page' : undefined}
+          siteConfig.nav.map((item) => {
+            if (item.kind === 'link') {
+              const active = isNavHrefActive(item.href, path);
+              return (
+                <li class="header__item">
+                  <a
+                    href={item.href}
+                    class:list={['header__link', { 'is-active': active }]}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              );
+            }
+
+            const groupActive = isGroupActive(item.links);
+            return (
+              <li
+                class:list={['header__item', 'header__item--disclosure', { 'is-active': groupActive }]}
+                data-nav-disclosure
               >
-                {item.label}
-              </a>
-            </li>
-          ))
+                <button
+                  type="button"
+                  class="header__link header__menu-trigger"
+                  aria-expanded="false"
+                  aria-controls={item.menuId}
+                  data-nav-disclosure-trigger
+                >
+                  {item.label}
+                  <span class="header__menu-chevron" aria-hidden="true" />
+                </button>
+                <ul id={item.menuId} class="header__submenu" data-nav-disclosure-panel>
+                  {item.links.map((link) => {
+                    const active = isNavHrefActive(link.href, path);
+                    return (
+                      <li>
+                        <a
+                          href={link.href}
+                          class:list={['header__sublink', { 'is-active': active }]}
+                          aria-current={active ? 'page' : undefined}
+                        >
+                          {link.label}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </li>
+            );
+          })
         }
       </ul>
     </nav>
@@ -52,6 +96,7 @@ const path = Astro.url.pathname;
 
 <script>
   import { initHeaderScroll } from '@/scripts/headerScroll';
+  import { initHeaderNavMenu } from '@/scripts/headerNavMenu';
 
   const toggle = document.getElementById('nav-toggle');
   const nav = document.getElementById('site-nav');
@@ -61,8 +106,13 @@ const path = Astro.url.pathname;
     initHeaderScroll();
   });
 
-  initHeaderScroll();
-  document.addEventListener('astro:page-load', initHeaderScroll);
+  function initHeader() {
+    initHeaderScroll();
+    initHeaderNavMenu();
+  }
+
+  initHeader();
+  document.addEventListener('astro:page-load', initHeader);
 </script>
 
 <style>
@@ -92,17 +142,20 @@ const path = Astro.url.pathname;
     box-shadow: 0 1px 0 rgb(0 0 0 / 0.04);
   }
 
-  .header.header--overlay:not(.header--solid) .header__link {
+  .header.header--overlay:not(.header--solid) .header__link,
+  .header.header--overlay:not(.header--solid) .header__menu-trigger {
     color: #fff;
     text-shadow: 0 1px 4px rgb(0 0 0 / 0.45);
   }
 
-  .header.header--overlay:not(.header--solid) .header__link:hover {
+  .header.header--overlay:not(.header--solid) .header__link:hover,
+  .header.header--overlay:not(.header--solid) .header__menu-trigger:hover {
     color: #fff;
     background: rgb(255 255 255 / 0.12);
   }
 
-  .header.header--overlay:not(.header--solid) .header__link.is-active {
+  .header.header--overlay:not(.header--solid) .header__link.is-active,
+  .header.header--overlay:not(.header--solid) .header__item--disclosure.is-active .header__menu-trigger {
     color: #fff;
     font-weight: 600;
   }
@@ -192,23 +245,83 @@ const path = Astro.url.pathname;
     gap: var(--space-sm);
   }
 
-  .header__link {
+  .header__item {
+    margin: 0;
+    padding: 0;
+  }
+
+  .header__link,
+  .header__menu-trigger {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    width: 100%;
+    min-height: var(--touch-min);
+    padding: 0;
+    text-decoration: none;
+    font: inherit;
+    font-weight: 500;
+    color: var(--color-text);
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    cursor: pointer;
+    text-align: start;
+  }
+
+  .header__link:hover,
+  .header__menu-trigger:hover {
+    color: var(--color-primary);
+    background: var(--color-bg);
+  }
+
+  .header__link.is-active {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .header__menu-chevron {
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-inline-start: auto;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    translate: 0 -0.15rem;
+    opacity: 0.75;
+  }
+
+  .header__submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0 var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .header__sublink {
     display: flex;
     align-items: center;
     min-height: var(--touch-min);
     padding: 0;
     text-decoration: none;
     font-weight: 500;
-    color: var(--color-text);
+    color: var(--color-text-muted, var(--color-text));
     border-radius: var(--radius-sm);
   }
 
-  .header__link:hover {
+  .header__sublink:hover {
     color: var(--color-primary);
     background: var(--color-bg);
   }
 
-  .header__link.is-active {
+  .header__sublink.is-active {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .header__item--disclosure.is-active .header__menu-trigger {
     color: var(--color-primary);
     font-weight: 600;
   }
@@ -236,6 +349,46 @@ const path = Astro.url.pathname;
 
     .header__actions {
       margin-inline-start: 0;
+    }
+
+    .header__link,
+    .header__menu-trigger {
+      width: auto;
+    }
+
+    .header__menu-chevron {
+      margin-inline-start: 0.15rem;
+      translate: 0 -0.1rem;
+    }
+
+    .header__item--disclosure {
+      position: relative;
+    }
+
+    .header__submenu {
+      position: absolute;
+      top: calc(100% + var(--space-xs));
+      right: 0;
+      z-index: 110;
+      min-width: 13.5rem;
+      padding: var(--space-sm);
+      gap: var(--space-xs);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      box-shadow: 0 8px 24px rgb(0 0 0 / 0.08);
+      display: none;
+    }
+
+    .header__item--disclosure.is-open .header__submenu,
+    .header__item--disclosure:focus-within .header__submenu,
+    .header__item--disclosure:hover .header__submenu {
+      display: flex;
+    }
+
+    .header__sublink {
+      padding: 0 var(--space-sm);
+      min-height: 2.5rem;
     }
   }
 </style>

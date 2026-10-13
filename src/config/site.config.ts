@@ -40,12 +40,31 @@ export const siteConfig = {
     'La richiesta non costituisce ordine confermato: l\'azienda ti ricontatterà per disponibilità, ' +
     'spedizione e pagamento.',
 
+  /** Menu header: Prodotti · Azienda (sotto-menu) · Contatti */
   nav: [
-    { href: '/catalogo', label: 'Prodotti' },
-    { href: '/chi-siamo', label: 'Chi siamo' },
-    { href: '/faq', label: 'FAQ' },
-    { href: '/contatti', label: 'Contatti' },
+    { kind: 'link', href: '/catalogo', label: 'Prodotti' },
+    {
+      kind: 'group',
+      label: 'Azienda',
+      menuId: 'nav-azienda',
+      links: [
+        { href: '/chi-siamo', label: 'Chi siamo' },
+        { href: '/faq', label: 'Ordini e spedizioni' },
+      ],
+    },
+    { kind: 'link', href: '/contatti', label: 'Contatti' },
   ],
 } as const;
 
 export type SiteConfig = typeof siteConfig;
+
+export type NavLinkItem = Extract<(typeof siteConfig.nav)[number], { kind: 'link' }>;
+export type NavGroupItem = Extract<(typeof siteConfig.nav)[number], { kind: 'group' }>;
+
+/** Voce attiva in base al pathname (catalogo include le schede prodotto). */
+export function isNavHrefActive(href: string, pathname: string): boolean {
+  if (href === '/catalogo') {
+    return pathname.startsWith('/catalogo') || pathname.startsWith('/prodotti');
+  }
+  return pathname.startsWith(href);
+}

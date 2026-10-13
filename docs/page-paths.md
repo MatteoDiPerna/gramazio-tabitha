@@ -16,7 +16,7 @@ Modifiche a **header, footer, menu, SEO di base, stili globali** → allega alme
 | Header + menu principale | `src/components/layout/Header.astro` |
 | Footer + link legali | `src/components/layout/Footer.astro` |
 | FAB WhatsApp / telefono | `src/components/layout/WhatsAppFab.astro` |
-| Voci menu header | `src/config/site.config.ts` (`nav`, contatti, testi sito) |
+| Voci menu header | `src/config/site.config.ts` (`nav`: Prodotti · Azienda ▾ · Contatti), `src/scripts/headerNavMenu.ts` |
 | Link footer (FAQ, privacy, …) | `src/content/navigation.ts` |
 | Stili globali + token | `src/styles/global.css`, `src/styles/tokens.css` |
 | Config build / sitemap | `astro.config.mjs` |
