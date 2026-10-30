@@ -119,6 +119,9 @@ export const homeQuoteDivider = {
 export const homeReviewsSection = {
   eyebrow: 'Testimonianze',
   title: 'Dicono di noi',
+  /** Placeholder finché non arrivano recensioni verificabili dal cliente */
+  disclaimer:
+    'Esempi di feedback tipico: sostituire con recensioni reali o rimuovere la sezione dopo approvazione.',
   items: [
     {
       name: 'Marco R.',

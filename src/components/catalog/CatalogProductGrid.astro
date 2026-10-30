@@ -1,0 +1,26 @@
+---
+import type { Product } from '@/domain/catalog/catalog.schema';
+import ProductCard from '@/components/catalog/ProductCard.astro';
+
+interface Props {
+  products: Product[];
+}
+
+const { products } = Astro.props;
+---
+
+<ul class="product-grid catalog-grid">
+  {
+    products.map((product) => (
+      <li>
+        <ProductCard product={product} />
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .catalog-grid {
+    margin-top: var(--space-xl);
+  }
+</style>

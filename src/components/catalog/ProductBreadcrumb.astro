@@ -1,0 +1,55 @@
+---
+import { catalogCategories } from '@/domain/catalog/catalogCategories';
+import type { Product } from '@/domain/catalog/catalog.schema';
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const categoryLabel =
+  catalogCategories.find((c) => c.id === product.category)?.label ?? product.category;
+---
+
+<nav class="product-breadcrumb" aria-label="Percorso">
+  <ol>
+    <li><a href="/catalogo">Catalogo</a></li>
+    <li>
+      <a href={`/catalogo?categoria=${product.category}`}>{categoryLabel}</a>
+    </li>
+    <li aria-current="page">{product.name}</li>
+  </ol>
+</nav>
+
+<style>
+  .product-breadcrumb ol {
+    list-style: none;
+    margin: 0 0 var(--space-lg);
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  .product-breadcrumb li:not(:last-child)::after {
+    content: '›';
+    margin-inline-start: 0.5rem;
+    opacity: 0.6;
+  }
+
+  .product-breadcrumb a {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .product-breadcrumb a:hover {
+    text-decoration: underline;
+  }
+
+  .product-breadcrumb [aria-current='page'] {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+</style>

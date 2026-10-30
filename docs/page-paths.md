@@ -22,6 +22,7 @@ Modifiche a **header, footer, menu, SEO di base, stili globali** → allega alme
 | Config build / sitemap | `astro.config.mjs` |
 | Loader navigazione / refresh | `src/components/layout/SiteLoader.astro`, `src/scripts/siteLoader.ts` |
 | **Banner titolo pagina** (foto + titolo + sottotitolo) | `src/components/layout/PageHero.astro`, `src/content/pageHeroes.ts` |
+| **Header trasparente su banner foto** | `src/scripts/headerScroll.ts` — attivo se in `main` c’è `.page-hero--photo`; pagine `size="compact"` (es. carrello) usano header solido |
 
 Il carrello in header è un’isola React: `src/components/cart/CartNavLink.tsx`, `src/hooks/useCart.ts`.
 
@@ -62,7 +63,8 @@ Il carrello in header è un’isola React: `src/components/cart/CartNavLink.tsx`
 
 | Cosa modifichi | Path |
 |----------------|------|
-| Layout catalogo, filtri, griglia | `src/pages/catalogo/index.astro` |
+| Layout catalogo, filtri, griglia | `src/pages/catalogo/index.astro`, `src/components/catalog/Catalog*.astro` |
+| Intro testuale catalogo | `src/content/catalogPage.ts`, `CatalogIntro.astro` |
 | Etichette categorie | `src/domain/catalog/catalogCategories.ts` |
 | Elenco prodotti, prezzi, categorie | `src/domain/catalog/products.data.ts` |
 | Schema / tipi prodotto | `src/domain/catalog/catalog.schema.ts` |
@@ -92,7 +94,9 @@ Il carrello in header è un’isola React: `src/components/cart/CartNavLink.tsx`
 
 | Cosa modifichi | Path |
 |----------------|------|
-| Layout scheda, testi struttura | `src/pages/prodotti/[slug].astro` |
+| Layout scheda, testi struttura | `src/pages/prodotti/[slug].astro`, `src/components/catalog/ProductDetail.astro` |
+| Breadcrumb, correlati | `ProductBreadcrumb.astro`, `src/domain/catalog/query.ts` |
+| Acquisto / varianti | `src/components/cart/ProductPurchasePanel.tsx` |
 | Dati prodotto | `src/domain/catalog/products.data.ts` |
 | Immagine statica | `src/domain/catalog/productImage.ts`, `public/images/products/` |
 | Viewer 360° | `src/components/catalog/ProductSpinViewer.tsx`, `src/domain/catalog/productSpin.ts`, `public/images/products/{slug}/360/` |
@@ -113,8 +117,8 @@ Il carrello in header è un’isola React: `src/components/cart/CartNavLink.tsx`
 
 | Cosa modifichi | Path |
 |----------------|------|
-| Titolo / intro pagina | `src/pages/carrello.astro` |
-| UI carrello, form ordine, pulsanti invio | `src/components/cart/CartPage.tsx` |
+| Titolo / intro pagina | `src/pages/carrello.astro` (`PageHero` `size="compact"`) |
+| UI carrello, form ordine, pulsanti invio | `src/components/cart/CartPage.tsx`, `src/components/cart/cartPage.css` |
 | Stato carrello (client) | `src/hooks/useCart.ts`, `src/domain/cart/storage.ts`, `src/domain/cart/logic.ts`, `src/domain/cart/types.ts` |
 | Testo messaggio ordine | `src/domain/order/orderMessage.ts` |
 | Link email / WhatsApp | `src/domain/order/mailto.ts`, `src/domain/order/whatsapp.ts` |
@@ -130,7 +134,7 @@ Il carrello in header è un’isola React: `src/components/cart/CartNavLink.tsx`
 | **URL** | `/chi-siamo` |
 | **File pagina** | `src/pages/chi-siamo.astro` |
 
-Contenuto principalmente inline nella pagina. Per coerenza tipografica: `src/components/layout/PageContainer.astro`.
+Copy strutturato in `src/content/chiSiamo.ts`; layout in `src/pages/chi-siamo.astro`.
 
 ---
 
@@ -161,8 +165,9 @@ Contenuto principalmente inline nella pagina. Per coerenza tipografica: `src/com
 
 | Cosa modifichi | Path |
 |----------------|------|
-| Struttura pagina | `src/pages/faq.astro` |
-| Domande / risposte | `src/content/faq.ts` |
+| Struttura pagina | `src/pages/faq.astro`, `src/components/faq/FaqAccordion.tsx` |
+| Domande / risposte | `src/content/faq.ts` (campo `id` per anchor `#slug`) |
+| JSON-LD FAQ | `src/domain/seo/structured-data.ts` (`buildFaqPageJsonLd`) |
 
 ---
 

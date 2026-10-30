@@ -14,7 +14,7 @@ Aggiornare le checkbox man mano che si completa il lavoro.
 | [docs/concorrenti.md](./docs/concorrenti.md) | Benchmark «Chi siamo» e racconto |
 | [docs/testing.md](./docs/testing.md) | Collaudo manuale |
 
-**Ultimo aggiornamento worklog:** 2026-10-13
+**Ultimo aggiornamento worklog:** 2026-10-30
 
 ---
 
@@ -56,9 +56,9 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 
 - [ ] **P1** — Collaudo manuale completo ([docs/testing.md](./docs/testing.md), tabella in `implementation-checklist.md`)
 - [ ] **P1** — Lighthouse mobile ≥ 85, accessibilità flussi principali (F10.02)
-- [ ] **P2** — ESLint + Prettier (mancanti, citati in F03)
+- [x] **P2** — ESLint + Prettier (F03) — `eslint.config.js`, script `npm run lint` / `format`
 - [ ] **P2** — Immagini hero/WebP: pipeline o asset ottimizzati (F11.04)
-- [ ] **P2** — Documentare header overlay in `docs/page-paths.md` (`headerScroll.ts`)
+- [x] **P2** — Documentare header overlay in `docs/page-paths.md` (`headerScroll.ts`)
 - [ ] **P2** — Banner cookie solo se si aggiunge analytics (F12.02)
 - [ ] **P2** — Deploy Vercel + smoke test (F15) — **dopo** miglioramento v1
 
@@ -67,7 +67,7 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 ## Homepage (`src/pages/index.astro`)
 
 - [ ] **P1** — Copy definitivo sezioni (allineare `homePage.ts` al materiale cliente)
-- [ ] **P1** — Recensioni: fonte reale o rimuovere/soften se placeholder
+- [x] **P1** — Recensioni: disclaimer esplicito placeholder in `homePage.ts` + homepage
 - [ ] **P2** — Ridurre peso JS (galleria, bundle React) se Lighthouse lo richiede
 - [ ] **P2** — Coerenza eyebrow sezioni interne vs banner (opzionale)
 
@@ -75,49 +75,49 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 
 ## Catalogo — refactoring (`src/pages/catalogo/index.astro`)
 
-- [ ] **P0** — Refactoring pagina prodotti (catalogo): estrarre filtri + griglia in componenti dedicati
-- [ ] **P1** — Intro testuale sotto banner (come competitor: titolo H2 + paragrafo categoria)
-- [ ] **P1** — Stato filtro categoria più visibile (breadcrumb o titolo sezione)
-- [ ] **P1** — Empty state e messaggi quando listino incompleto
-- [ ] **P2** — Ordinamento prodotti (nome, categoria, disponibilità)
-- [ ] **P2** — SEO: testi meta per `?categoria=` (description dedicata)
-- [ ] **P2** — Allineare `products.data.ts` ↔ immagini reali già in `public/` (evitare placeholder SVG se foto esistono)
+- [x] **P0** — Refactoring pagina prodotti (catalogo): filtri + griglia + intro in componenti dedicati
+- [x] **P1** — Intro testuale sotto banner (H2 + paragrafo categoria in `catalogPage.ts`)
+- [x] **P1** — Stato filtro categoria più visibile (breadcrumb intro + titolo hero categoria)
+- [x] **P1** — Empty state e messaggi quando listino incompleto
+- [x] **P2** — Ordinamento prodotti (nome; helper `sortPublishedProducts`)
+- [x] **P2** — SEO: meta description per `?categoria=` (`catalogMetaDescription`)
+- [ ] **P2** — Allineare `products.data.ts` ↔ immagini reali già in `public/` (evitare placeholder SVG se foto esistono) — **in attesa foto cliente**
 
 ---
 
 ## Scheda prodotto singolo — migliorare (`src/pages/prodotti/[slug].astro`)
 
-- [ ] **P0** — Migliorare pagina prodotto singolo (layout, gerarchia, mobile)
-- [ ] **P0** — Lead banner: sottotitolo breve da prodotto (non stringa fissa «Scheda prodotto…»)
-- [ ] **P1** — Selettore **varianti/formato** quando `variants.length > 1`
-- [ ] **P1** — Breadcrumb (Catalogo → categoria → prodotto)
-- [ ] **P1** — Blocco acquisto sticky su mobile (qty + aggiungi ordine)
-- [ ] **P1** — Sezione «Informazioni» arricchita (ingredienti, conservazione, allergeni — solo dati verificati)
-- [ ] **P1** — Prodotti correlati / stessa categoria in fondo pagina
-- [ ] **P1** — Estrarre `ProductDetail.astro` (+ eventuale CSS modulo) da `[slug].astro`
-- [ ] **P2** — Galleria statica oltre al 360° (fallback se pochi frame)
-- [ ] **P2** — Tab o accordion per descrizione lunga
-- [ ] **P2** — Open Graph sempre con foto prodotto reale (già parzialmente via `ogImagePath`)
+- [x] **P0** — Migliorare pagina prodotto singolo (layout, gerarchia, mobile) → `ProductDetail.astro`
+- [x] **P0** — Lead banner: sottotitolo breve da prodotto (`shortDescription`)
+- [x] **P1** — Selettore **varianti/formato** quando `variants.length > 1` → `ProductPurchasePanel.tsx`
+- [x] **P1** — Breadcrumb (Catalogo → categoria → prodotto)
+- [x] **P1** — Blocco acquisto sticky su mobile
+- [x] **P1** — Sezione «Informazioni» arricchita (schema `productInfo`; dati solo se presenti)
+- [x] **P1** — Prodotti correlati / stessa categoria in fondo pagina
+- [x] **P1** — Estrarre `ProductDetail.astro` da `[slug].astro`
+- [x] **P2** — Galleria statica oltre al 360° (fallback `fallbackSrc` nel viewer)
+- [x] **P2** — Tab o accordion per descrizione lunga (`<details>` se testo > 220 car.)
+- [ ] **P2** — Open Graph sempre con foto prodotto reale — **dipende asset cliente** (logica `ogImagePath` già attiva)
 
 ---
 
 ## Refactoring area prodotti (catalogo + scheda + dominio)
 
-- [ ] **P1** — Refactoring page prodotti: contenuti strutturati in `src/content/` o campi schema catalogo (non solo prose inline)
-- [ ] **P1** — Unificare formattazione prezzo/disponibilità tra `ProductCard` e scheda
-- [ ] **P2** — Test integrazione catalogo + spin (`productSpin.test.ts`, casi mancanti)
-- [ ] **P2** — Guida aggiornamento schede in [docs/catalog-management.md](./docs/catalog-management.md)
+- [x] **P1** — Contenuti catalogo intro in `src/content/catalogPage.ts`
+- [x] **P1** — Unificare formattazione prezzo/disponibilità tra `ProductCard` e scheda (`display.ts` + `ProductPurchasePanel`)
+- [x] **P2** — Test dominio catalogo (`query.test.ts`, FAQ JSON-LD)
+- [x] **P2** — Guida aggiornamento schede in [docs/catalog-management.md](./docs/catalog-management.md)
 
 ---
 
 ## Chi siamo — refactoring (`src/pages/chi-siamo.astro`)
 
-- [ ] **P0** — Refactoring page chi siamo (da placeholder a pagina completa)
-- [ ] **P0** — Spostare copy in `src/content/chiSiamo.ts` (sezioni tipizzate)
-- [ ] **P1** — Layout multi-sezione (hero + blocchi foto/testo, stile home / [docs/concorrenti.md](./docs/concorrenti.md))
-- [ ] **P1** — Sezioni: territorio (Carpino/Gargano), approccio produttivo, prodotti, trasparenza/certificazioni **solo claim documentati**
-- [ ] **P1** — Galleria o immagini autentiche (`public/images/home/` o dedicate)
-- [ ] **P1** — CTA verso catalogo e contatti
+- [x] **P0** — Refactoring page chi siamo (da placeholder a pagina multi-sezione)
+- [x] **P0** — Spostare copy in `src/content/chiSiamo.ts` (sezioni tipizzate)
+- [x] **P1** — Layout multi-sezione (hero + blocchi foto/testo)
+- [x] **P1** — Sezioni: territorio, approccio, prodotti, trasparenza (**solo claim documentati**)
+- [x] **P1** — Galleria o immagini autentiche (`public/images/home/`)
+- [x] **P1** — CTA verso catalogo e contatti
 - [ ] **P2** — Timeline storia (solo dopo dati confermati dall’azienda)
 - [ ] **P2** — Hub opzionale «Territorio» / «Produzione» se il contenuto cresce
 
@@ -125,26 +125,26 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 
 ## FAQ — refactoring (`src/pages/faq.astro`, `src/content/faq.ts`)
 
-- [ ] **P0** — Refactoring page FAQ (UX + contenuti)
-- [ ] **P1** — Accordion accessibile (espandi/chiudi) al posto del `<dl>` statico
-- [ ] **P1** — Reintrodurre intro (`faqIntro`) sotto banner o in apertura contenuto
+- [x] **P0** — Refactoring page FAQ (UX + contenuti)
+- [x] **P1** — Accordion accessibile → `FaqAccordion.tsx`
+- [x] **P1** — Reintrodurre intro (`faqIntro`)
 - [ ] **P1** — Allineare risposte a dati reali spedizioni/pagamenti (quando disponibili)
-- [ ] **P1** — JSON-LD `FAQPage` in `structured-data.ts`
-- [ ] **P2** — Anchor link per singola domanda (`#slug-domanda`)
-- [ ] **P2** — Link incrociati carrello / contatti / privacy
+- [x] **P1** — JSON-LD `FAQPage` in `structured-data.ts`
+- [x] **P2** — Anchor link per singola domanda (`id` in `faq.ts`, es. `/faq#spedizioni`)
+- [x] **P2** — Link incrociati carrello / contatti / privacy
 
 ---
 
 ## Carrello — refactoring (`src/pages/carrello.astro`, `CartPage.tsx`)
 
-- [ ] **P0** — Refactoring page carrello (layout + UX invio ordine)
-- [ ] **P1** — Valutare banner foto vs header compatto (pagina strumento)
-- [ ] **P1** — Stili carrello: estrarre CSS da inline/global sparsi → modulo dedicato
-- [ ] **P1** — Empty state e riepilogo visivamente allineati al design system
-- [ ] **P1** — Barra azioni sticky mobile (WhatsApp / email / copia)
-- [ ] **P1** — Validazione leggera campi (telefono, nome) prima di aprire `mailto:` / WA
-- [ ] **P2** — Anteprima messaggio ordine collassabile
-- [ ] **P2** — Messaggio errore se prodotti non più disponibili nel catalogo
+- [x] **P0** — Refactoring page carrello (layout + UX invio ordine)
+- [x] **P1** — Header compatto senza banner foto (`PageHero` `size="compact"`)
+- [x] **P1** — Stili carrello in `cartPage.css`
+- [x] **P1** — Empty state e riepilogo allineati al design system
+- [x] **P1** — Barra azioni sticky mobile
+- [x] **P1** — Validazione leggera telefono prima di WA / email
+- [x] **P2** — Anteprima messaggio ordine collassabile (`<details>`)
+- [x] **P2** — Messaggio se prodotti non più disponibili (`syncCartWithCatalog` + avviso UI)
 
 ---
 
@@ -153,7 +153,7 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 ### Contatti (`src/pages/contatti.astro`)
 
 - [ ] **P1** — Copy e recapiti definitivi
-- [ ] **P2** — Mappa: marker custom o link Maps app
+- [x] **P2** — Mappa: link Maps app (indicazioni stradali)
 
 ### Pagine legali
 
@@ -161,15 +161,15 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 
 ### Header / footer
 
-- [ ] **P2** — Chiudere menu mobile su navigazione (View Transitions)
-- [ ] **P2** — Stato header su pagine senza banner (se aggiunte in futuro)
+- [x] **P2** — Chiudere menu mobile su navigazione (View Transitions)
+- [x] **P2** — Stato header su pagine senza banner (`page-hero--compact` → header solido)
 
 ---
 
 ## Qualità codice e CI
 
-- [ ] **P1** — `npm run build` + `npm test` + `npm run check:release` prima di ogni merge significativo
-- [ ] **P2** — Ampliare test dominio (catalog display, order message edge cases)
+- [ ] **P1** — `npm run build` + `npm test` + `npm run check:release` prima di ogni merge significativo (processo; build/test OK al 2026-10-30)
+- [x] **P2** — Ampliare test dominio (catalog query, cart validation, FAQ JSON-LD)
 - [ ] **P2** — Aggiornare `implementation-checklist.md` quando una voce di questo worklog chiude un intero tema
 
 ---
@@ -177,8 +177,8 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 ## Ordine di lavoro suggerito
 
 1. Dati cliente bloccanti (listino, foto, legali, WhatsApp) — in parallelo dove possibile  
-2. **Scheda prodotto** + **refactoring catalogo**  
-3. **Chi siamo**, **FAQ**, **carrello**  
+2. ~~Scheda prodotto~~ + ~~refactoring catalogo~~  
+3. ~~Chi siamo~~, ~~FAQ~~, ~~carrello~~  
 4. Collaudo + performance  
 5. Deploy (F15)
 
@@ -186,8 +186,67 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 
 ## Note sessione
 
-_Aggiungere qui brevi note su decisioni prese durante lo sviluppo (data + cosa)._
-
 | Data | Nota |
 |------|------|
 | 2026-10-13 | Creato `worklog.md`; banner/hero/header overlay implementati |
+| 2026-10-30 | Refactor catalogo, scheda prodotto, chi siamo, FAQ accordion, carrello; ESLint/Prettier; test aggiuntivi |
+
+---
+
+## Test manuali (post-implementazione)
+
+Verificare in locale (`npm run dev` o preview su `dist/`) e su mobile reale o emulazione.
+
+### Catalogo (`/catalogo`, filtri categoria)
+
+- Apri `/catalogo` e controlla intro testuale, filtri categoria e griglia prodotti ordinata per nome.
+- Usa `?categoria=olio`, `legumi`, `condimenti`: titolo hero, breadcrumb intro e meta (view-source / tag description) coerenti.
+- Con listino attuale (prezzi null): compare l’avviso giallo «listino in aggiornamento» sopra la griglia.
+- Filtro su categoria senza prodotti (se simulabile): empty state con link «Vedi tutti i prodotti».
+
+### Scheda prodotto (`/prodotti/{slug}`)
+
+- Banner: sottotitolo = `shortDescription` del prodotto (non testo fisso «Scheda prodotto…»).
+- Breadcrumb Catalogo → categoria → nome; link categoria tornano al catalogo filtrato.
+- Su mobile: barra sticky in basso con prezzo e «Aggiungi all’ordine»; su desktop il pulsante resta nel pannello principale.
+- Aggiungi al carrello, poi «Vai al riepilogo ordine».
+- Sezione Informazioni: descrizione, eventuale accordion per testi lunghi, campo conservazione su olio EVO.
+- In fondo: griglia «Della stessa categoria» (max 3) senza il prodotto corrente.
+
+### Carrello (`/carrello`)
+
+- Header compatto (senza foto banner); header sempre leggibile (non trasparente).
+- Empty state con link catalogo e contatti.
+- Con righe: totali, messaggio prezzi su richiesta se applicabile.
+- Telefono invalido (es. `123`) blocca WA/email con messaggio errore; telefono vuoto o valido consente l’invio.
+- Barra azioni sticky su mobile (WhatsApp / email / copia).
+- `<details>` anteprima messaggio; copia negli appunti.
+- Simula prodotto rimosso: imposta temporaneamente `published: false` su un id in `products.data.ts`, ricarica carrello → avviso rimozione righe.
+
+### FAQ (`/faq`)
+
+- Accordion: un pannello alla volta, `aria-expanded` sui pulsanti, navigazione da tastiera (Tab, Invio).
+- Anchor `#come-ordinare`, `#spedizioni`, ecc. aprono la sezione corretta (scroll + espansione al reload).
+- Link a carrello, contatti, privacy in fondo pagina.
+- JSON-LD `FAQPage` presente nel sorgente HTML.
+
+### Chi siamo (`/chi-siamo`)
+
+- Sezioni da `chiSiamo.ts`, immagini home, CTA catalogo e contatti.
+- Nessun claim non supportato (testi trasparenza).
+
+### Header / navigazione
+
+- Su pagine con banner foto: header trasparente in cima, solido dopo scroll.
+- Menu mobile: tap su voce nav chiude il drawer; navigazione con View Transitions tra pagine.
+- Sottomenu «Azienda» su desktop (hover/focus) e mobile.
+
+### Homepage
+
+- Disclaimer visibile sotto le recensioni (placeholder fino a testimonianze reali).
+
+### Qualità automatica
+
+- `npm test` — tutti i test verdi.
+- `npm run build` — build statica senza errori.
+- Opzionale: `npm run lint`, Lighthouse mobile su home, catalogo, scheda prodotto, carrello.

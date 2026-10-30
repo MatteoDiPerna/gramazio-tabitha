@@ -2,19 +2,9 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageContainer from '@/components/layout/PageContainer.astro';
 import PageHero from '@/components/layout/PageHero.astro';
-import Badge from '@/components/ui/Badge.astro';
-import Button from '@/components/ui/Button.astro';
-import { AddToCartButton } from '@/components/cart/AddToCartButton';
-import { canAddProductToCart } from '@/domain/cart/logic';
-import { getProductBySlug, getPublishedProducts } from '@/domain/catalog';
-import {
-  formatVariantPrice,
-  pricePerLiter,
-  productAvailabilityLabel,
-} from '@/domain/catalog/display';
+import ProductDetail from '@/components/catalog/ProductDetail.astro';
+import { getProductBySlug, getPublishedProducts, getRelatedProducts } from '@/domain/catalog';
 import { resolveProductImageSrc } from '@/domain/catalog/productImage';
-import { productSpinFrameUrls } from '@/domain/catalog/productSpin';
-import { ProductSpinViewer } from '@/components/catalog/ProductSpinViewer';
 import { buildProductJsonLd } from '@/domain/seo/structured-data';
 
 export function getStaticPaths() {
@@ -30,11 +20,10 @@ if (!product) {
   return Astro.redirect('/catalogo');
 }
 
-const variant = product.variants[0];
-const perLiter = pricePerLiter(variant);
-const canAdd = canAddProductToCart(product);
+const allPublished = getPublishedProducts();
+const related = getRelatedProducts(product, allPublished, 3);
 const imageSrc = resolveProductImageSrc(product);
-const spinFrames = productSpinFrameUrls(product.slug);
+const heroLead = product.shortDescription;
 ---
 
 <BaseLayout
@@ -45,128 +34,8 @@ const spinFrames = productSpinFrameUrls(product.slug);
   ogImagePath={imageSrc}
   jsonLdNodes={[buildProductJsonLd(product)]}
 >
-  <PageHero title={product.name} lead="Scheda prodotto e disponibilità" imageSrc={imageSrc} />
-  <PageContainer as="article" class="product-detail">
-    <div class="product-detail__grid">
-      <div class="product-detail__media">
-        <ProductSpinViewer
-          client:visible
-          slug={product.slug}
-          alt={product.image.alt}
-          fallbackSrc={imageSrc}
-          frameUrls={spinFrames}
-        />
-      </div>
-      <div>
-        <div class="product-detail__badges">
-          {product.badges?.includes('bio') && <Badge variant="bio">Bio</Badge>}
-          {product.badges?.includes('slow-food') && (
-            <Badge variant="slow-food">Slow Food</Badge>
-          )}
-        </div>
-        <dl class="product-detail__facts">
-          <div>
-            <dt>Formato</dt>
-            <dd>{variant.label}</dd>
-          </div>
-          <div>
-            <dt>Prezzo</dt>
-            <dd>
-              {formatVariantPrice(variant)}
-              {perLiter && ` · ${perLiter}`}
-            </dd>
-          </div>
-          <div>
-            <dt>Stato</dt>
-            <dd>{productAvailabilityLabel(product)}</dd>
-          </div>
-        </dl>
-        <AddToCartButton
-          client:load
-          productId={product.id}
-          variantId={variant.id}
-          canAdd={canAdd}
-        />
-        <div class="product-detail__actions">
-          <Button href="/catalogo" variant="secondary">Torna al catalogo</Button>
-          <Button href="/carrello" variant="primary">Vai al riepilogo ordine</Button>
-        </div>
-      </div>
-    </div>
-    {
-      product.description && (
-        <section class="product-detail__long prose">
-          <h2>Informazioni</h2>
-          <p>{product.description}</p>
-        </section>
-      )
-    }
+  <PageHero title={product.name} lead={heroLead} imageSrc={imageSrc} />
+  <PageContainer>
+    <ProductDetail product={product} related={related} />
   </PageContainer>
 </BaseLayout>
-
-<style>
-  .product-detail__grid {
-    display: grid;
-    gap: var(--space-xl);
-  }
-
-  @media (min-width: 768px) {
-    .product-detail__grid {
-      grid-template-columns: 1fr 1fr;
-      align-items: start;
-    }
-  }
-
-  .product-detail__media {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-
-  .product-detail__media :global(.product-spin) {
-    aspect-ratio: 1;
-  }
-
-  .product-detail__badges {
-    display: flex;
-    gap: var(--space-xs);
-    margin-bottom: var(--space-md);
-  }
-
-  .product-detail__facts {
-    margin: var(--space-lg) 0;
-    display: grid;
-    gap: var(--space-md);
-  }
-
-  .product-detail__facts dt {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-text-muted);
-  }
-
-  .product-detail__facts dd {
-    margin: 0.25rem 0 0;
-    font-weight: 600;
-  }
-
-  .product-detail__note {
-    font-size: 0.9375rem;
-    color: var(--color-text-muted);
-  }
-
-  .product-detail__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-md);
-    margin-top: var(--space-lg);
-  }
-
-  .product-detail__long {
-    margin-top: var(--space-2xl);
-    padding-top: var(--space-xl);
-    border-top: 1px solid var(--color-border);
-  }
-</style>

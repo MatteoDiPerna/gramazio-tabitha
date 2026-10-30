@@ -20,9 +20,14 @@ function commit(next: CartLine[]) {
 export function useCart() {
   const [lines, setLinesState] = useState<CartLine[]>([]);
   const [ready, setReady] = useState(false);
+  const [catalogSyncRemoved, setCatalogSyncRemoved] = useState(false);
 
   useEffect(() => {
-    const initial = commit(loadCartLines());
+    const raw = loadCartLines();
+    const initial = commit(raw);
+    if (raw.length > initial.length) {
+      setCatalogSyncRemoved(true);
+    }
     setLinesState(initial);
     setReady(true);
 
@@ -68,6 +73,7 @@ export function useCart() {
     ready,
     lines,
     itemCount: cartItemCount(lines),
+    catalogSyncRemoved,
     addProduct,
     updateQty,
     remove,

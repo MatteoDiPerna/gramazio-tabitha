@@ -8,6 +8,10 @@ export const rawCatalog = [
       'Olio EVO biologico da cultivar autoctone, nel rispetto dei cicli naturali.',
     description:
       'Olio extravergine biologico da cultivar autoctone. Listino prodotti v1 confermato — vedi docs/listino.md.',
+    productInfo: {
+      storage:
+        'Conservare al riparo da luce e fonti di calore, in contenitore ben chiuso. Consumare preferibilmente entro i termini indicati in etichetta.',
+    },
     category: 'olio' as const,
     image: {
       src: '/images/placeholder-product.svg',

@@ -2,34 +2,45 @@
 interface Props {
   title: string;
   lead: string;
-  imageSrc: string;
-  /** `home` = banner alto come homepage; `page` = più compatto per le altre route */
-  size?: 'home' | 'page';
+  imageSrc?: string;
+  /** `home` = viewport; `page` = banner foto; `compact` = intestazione senza foto (pagine strumento) */
+  size?: 'home' | 'page' | 'compact';
   /** Priorità LCP (solo homepage) */
   priority?: boolean;
 }
 
-const { title, lead, imageSrc, size = 'page', priority = false } = Astro.props;
+const { title, lead, imageSrc = '', size = 'page', priority = false } = Astro.props;
+const isPhoto = size !== 'compact' && Boolean(imageSrc);
 
 const hasActions = Astro.slots.has('actions');
 ---
 
 <section
-  class:list={['page-hero', 'page-hero--photo', 'layout-bleed', { 'page-hero--home': size === 'home' }]}
+  class:list={[
+    'page-hero',
+    'layout-bleed',
+    { 'page-hero--photo': isPhoto, 'page-hero--home': size === 'home', 'page-hero--compact': size === 'compact' },
+  ]}
   aria-labelledby="page-hero-title"
 >
-  <img
-    class="page-hero__photo"
-    src={imageSrc}
-    alt=""
-    width="1920"
-    height="640"
-    fetchpriority={priority ? 'high' : undefined}
-    loading={priority ? 'eager' : 'lazy'}
-    decoding="async"
-    aria-hidden="true"
-  />
-  <div class="page-hero__scrim" aria-hidden="true" />
+  {
+    isPhoto && (
+      <>
+        <img
+          class="page-hero__photo"
+          src={imageSrc}
+          alt=""
+          width="1920"
+          height="640"
+          fetchpriority={priority ? 'high' : undefined}
+          loading={priority ? 'eager' : 'lazy'}
+          decoding="async"
+          aria-hidden="true"
+        />
+        <div class="page-hero__scrim" aria-hidden="true" />
+      </>
+    )
+  }
   <div class="container page-hero__inner">
     <h1 id="page-hero-title" class="page-hero__title">{title}</h1>
     <p class="page-hero__lead">{lead}</p>
@@ -136,6 +147,29 @@ const hasActions = Astro.slots.has('actions');
   .page-hero--home .page-hero__lead {
     max-width: 28rem;
     letter-spacing: 0.1em;
+  }
+
+  .page-hero--compact {
+    min-height: auto;
+    margin-bottom: var(--space-xl);
+    padding: calc(var(--header-height) + var(--space-lg)) 0 var(--space-lg);
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-hero--compact .page-hero__title {
+    color: var(--color-primary);
+    text-shadow: none;
+    font-style: normal;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    max-width: none;
+  }
+
+  .page-hero--compact .page-hero__lead {
+    color: var(--color-text-muted);
+    text-shadow: none;
+    letter-spacing: 0.06em;
+    font-size: 0.8125rem;
   }
 
   .page-hero__actions {

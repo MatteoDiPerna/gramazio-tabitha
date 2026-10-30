@@ -10,8 +10,10 @@
 1. Modifica `src/domain/catalog/products.data.ts` (o estrai in JSON importato da TS, se preferito).
 2. Per ogni variante, imposta `priceCents` (intero, centesimi EUR) oppure `null` se non pubblicato.
 3. `published: false` esclude il prodotto dal sito; `available: false` mostra “disponibilità da confermare”.
-4. Esegui `npm test` e `npm run build`.
-5. Deploy.
+4. Campi opzionali in scheda: `productInfo.ingredients`, `storage`, `allergens` (solo testi verificati).
+5. Più varianti: aggiungi voci in `variants[]`; in scheda compare il selettore formato.
+6. Esegui `npm test` e `npm run build`.
+7. Deploy.
 
 Il carrello **risincronizza** prezzi e nomi dal catalogo al caricamento pagina.
 

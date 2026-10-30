@@ -1,0 +1,53 @@
+---
+import type { CatalogCategoryId } from '@/domain/catalog/catalogCategories';
+import { catalogPageIntro } from '@/content/catalogPage';
+
+interface Props {
+  activeCategory: CatalogCategoryId | null;
+  categoryLabel: string | null;
+}
+
+const { activeCategory, categoryLabel } = Astro.props;
+
+const intro = activeCategory
+  ? catalogPageIntro.byCategory[activeCategory]
+  : catalogPageIntro.all;
+---
+
+<header class="catalog-intro">
+  {
+    categoryLabel && (
+      <p class="catalog-intro__crumb" aria-current="location">
+        Catalogo · <strong>{categoryLabel}</strong>
+      </p>
+    )
+  }
+  <h2 class="catalog-intro__title">{intro.title}</h2>
+  <p class="catalog-intro__body">{intro.body}</p>
+</header>
+
+<style>
+  .catalog-intro {
+    margin-top: var(--space-xl);
+    max-width: 42rem;
+  }
+
+  .catalog-intro__crumb {
+    margin: 0 0 var(--space-sm);
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  .catalog-intro__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin: 0 0 var(--space-sm);
+    color: var(--color-primary);
+  }
+
+  .catalog-intro__body {
+    margin: 0;
+    line-height: 1.65;
+    color: var(--color-text-muted);
+  }
+</style>

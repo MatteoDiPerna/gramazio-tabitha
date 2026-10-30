@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import type { Product } from '@/domain/catalog/catalog.schema';
-import { buildProductJsonLd, jsonLdGraph } from '@/domain/seo/structured-data';
+import { faqItems } from '@/content/faq';
+import {
+  buildFaqPageJsonLd,
+  buildProductJsonLd,
+  jsonLdGraph,
+} from '@/domain/seo/structured-data';
 
 const product: Product = {
   id: 'test',
@@ -33,5 +38,11 @@ describe('structured-data', () => {
   it('serializes graph', () => {
     const json = jsonLdGraph({ '@type': 'Thing', name: 'A' });
     expect(JSON.parse(json)['@graph']).toHaveLength(1);
+  });
+
+  it('builds FAQPage entity', () => {
+    const node = buildFaqPageJsonLd(faqItems.slice(0, 1));
+    expect(node['@type']).toBe('FAQPage');
+    expect(node.mainEntity).toHaveLength(1);
   });
 });

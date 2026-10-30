@@ -23,6 +23,14 @@ export const productSchema = z.object({
   published: z.boolean(),
   available: z.boolean(),
   badges: z.array(z.enum(['bio', 'slow-food'])).optional(),
+  /** Informazioni aggiuntive verificate — opzionali */
+  productInfo: z
+    .object({
+      ingredients: z.string().optional(),
+      storage: z.string().optional(),
+      allergens: z.string().optional(),
+    })
+    .optional(),
 });
 
 export const catalogSchema = z.array(productSchema);

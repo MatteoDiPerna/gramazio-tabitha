@@ -1,0 +1,201 @@
+---
+import Badge from '@/components/ui/Badge.astro';
+import Button from '@/components/ui/Button.astro';
+import ProductBreadcrumb from '@/components/catalog/ProductBreadcrumb.astro';
+import CatalogProductGrid from '@/components/catalog/CatalogProductGrid.astro';
+import { ProductSpinViewer } from '@/components/catalog/ProductSpinViewer';
+import { ProductPurchasePanel } from '@/components/cart/ProductPurchasePanel';
+import type { Product } from '@/domain/catalog/catalog.schema';
+import { resolveProductImageSrc } from '@/domain/catalog/productImage';
+import { productSpinFrameUrls } from '@/domain/catalog/productSpin';
+
+interface Props {
+  product: Product;
+  related: Product[];
+}
+
+const { product, related } = Astro.props;
+const imageSrc = resolveProductImageSrc(product);
+const spinFrames = productSpinFrameUrls(product.slug);
+const info = product.productInfo;
+const hasLongDescription = (product.description?.length ?? 0) > 220;
+---
+
+<article class="product-detail">
+  <ProductBreadcrumb product={product} />
+  <div class="product-detail__grid">
+    <div class="product-detail__media">
+      <ProductSpinViewer
+        client:visible
+        slug={product.slug}
+        alt={product.image.alt}
+        fallbackSrc={imageSrc}
+        frameUrls={spinFrames}
+      />
+    </div>
+    <div class="product-detail__buy">
+      <div class="product-detail__badges">
+        {product.badges?.includes('bio') && <Badge variant="bio">Bio</Badge>}
+        {product.badges?.includes('slow-food') && (
+          <Badge variant="slow-food">Slow Food</Badge>
+        )}
+      </div>
+      <p class="product-detail__short">{product.shortDescription}</p>
+      <ProductPurchasePanel client:load product={product} />
+      <div class="product-detail__actions">
+        <Button href="/catalogo" variant="secondary">Torna al catalogo</Button>
+        <Button href="/carrello" variant="primary">Vai al riepilogo ordine</Button>
+      </div>
+    </div>
+  </div>
+
+  {
+    (product.description || info) && (
+      <section class="product-detail__long" aria-labelledby="product-info-title">
+        <h2 id="product-info-title">Informazioni</h2>
+        {
+          hasLongDescription && product.description ? (
+            <details class="product-detail__accordion">
+              <summary>Descrizione prodotto</summary>
+              <div class="prose">
+                <p>{product.description}</p>
+              </div>
+            </details>
+          ) : (
+            product.description && (
+              <div class="prose">
+                <p>{product.description}</p>
+              </div>
+            )
+          )
+        }
+        {
+          info && (
+            <dl class="product-detail__info-list">
+              {info.ingredients && (
+                <>
+                  <dt>Ingredienti</dt>
+                  <dd>{info.ingredients}</dd>
+                </>
+              )}
+              {info.storage && (
+                <>
+                  <dt>Conservazione</dt>
+                  <dd>{info.storage}</dd>
+                </>
+              )}
+              {info.allergens && (
+                <>
+                  <dt>Allergeni</dt>
+                  <dd>{info.allergens}</dd>
+                </>
+              )}
+            </dl>
+          )
+        }
+      </section>
+    )
+  }
+
+  {
+    related.length > 0 && (
+      <section class="product-detail__related" aria-labelledby="related-title">
+        <h2 id="related-title">Della stessa categoria</h2>
+        <CatalogProductGrid products={related} />
+      </section>
+    )
+  }
+</article>
+
+<style>
+  .product-detail__grid {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  @media (min-width: 768px) {
+    .product-detail__grid {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .product-detail__media {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .product-detail__media :global(.product-spin) {
+    aspect-ratio: 1;
+  }
+
+  .product-detail__badges {
+    display: flex;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+  }
+
+  .product-detail__short {
+    margin: 0 0 var(--space-md);
+    color: var(--color-text-muted);
+    line-height: 1.55;
+  }
+
+  .product-detail__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+  }
+
+  .product-detail__long {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .product-detail__accordion {
+    margin-top: var(--space-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    background: var(--color-surface);
+  }
+
+  .product-detail__accordion summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  .product-detail__info-list {
+    margin: var(--space-lg) 0 0;
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .product-detail__info-list dt {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .product-detail__info-list dd {
+    margin: 0.25rem 0 0;
+  }
+
+  .product-detail__related {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .product-detail__related h2 {
+    font-family: var(--font-display);
+    color: var(--color-primary);
+    margin: 0 0 var(--space-md);
+  }
+</style>

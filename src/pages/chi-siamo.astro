@@ -2,7 +2,10 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageContainer from '@/components/layout/PageContainer.astro';
 import PageHero from '@/components/layout/PageHero.astro';
+import Button from '@/components/ui/Button.astro';
+import ContentStrip from '@/components/media/ContentStrip.astro';
 import { staticPageHeroes } from '@/content/pageHeroes';
+import { chiSiamoCta, chiSiamoIntro, chiSiamoSections } from '@/content/chiSiamo';
 
 const hero = staticPageHeroes.chiSiamo;
 ---
@@ -11,27 +14,106 @@ const hero = staticPageHeroes.chiSiamo;
   title="Chi siamo"
   description="Storia e valori dell'Azienda Agricola Gramazio Tabitha a Carpino, nel Gargano."
 >
-  <PageHero
-    title={hero.title}
-    lead={hero.lead}
-    imageSrc={hero.image}
-  />
-  <PageContainer prose centered>
-    <h2>Il nostro approccio</h2>
-    <p>
-      Nelle informazioni pubbliche associate alla nostra partecipazione a eventi sul territorio
-      viene sottolineata una produzione sostenibile: olio biologico da cultivar autoctone,
-      lavorato nel rispetto dei cicli naturali.
-    </p>
-    <h2>Territorio</h2>
-    <p>
-      Carpino e il Gargano offrono un contesto unico per olio e legumi tipici, tra cui la fava di
-      Carpino, parte del patrimonio enogastronomico citato nelle fonti disponibili.
-    </p>
-    <h2>Trasparenza</h2>
-    <p>
-      Testi, certificazioni e immagini definitive saranno aggiornati con materiali approvati
-      dall'azienda. Per visite o approfondimenti, contattaci direttamente.
-    </p>
+  <PageHero title={hero.title} lead={hero.lead} imageSrc={hero.image} />
+  <PageContainer class="chi-page">
+    <header class="chi-intro">
+      <h2>{chiSiamoIntro.title}</h2>
+      <p>{chiSiamoIntro.lead}</p>
+    </header>
+
+    {
+      chiSiamoSections.map((section, index) => (
+        <section class="chi-section" id={section.id} aria-labelledby={`chi-${section.id}`}>
+          {section.image && index % 2 === 0 && (
+            <ContentStrip src={section.image.src} alt={section.image.alt} height="md" />
+          )}
+          {section.eyebrow && <p class="chi-section__eyebrow">{section.eyebrow}</p>}
+          <h2 id={`chi-${section.id}`} class="chi-section__title">
+            {section.title}
+          </h2>
+          {section.paragraphs.map((p) => (
+            <p class="chi-section__p">{p}</p>
+          ))}
+          {section.image && index % 2 === 1 && (
+            <ContentStrip src={section.image.src} alt={section.image.alt} height="sm" />
+          )}
+        </section>
+      ))
+    }
+
+    <div class="chi-cta">
+      <Button href="/catalogo">{chiSiamoCta.catalogLabel}</Button>
+      <Button href="/contatti" variant="secondary">
+        {chiSiamoCta.contactLabel}
+      </Button>
+    </div>
   </PageContainer>
 </BaseLayout>
+
+<style>
+  .chi-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .chi-intro {
+    width: 100%;
+    max-width: 40rem;
+    margin-inline: auto;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .chi-intro h2 {
+    font-family: var(--font-display);
+    color: var(--color-primary);
+    margin: 0 0 var(--space-sm);
+  }
+
+  .chi-intro p {
+    margin: 0;
+    line-height: 1.65;
+    color: var(--color-text-muted);
+  }
+
+  .chi-section {
+    width: 100%;
+    max-width: 42rem;
+    margin-inline: auto;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .chi-section__eyebrow {
+    margin: 0 0 var(--space-xs);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-accent-warm);
+  }
+
+  .chi-section__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.375rem, 3vw, 1.75rem);
+    color: var(--color-primary);
+    margin: 0 0 var(--space-md);
+  }
+
+  .chi-section__p {
+    margin: 0 0 var(--space-md);
+    line-height: 1.65;
+    color: var(--color-text);
+  }
+
+  .chi-cta {
+    width: 100%;
+    max-width: 42rem;
+    margin-inline: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-md);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border);
+  }
+</style>

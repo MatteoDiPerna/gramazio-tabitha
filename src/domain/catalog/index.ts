@@ -19,3 +19,11 @@ export function getProductBySlug(slug: string): Product | undefined {
 export function getProductById(id: string): Product | undefined {
   return catalog.find((p) => p.id === id);
 }
+
+export {
+  sortPublishedProducts,
+  getRelatedProducts,
+  catalogHasIncompletePricing,
+  catalogMetaDescription,
+} from '@/domain/catalog/query';
+export type { CatalogSort } from '@/domain/catalog/query';

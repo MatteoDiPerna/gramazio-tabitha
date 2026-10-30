@@ -3,20 +3,16 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageContainer from '@/components/layout/PageContainer.astro';
 import PageHero from '@/components/layout/PageHero.astro';
 import { CartPage } from '@/components/cart/CartPage';
-import { staticPageHeroes } from '@/content/pageHeroes';
 
-const hero = staticPageHeroes.carrello;
+const heroTitle = 'Riepilogo ordine';
+const heroLead = 'Componi la richiesta e inviala via WhatsApp o email';
 ---
 
 <BaseLayout
   title="Riepilogo ordine"
   description="Componi la richiesta d'ordine e inviala via WhatsApp o email."
 >
-  <PageHero
-    title={hero.title}
-    lead={hero.lead}
-    imageSrc={hero.image}
-  />
+  <PageHero title={heroTitle} lead={heroLead} size="compact" />
   <PageContainer centered prose>
     <CartPage client:load />
   </PageContainer>

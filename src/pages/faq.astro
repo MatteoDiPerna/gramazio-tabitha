@@ -2,8 +2,10 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageContainer from '@/components/layout/PageContainer.astro';
 import PageHero from '@/components/layout/PageHero.astro';
-import { faqItems } from '@/content/faq';
+import { FaqAccordion } from '@/components/faq/FaqAccordion';
+import { faqIntro, faqItems } from '@/content/faq';
 import { staticPageHeroes } from '@/content/pageHeroes';
+import { buildFaqPageJsonLd } from '@/domain/seo/structured-data';
 
 const faqHero = staticPageHeroes.faq;
 ---
@@ -11,39 +13,35 @@ const faqHero = staticPageHeroes.faq;
 <BaseLayout
   title="FAQ ordini e spedizioni"
   description="Come ordinare, spedizioni e pagamenti — Azienda Agricola Gramazio Tabitha."
+  jsonLdNodes={[buildFaqPageJsonLd(faqItems)]}
 >
   <PageHero title={faqHero.title} lead={faqHero.lead} imageSrc={faqHero.image} />
-  <PageContainer centered prose>
-    <dl class="faq">
-      {
-        faqItems.map((item) => (
-          <div>
-            <dt>{item.question}</dt>
-            <dd set:html={item.answerHtml} />
-          </div>
-        ))
-      }
-    </dl>
+  <PageContainer centered>
+    <FaqAccordion client:load items={faqItems} intro={faqIntro} />
+    <nav class="faq-links" aria-label="Link utili">
+      <a href="/carrello">Carrello</a>
+      <a href="/contatti">Contatti</a>
+      <a href="/privacy">Privacy</a>
+    </nav>
   </PageContainer>
 </BaseLayout>
 
 <style>
-  .faq {
-    margin-top: var(--space-xl);
-    display: grid;
-    gap: var(--space-lg);
+  .faq-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-md);
+    margin-top: var(--space-2xl);
+    font-weight: 600;
   }
 
-  .faq dt {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
+  .faq-links a {
     color: var(--color-primary);
-    margin-bottom: var(--space-sm);
+    text-decoration: none;
   }
 
-  .faq dd {
-    margin: 0 auto;
-    color: var(--color-text-muted);
-    max-width: 40rem;
+  .faq-links a:hover {
+    text-decoration: underline;
   }
 </style>
