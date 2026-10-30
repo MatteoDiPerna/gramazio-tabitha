@@ -1,0 +1,48 @@
+.qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.qty__btn {
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+  font-size: 1.25rem;
+  font-weight: 600;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.qty__btn:hover:not(:disabled) {
+  border-color: var(--color-primary);
+}
+
+.qty__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.qty__btn:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.qty__value {
+  min-width: 2rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.qty--compact .qty__btn {
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  font-size: 1.0625rem;
+}
+
+.qty--compact .qty__value {
+  min-width: 1.75rem;
+  font-size: var(--text-sm);
+}

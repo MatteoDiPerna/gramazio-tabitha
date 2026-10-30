@@ -2,6 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/layout/PageHero.astro';
 import Button from '@/components/ui/Button.astro';
+import Card from '@/components/ui/Card.astro';
 import { siteConfig } from '@/config/site.config';
 import { staticPageHeroes } from '@/content/pageHeroes';
 
@@ -25,16 +26,18 @@ const mapsDirectionsHref = `https://www.google.com/maps/search/?api=1&query=${ma
   <div class="contact-page">
     <section class="contact-page__details" aria-label="Recapiti">
       <div class="container contact-page__grid">
-        <div class="contact-block">
+        <Card class="contact-block">
+          <span class="contact-block__icon" aria-hidden="true">📍</span>
           <h2 class="contact-block__label">Indirizzo</h2>
           <p class="contact-block__value">
             {addressLine1}<br />
             {addressLine2}<br />
             {addressLine3}
           </p>
-        </div>
+        </Card>
 
-        <div class="contact-block">
+        <Card class="contact-block">
+          <span class="contact-block__icon" aria-hidden="true">📞</span>
           <h2 class="contact-block__label">Telefono</h2>
           <p class="contact-block__value">
             <a href={`tel:${siteConfig.phoneTel}`}>{siteConfig.phoneDisplay}</a>
@@ -42,14 +45,15 @@ const mapsDirectionsHref = `https://www.google.com/maps/search/?api=1&query=${ma
           <Button href={`tel:${siteConfig.phoneTel}`} variant="secondary" class="contact-block__btn">
             Chiama
           </Button>
-        </div>
+        </Card>
 
-        <div class="contact-block">
+        <Card class="contact-block">
+          <span class="contact-block__icon" aria-hidden="true">✉</span>
           <h2 class="contact-block__label">E mail</h2>
           <p class="contact-block__value">
             <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
           </p>
-        </div>
+        </Card>
       </div>
     </section>
 
@@ -95,6 +99,17 @@ const mapsDirectionsHref = `https://www.google.com/maps/search/?api=1&query=${ma
       row-gap: var(--space-lg);
       align-items: start;
     }
+  }
+
+  .contact-block:global(.card) {
+    text-align: center;
+    height: 100%;
+  }
+
+  .contact-block__icon {
+    display: block;
+    font-size: 1.5rem;
+    margin-bottom: var(--space-sm);
   }
 
   .contact-block__label {

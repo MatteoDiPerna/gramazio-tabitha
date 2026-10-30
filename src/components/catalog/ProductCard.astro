@@ -40,34 +40,37 @@ const canAdd = canAddProductToCart(product);
     />
   </div>
   <div class="product-card__body">
-    <div class="product-card__badges">
-      {product.badges?.includes('bio') && <Badge variant="bio">Bio</Badge>}
-      {product.badges?.includes('slow-food') && <Badge variant="slow-food">Slow Food</Badge>}
-    </div>
-    <h2 class="product-card__title">
-      <a href={`/prodotti/${product.slug}`}>{product.name}</a>
-    </h2>
-    <p class="product-card__desc">{product.shortDescription}</p>
-    <div class="product-card__meta-block">
-      <p class="product-card__meta">
-        <span>{variant.label}</span>
-        ·
-        <strong>{formatVariantPrice(variant)}</strong>
-        {perLiter && <span class="product-card__liter"> ({perLiter})</span>}
-      </p>
-      <p class="product-card__avail">{productAvailabilityLabel(product)}</p>
+    <div class="product-card__content">
+      <div class="product-card__badges">
+        {product.badges?.includes('bio') && <Badge variant="bio">Bio</Badge>}
+        {product.badges?.includes('slow-food') && <Badge variant="slow-food">Slow Food</Badge>}
+      </div>
+      <h2 class="product-card__title">
+        <a href={`/prodotti/${product.slug}`}>{product.name}</a>
+      </h2>
+      <p class="product-card__desc">{product.shortDescription}</p>
+      <div class="product-card__meta-block">
+        <p class="product-card__format">{variant.label}</p>
+        <p class="product-card__price">
+          <strong>{formatVariantPrice(variant)}</strong>
+          {perLiter && <span class="product-card__liter"> ({perLiter})</span>}
+        </p>
+        <p class="product-card__avail">{productAvailabilityLabel(product)}</p>
+      </div>
     </div>
     <div class="product-card__actions">
-      <AddToCartButton
-        client:load
-        productId={product.id}
-        variantId={variant.id}
-        canAdd={canAdd}
-        compact
-      />
+      <div class="product-card__purchase">
+        <AddToCartButton
+          client:load
+          productId={product.id}
+          variantId={variant.id}
+          canAdd={canAdd}
+          compact
+        />
+      </div>
       <Button
         href={`/prodotti/${product.slug}`}
-        variant="ghost"
+        variant="secondary"
         class="product-card__cta"
       >
         Dettagli
@@ -124,11 +127,20 @@ const canAdd = canAddProductToCart(product);
   }
 
   .product-card__body {
-    padding: var(--space-md);
+    padding: var(--space-lg) var(--space-md);
     display: flex;
     flex-direction: column;
-    flex: 1;
+    flex: 1 1 auto;
+    min-height: 0;
+    gap: 0;
+  }
+
+  .product-card__content {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
     gap: var(--space-xs);
+    min-height: 0;
   }
 
   .product-card__badges {
@@ -136,6 +148,7 @@ const canAdd = canAddProductToCart(product);
     flex-wrap: wrap;
     align-items: flex-start;
     gap: var(--space-xs);
+    min-height: 1.375rem;
   }
 
   .product-card__title {
@@ -143,6 +156,7 @@ const canAdd = canAddProductToCart(product);
     font-size: 1.125rem;
     margin: 0;
     line-height: 1.2;
+    min-height: calc(2 * 1.2 * 1.125rem);
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
@@ -160,16 +174,34 @@ const canAdd = canAddProductToCart(product);
     font-size: 0.875rem;
     line-height: 1.45;
     color: var(--color-text-muted);
+    min-height: calc(2 * 1.45 * 0.875rem);
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
   }
 
-  .product-card__meta {
+  .product-card__meta-block {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .product-card__format,
+  .product-card__price {
     margin: 0;
     font-size: 0.8125rem;
-    line-height: 1.35;
+    line-height: 1.4;
+  }
+
+  .product-card__format {
+    color: var(--color-text-muted);
+  }
+
+  .product-card__price strong {
+    font-weight: 600;
+    color: var(--color-text);
   }
 
   .product-card__liter {
@@ -178,20 +210,35 @@ const canAdd = canAddProductToCart(product);
   }
 
   .product-card__avail {
-    margin: 0.15rem 0 0;
+    margin: 0.1rem 0 0;
     font-size: 0.75rem;
+    line-height: 1.35;
     color: var(--color-accent-warm);
   }
 
   .product-card__actions {
-    margin-top: var(--space-sm);
+    flex: 0 0 auto;
+    margin-top: var(--space-md);
+    padding-top: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-xs);
+    gap: var(--space-sm);
+    width: 100%;
+  }
+
+  .product-card__purchase {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .product-card__purchase :global(.add-cart--compact) {
+    width: 100%;
   }
 
   .product-card__cta:global(.btn) {
     width: 100%;
+    box-sizing: border-box;
     margin-top: 0;
     min-height: 2.5rem;
     padding-block: 0;

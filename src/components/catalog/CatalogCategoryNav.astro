@@ -1,0 +1,158 @@
+---
+import { catalogCategories } from '@/domain/catalog';
+import type { CatalogCategoryId } from '@/domain/catalog/catalogCategories';
+
+interface Props {
+  activeCategory: CatalogCategoryId | null;
+  counts: Record<string, number>;
+  sort: 'name' | 'category';
+}
+
+const { activeCategory, counts, sort } = Astro.props;
+
+function hrefFor(category: CatalogCategoryId | null): string {
+  const params = new URLSearchParams();
+  if (category) params.set('categoria', category);
+  if (sort !== 'name') params.set('ordina', sort);
+  const q = params.toString();
+  return q ? `/catalogo?${q}` : '/catalogo';
+}
+
+const total = Object.values(counts).reduce((a, b) => a + b, 0);
+
+function label(name: string, count: number) {
+  return count > 0 ? `${name} (${count})` : name;
+}
+---
+
+<nav class="catalog-nav" aria-label="Filtra per categoria">
+  <label class="catalog-nav__select-wrap">
+    <span class="catalog-nav__select-label">Categoria</span>
+    <select class="catalog-nav__select" data-catalog-nav-select aria-label="Categoria prodotti">
+      <option value={hrefFor(null)} selected={!activeCategory}>
+        {label('Tutti', total)}
+      </option>
+      {
+        catalogCategories.map((cat) => (
+          <option value={hrefFor(cat.id)} selected={activeCategory === cat.id}>
+            {label(cat.label, counts[cat.id] ?? 0)}
+          </option>
+        ))
+      }
+    </select>
+  </label>
+
+  <ul class="catalog-nav__list">
+    <li>
+      <a
+        href={hrefFor(null)}
+        class:list={['catalog-nav__link', { 'is-active': !activeCategory }]}
+        aria-current={!activeCategory ? 'page' : undefined}
+      >
+        {label('Tutti', total)}
+      </a>
+    </li>
+    {
+      catalogCategories.map((cat) => (
+        <li>
+          <a
+            href={hrefFor(cat.id)}
+            class:list={['catalog-nav__link', { 'is-active': activeCategory === cat.id }]}
+            aria-current={activeCategory === cat.id ? 'page' : undefined}
+          >
+            {label(cat.label, counts[cat.id] ?? 0)}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .catalog-nav {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .catalog-nav__select-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-sm);
+  }
+
+  .catalog-nav__select-label {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .catalog-nav__select {
+    min-height: var(--touch-min);
+    padding: 0 var(--space-md);
+    font: inherit;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  .catalog-nav__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: none;
+    gap: var(--space-md);
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  @media (min-width: 768px) {
+    .catalog-nav__select-wrap {
+      display: none;
+    }
+
+    .catalog-nav__list {
+      display: flex;
+    }
+  }
+
+  .catalog-nav__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--touch-min);
+    padding: var(--space-sm) var(--space-xs);
+    text-decoration: none;
+    color: var(--color-text-muted);
+    font-weight: 500;
+    white-space: nowrap;
+    scroll-snap-align: start;
+  }
+
+  .catalog-nav__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: transparent;
+    transition: background var(--duration-fast) var(--ease-out);
+  }
+
+  .catalog-nav__link:is(:hover, :focus-visible) {
+    color: var(--color-primary);
+  }
+
+  .catalog-nav__link.is-active {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .catalog-nav__link.is-active::after {
+    background: var(--color-primary);
+  }
+</style>

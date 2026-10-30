@@ -1,0 +1,105 @@
+.product-purchase__variants {
+  border: none;
+  margin: 0 0 1rem;
+  padding: 0;
+}
+
+.product-purchase__variants legend {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.product-purchase__variant-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.product-purchase__variant {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  min-height: var(--touch-min);
+}
+
+.product-purchase__facts {
+  margin: 0 0 0.5rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.product-purchase__facts dt {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+.product-purchase__facts dd {
+  margin: 0.25rem 0 0;
+  font-weight: 600;
+}
+
+.product-purchase__price {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: var(--color-primary);
+}
+
+.product-purchase__per-liter {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.product-purchase-sticky {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .product-purchase__add-desktop {
+    display: none;
+  }
+
+  .product-purchase-sticky {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: var(--z-sticky);
+    padding: 0.75rem var(--layout-inline-padding);
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    box-shadow: var(--shadow-md);
+  }
+
+  .product-purchase-sticky__inner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    max-width: var(--content-max);
+    margin: 0 auto;
+  }
+
+  .product-purchase-sticky__price {
+    font-weight: 700;
+    font-size: var(--text-sm);
+    flex-shrink: 0;
+    font-family: var(--font-display);
+    color: var(--color-primary);
+  }
+
+  .product-purchase-sticky .add-cart--compact {
+    flex: 1;
+  }
+
+  .product-detail {
+    padding-bottom: 5.5rem;
+  }
+}

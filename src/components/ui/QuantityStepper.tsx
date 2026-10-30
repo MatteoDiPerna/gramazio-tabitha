@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import './quantityStepper.css';
 
 type Props = {
   value: number;
@@ -45,49 +46,6 @@ export const QuantityStepper: FC<Props> = ({
       >
         +
       </button>
-      <style>{`
-        .qty {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.25rem;
-        }
-        .qty__btn {
-          min-width: 44px;
-          min-height: 44px;
-          font-size: 1.25rem;
-          font-weight: 600;
-          border: 1px solid var(--color-border, #e8e4dc);
-          border-radius: 8px;
-          background: #fff;
-          color: #3d4f37;
-          cursor: pointer;
-        }
-        .qty__btn:hover:not(:disabled) {
-          border-color: #3d4f37;
-        }
-        .qty__btn:disabled {
-          opacity: 0.4;
-          cursor: not-allowed;
-        }
-        .qty__btn:focus-visible {
-          outline: 2px solid #3d4f37;
-          outline-offset: 2px;
-        }
-        .qty__value {
-          min-width: 2rem;
-          text-align: center;
-          font-weight: 600;
-        }
-        .qty--compact .qty__btn {
-          min-width: 2.25rem;
-          min-height: 2.25rem;
-          font-size: 1.0625rem;
-        }
-        .qty--compact .qty__value {
-          min-width: 1.75rem;
-          font-size: 0.9375rem;
-        }
-      `}</style>
     </div>
   );
 };

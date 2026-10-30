@@ -4,6 +4,7 @@ import PageContainer from '@/components/layout/PageContainer.astro';
 import PageHero from '@/components/layout/PageHero.astro';
 import Button from '@/components/ui/Button.astro';
 import ContentStrip from '@/components/media/ContentStrip.astro';
+import SectionHead from '@/components/ui/SectionHead.astro';
 import { staticPageHeroes } from '@/content/pageHeroes';
 import { chiSiamoCta, chiSiamoIntro, chiSiamoSections } from '@/content/chiSiamo';
 
@@ -16,10 +17,12 @@ const hero = staticPageHeroes.chiSiamo;
 >
   <PageHero title={hero.title} lead={hero.lead} imageSrc={hero.image} />
   <PageContainer class="chi-page">
-    <header class="chi-intro">
-      <h2>{chiSiamoIntro.title}</h2>
-      <p>{chiSiamoIntro.lead}</p>
-    </header>
+    <SectionHead
+      centered
+      title={chiSiamoIntro.title}
+      lead={chiSiamoIntro.lead}
+      showOrnament
+    />
 
     {
       chiSiamoSections.map((section, index) => (
@@ -27,10 +30,12 @@ const hero = staticPageHeroes.chiSiamo;
           {section.image && index % 2 === 0 && (
             <ContentStrip src={section.image.src} alt={section.image.alt} height="md" />
           )}
-          {section.eyebrow && <p class="chi-section__eyebrow">{section.eyebrow}</p>}
-          <h2 id={`chi-${section.id}`} class="chi-section__title">
-            {section.title}
-          </h2>
+          <SectionHead
+            eyebrow={section.eyebrow}
+            title={section.title}
+            titleId={`chi-${section.id}`}
+            showOrnament={false}
+          />
           {section.paragraphs.map((p) => (
             <p class="chi-section__p">{p}</p>
           ))}
@@ -57,23 +62,10 @@ const hero = staticPageHeroes.chiSiamo;
     align-items: center;
   }
 
-  .chi-intro {
+  .chi-page :global(.section-head) {
     width: 100%;
-    max-width: 40rem;
+    max-width: 42rem;
     margin-inline: auto;
-    margin-bottom: var(--space-2xl);
-  }
-
-  .chi-intro h2 {
-    font-family: var(--font-display);
-    color: var(--color-primary);
-    margin: 0 0 var(--space-sm);
-  }
-
-  .chi-intro p {
-    margin: 0;
-    line-height: 1.65;
-    color: var(--color-text-muted);
   }
 
   .chi-section {
@@ -81,22 +73,6 @@ const hero = staticPageHeroes.chiSiamo;
     max-width: 42rem;
     margin-inline: auto;
     margin-bottom: var(--space-2xl);
-  }
-
-  .chi-section__eyebrow {
-    margin: 0 0 var(--space-xs);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-accent-warm);
-  }
-
-  .chi-section__title {
-    font-family: var(--font-display);
-    font-size: clamp(1.375rem, 3vw, 1.75rem);
-    color: var(--color-primary);
-    margin: 0 0 var(--space-md);
   }
 
   .chi-section__p {

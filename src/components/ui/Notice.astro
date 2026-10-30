@@ -1,0 +1,56 @@
+---
+interface Props {
+  variant?: 'info' | 'warning' | 'success';
+  title?: string;
+}
+
+const { variant = 'info', title } = Astro.props;
+---
+
+<div class:list={['notice', `notice--${variant}`]} role="status">
+  {title && <p class="notice__title">{title}</p>}
+  <div class="notice__body">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .notice {
+    margin-top: var(--space-lg);
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-sunken);
+    border: 1px solid var(--color-border);
+    border-left-width: 3px;
+  }
+
+  .notice--info {
+    border-left-color: var(--color-primary);
+  }
+
+  .notice--warning {
+    border-left-color: var(--color-accent-warm);
+  }
+
+  .notice--success {
+    border-left-color: var(--color-primary);
+    background: #eef3eb;
+  }
+
+  .notice__title {
+    margin: 0 0 var(--space-xs);
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .notice__body {
+    margin: 0;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    font-size: var(--text-sm);
+  }
+
+  .notice__body :global(p) {
+    margin: 0;
+  }
+</style>

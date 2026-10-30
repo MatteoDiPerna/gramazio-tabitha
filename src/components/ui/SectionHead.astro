@@ -1,0 +1,28 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  centered?: boolean;
+  showOrnament?: boolean;
+  titleId?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  lead,
+  centered = false,
+  showOrnament = true,
+  titleId,
+} = Astro.props;
+---
+
+<header class:list={['section-head', { 'section-head--center': centered }]}>
+  {eyebrow && <p class="section-head__eyebrow">{eyebrow}</p>}
+  <h2 id={titleId} class="section-head__title">{title}</h2>
+  {showOrnament && (
+    <p class:list={['section-ornament', { 'section-ornament--center': centered }]} aria-hidden="true" />
+  )}
+  {lead && <p class="section-head__lead">{lead}</p>}
+</header>

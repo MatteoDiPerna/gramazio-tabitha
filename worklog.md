@@ -13,6 +13,7 @@ Aggiornare le checkbox man mano che si completa il lavoro.
 | [docs/page-paths.md](./docs/page-paths.md) | Mappa URL → file sorgente |
 | [docs/concorrenti.md](./docs/concorrenti.md) | Benchmark «Chi siamo» e racconto |
 | [docs/testing.md](./docs/testing.md) | Collaudo manuale |
+| [docs/ui-ux-redesign-spec.md](./docs/ui-ux-redesign-spec.md) | Redesign UI/UX — audit, gap, istruzioni implementazione per agent |
 
 **Ultimo aggiornamento worklog:** 2026-10-30
 
@@ -190,6 +191,7 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 |------|------|
 | 2026-10-13 | Creato `worklog.md`; banner/hero/header overlay implementati |
 | 2026-10-30 | Refactor catalogo, scheda prodotto, chi siamo, FAQ accordion, carrello; ESLint/Prettier; test aggiuntivi |
+| 2026-10-30 | Redesign UI/UX (spec `docs/ui-ux-redesign-spec.md`): token, tab catalogo, toolbar, SectionHead, Notice, home.css |
 
 ---
 
@@ -200,6 +202,7 @@ Verificare in locale (`npm run dev` o preview su `dist/`) e su mobile reale o em
 ### Catalogo (`/catalogo`, filtri categoria)
 
 - Apri `/catalogo` e controlla intro testuale, filtri categoria e griglia prodotti ordinata per nome.
+- **Statico:** filtri `?categoria=` e `?ordina=` applicati anche in produzione via `src/scripts/catalog-page.ts` (build unica HTML).
 - Usa `?categoria=olio`, `legumi`, `condimenti`: titolo hero, breadcrumb intro e meta (view-source / tag description) coerenti.
 - Con listino attuale (prezzi null): compare l’avviso giallo «listino in aggiornamento» sopra la griglia.
 - Filtro su categoria senza prodotti (se simulabile): empty state con link «Vedi tutti i prodotti».

@@ -1,14 +1,42 @@
-import { useId, useState, type FC } from 'react';
+import { useEffect, useId, useState, type FC } from 'react';
 import type { FaqItem } from '@/content/faq';
+import './faqAccordion.css';
 
 type Props = {
   items: FaqItem[];
   intro?: string;
 };
 
+function hashToId(): string | null {
+  if (typeof window === 'undefined') return null;
+  const raw = window.location.hash.replace(/^#/, '');
+  return raw || null;
+}
+
 export const FaqAccordion: FC<Props> = ({ items, intro }) => {
   const baseId = useId();
   const [openId, setOpenId] = useState<string | null>(items[0]?.id ?? null);
+
+  useEffect(() => {
+    const fromHash = hashToId();
+    if (fromHash && items.some((i) => i.id === fromHash)) {
+      setOpenId(fromHash);
+      requestAnimationFrame(() => {
+        document.getElementById(fromHash)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  }, [items]);
+
+  useEffect(() => {
+    const onHash = () => {
+      const fromHash = hashToId();
+      if (fromHash && items.some((i) => i.id === fromHash)) {
+        setOpenId(fromHash);
+      }
+    };
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, [items]);
 
   return (
     <div className="faq-accordion">
@@ -41,48 +69,6 @@ export const FaqAccordion: FC<Props> = ({ items, intro }) => {
           </section>
         );
       })}
-      <style>{`
-        .faq-accordion { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
-        .faq-accordion__intro {
-          margin: 0 0 1rem;
-          color: #5c574f;
-          line-height: 1.6;
-          max-width: 40rem;
-        }
-        .faq-accordion__item {
-          border: 1px solid #e8e4dc;
-          border-radius: 12px;
-          background: #fff;
-          overflow: hidden;
-        }
-        .faq-accordion__heading { margin: 0; font-size: inherit; }
-        .faq-accordion__trigger {
-          width: 100%;
-          text-align: left;
-          min-height: 44px;
-          padding: 1rem 1.25rem;
-          font: inherit;
-          font-family: var(--font-display, Georgia, serif);
-          font-size: 1.125rem;
-          font-weight: 600;
-          color: #3d4f37;
-          background: transparent;
-          border: none;
-          cursor: pointer;
-        }
-        .faq-accordion__trigger:hover { background: #fafaf7; }
-        .faq-accordion__trigger:focus-visible {
-          outline: 2px solid #3d4f37;
-          outline-offset: -2px;
-        }
-        .faq-accordion__panel {
-          padding: 0 1.25rem 1rem;
-          color: #5c574f;
-          line-height: 1.65;
-          max-width: 40rem;
-        }
-        .faq-accordion__panel a { color: #3d4f37; }
-      `}</style>
     </div>
   );
 };

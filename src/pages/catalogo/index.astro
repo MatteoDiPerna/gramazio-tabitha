@@ -2,10 +2,11 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageContainer from '@/components/layout/PageContainer.astro';
 import PageHero from '@/components/layout/PageHero.astro';
-import CatalogFilters from '@/components/catalog/CatalogFilters.astro';
 import CatalogIntro from '@/components/catalog/CatalogIntro.astro';
 import CatalogProductGrid from '@/components/catalog/CatalogProductGrid.astro';
 import CatalogEmptyState from '@/components/catalog/CatalogEmptyState.astro';
+import CatalogToolbar from '@/components/catalog/CatalogToolbar.astro';
+import Notice from '@/components/ui/Notice.astro';
 import { staticPageHeroes } from '@/content/pageHeroes';
 import {
   catalogCategories,
@@ -15,12 +16,23 @@ import {
   isCatalogCategory,
   sortPublishedProducts,
 } from '@/domain/catalog';
+import type { CatalogSort } from '@/domain/catalog/query';
+import { catalogPageIntro } from '@/content/catalogPage';
 
 const catalogHero = staticPageHeroes.catalogo;
 
 const rawCategory = Astro.url.searchParams.get('categoria');
 const activeCategory = isCatalogCategory(rawCategory) ? rawCategory : null;
-const allProducts = sortPublishedProducts(getPublishedProducts(), 'name');
+const rawSort = Astro.url.searchParams.get('ordina');
+const sort: CatalogSort = rawSort === 'category' ? 'category' : 'name';
+
+const published = getPublishedProducts();
+const counts: Record<string, number> = {};
+for (const p of published) {
+  counts[p.category] = (counts[p.category] ?? 0) + 1;
+}
+
+const allProducts = sortPublishedProducts(published, sort);
 const products = activeCategory
   ? allProducts.filter((p) => p.category === activeCategory)
   : allProducts;
@@ -29,6 +41,23 @@ const categoryLabel = activeCategory
   : null;
 const metaDescription = catalogMetaDescription(activeCategory);
 const showPricingNotice = products.length > 0 && catalogHasIncompletePricing(products);
+
+const heroTitle = categoryLabel ?? catalogHero.title;
+
+const catalogPageConfig = {
+  defaultHeroTitle: catalogHero.title,
+  defaultPageTitle: categoryLabel ? `Catalogo — ${categoryLabel}` : 'Catalogo prodotti',
+  allIntro: catalogPageIntro.all,
+  byCategory: Object.fromEntries(
+    catalogCategories.map((c) => [
+      c.id,
+      {
+        ...catalogPageIntro.byCategory[c.id],
+        heroTitle: c.label,
+      },
+    ]),
+  ),
+};
 ---
 
 <BaseLayout
@@ -36,24 +65,44 @@ const showPricingNotice = products.length > 0 && catalogHasIncompletePricing(pro
   description={metaDescription}
   canonicalPath={activeCategory ? `/catalogo?categoria=${activeCategory}` : '/catalogo'}
 >
-  <PageHero
-    title={categoryLabel ? `Catalogo — ${categoryLabel}` : catalogHero.title}
-    lead={catalogHero.lead}
-    imageSrc={catalogHero.image}
-  />
-  <PageContainer>
-    <CatalogIntro activeCategory={activeCategory} categoryLabel={categoryLabel} />
-    <CatalogFilters activeCategory={activeCategory} />
+  <PageHero title={heroTitle} lead={catalogHero.lead} imageSrc={catalogHero.image} />
+  <PageContainer class="catalog-page">
+    <div data-catalog-page>
+    <script
+      type="application/json"
+      id="catalog-page-config"
+      set:html={JSON.stringify(catalogPageConfig)}
+    />
+    <CatalogIntro activeCategory={activeCategory} />
+
+    <CatalogToolbar
+      activeCategory={activeCategory}
+      productCount={products.length}
+      counts={counts}
+      sort={sort}
+    />
 
     {
-      products.length === 0 ? (
+      published.length === 0 ? (
         <CatalogEmptyState kind="category" />
       ) : (
         <>
-          {showPricingNotice && <CatalogEmptyState kind="pricing" />}
-          <CatalogProductGrid products={products} />
+          <div data-catalog-pricing-notice hidden={!showPricingNotice}>
+            <Notice variant="warning" title="Listino in aggiornamento">
+              Alcuni prezzi compariranno come «Prezzo su richiesta» finché non saranno confermati in
+              listino ufficiale.
+            </Notice>
+          </div>
+          <div data-catalog-empty hidden={products.length > 0}>
+            <CatalogEmptyState kind="category" />
+          </div>
+          <CatalogProductGrid products={published} />
         </>
       )
     }
+    </div>
   </PageContainer>
+  <script>
+    import '@/scripts/catalog-page';
+  </script>
 </BaseLayout>

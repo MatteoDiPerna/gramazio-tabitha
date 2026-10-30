@@ -7,6 +7,7 @@ import {
 } from '@/domain/catalog/display';
 import { AddToCartButton } from './AddToCartButton';
 import { canAddProductToCart } from '@/domain/cart/logic';
+import './productPurchase.css';
 
 type Props = {
   product: Product;
@@ -25,6 +26,7 @@ export const ProductPurchasePanel: FC<Props> = ({ product }) => {
 
   const perLiter = pricePerLiter(variant);
   const multiVariant = product.variants.length > 1;
+  const priceLabel = formatVariantPrice(variant);
 
   return (
     <>
@@ -60,9 +62,11 @@ export const ProductPurchasePanel: FC<Props> = ({ product }) => {
           )}
           <div>
             <dt>Prezzo</dt>
-            <dd>
-              {formatVariantPrice(variant)}
-              {perLiter && ` · ${perLiter}`}
+            <dd className="product-purchase__price">
+              {priceLabel}
+              {perLiter && (
+                <span className="product-purchase__per-liter"> · {perLiter}</span>
+              )}
             </dd>
           </div>
           <div>
@@ -82,7 +86,7 @@ export const ProductPurchasePanel: FC<Props> = ({ product }) => {
 
       <div className="product-purchase-sticky">
         <div className="product-purchase-sticky__inner">
-          <span className="product-purchase-sticky__price">{formatVariantPrice(variant)}</span>
+          <span className="product-purchase-sticky__price">{priceLabel}</span>
           <AddToCartButton
             productId={product.id}
             variantId={variant.id}
@@ -91,86 +95,6 @@ export const ProductPurchasePanel: FC<Props> = ({ product }) => {
           />
         </div>
       </div>
-
-      <style>{`
-        .product-purchase__variants {
-          border: none;
-          margin: 0 0 1rem;
-          padding: 0;
-        }
-        .product-purchase__variants legend {
-          font-size: 0.75rem;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: #5c574f;
-          margin-bottom: 0.5rem;
-        }
-        .product-purchase__variant-list {
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-        }
-        .product-purchase__variant {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          cursor: pointer;
-          min-height: 44px;
-        }
-        .product-purchase__facts {
-          margin: 0 0 0.5rem;
-          display: grid;
-          gap: 0.75rem;
-        }
-        .product-purchase__facts dt {
-          font-size: 0.75rem;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: #5c574f;
-        }
-        .product-purchase__facts dd {
-          margin: 0.25rem 0 0;
-          font-weight: 600;
-        }
-        .product-purchase-sticky {
-          display: none;
-        }
-        @media (max-width: 767px) {
-          .product-purchase__add-desktop {
-            display: none;
-          }
-          .product-purchase-sticky {
-            display: block;
-            position: fixed;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 90;
-            padding: 0.75rem var(--layout-inline-padding, 1rem);
-            background: #fff;
-            border-top: 1px solid #e8e4dc;
-            box-shadow: 0 -4px 16px rgb(0 0 0 / 0.06);
-          }
-          .product-purchase-sticky__inner {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            max-width: 40rem;
-            margin: 0 auto;
-          }
-          .product-purchase-sticky__price {
-            font-weight: 700;
-            font-size: 0.9375rem;
-            flex-shrink: 0;
-          }
-          .product-purchase-sticky .add-cart--compact {
-            flex: 1;
-          }
-          .product-detail {
-            padding-bottom: 5.5rem;
-          }
-        }
-      `}</style>
     </>
   );
 };

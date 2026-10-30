@@ -1,0 +1,137 @@
+---
+import CatalogCategoryNav from '@/components/catalog/CatalogCategoryNav.astro';
+import type { CatalogCategoryId } from '@/domain/catalog/catalogCategories';
+import type { CatalogSort } from '@/domain/catalog/query';
+
+interface Props {
+  activeCategory: CatalogCategoryId | null;
+  productCount: number;
+  counts: Record<string, number>;
+  sort: CatalogSort;
+}
+
+const { activeCategory, productCount, counts, sort } = Astro.props;
+
+function sortHref(next: CatalogSort): string {
+  const params = new URLSearchParams();
+  if (activeCategory) params.set('categoria', activeCategory);
+  if (next !== 'name') params.set('ordina', next);
+  const q = params.toString();
+  return q ? `/catalogo?${q}` : '/catalogo';
+}
+
+const countLabel =
+  productCount === 1 ? '1 prodotto' : `${productCount} prodotti`;
+---
+
+<div class="catalog-toolbar" data-catalog-toolbar>
+  <div class="catalog-toolbar__nav">
+    <CatalogCategoryNav activeCategory={activeCategory} counts={counts} sort={sort} />
+  </div>
+  <div class="catalog-toolbar__meta">
+    <p class="catalog-toolbar__count" data-catalog-count>{countLabel}</p>
+    <div class="catalog-toolbar__sort" role="group" aria-label="Ordina prodotti">
+      <span class="catalog-toolbar__sort-label">Ordina</span>
+      <a
+        href={sortHref('name')}
+        class:list={['catalog-toolbar__sort-link', { 'is-active': sort === 'name' }]}
+        aria-current={sort === 'name' ? 'true' : undefined}
+      >
+        Nome
+      </a>
+      <a
+        href={sortHref('category')}
+        class:list={['catalog-toolbar__sort-link', { 'is-active': sort === 'category' }]}
+        aria-current={sort === 'category' ? 'true' : undefined}
+      >
+        Categoria
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initCatalogToolbar() {
+    document.querySelectorAll('[data-catalog-toolbar]').forEach((bar) => {
+      if (bar.dataset.stuckBound === 'true') return;
+      bar.dataset.stuckBound = 'true';
+      const sentinel = document.createElement('div');
+      sentinel.setAttribute('data-catalog-toolbar-sentinel', '');
+      sentinel.setAttribute('aria-hidden', 'true');
+      bar.before(sentinel);
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          bar.classList.toggle('is-stuck', !entry?.isIntersecting);
+        },
+        { rootMargin: `-${getComputedStyle(document.documentElement).getPropertyValue('--header-height') || '5rem'} 0px 0px 0px`, threshold: 0 },
+      );
+      observer.observe(sentinel);
+    });
+  }
+
+  initCatalogToolbar();
+  document.addEventListener('astro:page-load', initCatalogToolbar);
+</script>
+
+<style>
+  .catalog-toolbar {
+    margin-top: var(--space-lg);
+    position: sticky;
+    top: var(--header-height);
+    z-index: var(--z-sticky);
+    background: var(--color-bg);
+    padding-block: var(--space-sm);
+  }
+
+  .catalog-toolbar.is-stuck {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .catalog-toolbar__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+    padding-bottom: var(--space-xs);
+  }
+
+  .catalog-toolbar__count {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .catalog-toolbar__sort {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--text-sm);
+  }
+
+  .catalog-toolbar__sort-label {
+    color: var(--color-text-muted);
+  }
+
+  .catalog-toolbar__sort-link {
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    min-height: var(--touch-min);
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .catalog-toolbar__sort-link:hover {
+    color: var(--color-primary);
+  }
+
+  .catalog-toolbar__sort-link.is-active {
+    color: var(--color-primary);
+    font-weight: 600;
+    background: var(--color-surface-sunken);
+  }
+</style>

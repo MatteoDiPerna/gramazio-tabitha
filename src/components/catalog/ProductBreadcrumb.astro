@@ -13,6 +13,9 @@ const categoryLabel =
 
 <nav class="product-breadcrumb" aria-label="Percorso">
   <ol>
+    <li>
+      <a href="/" class="product-breadcrumb__home" aria-label="Home">⌂</a>
+    </li>
     <li><a href="/catalogo">Catalogo</a></li>
     <li>
       <a href={`/catalogo?categoria=${product.category}`}>{categoryLabel}</a>
@@ -24,7 +27,7 @@ const categoryLabel =
 <style>
   .product-breadcrumb ol {
     list-style: none;
-    margin: 0 0 var(--space-lg);
+    margin: 0 0 var(--space-md);
     padding: 0;
     display: flex;
     flex-wrap: wrap;
@@ -51,5 +54,10 @@ const categoryLabel =
   .product-breadcrumb [aria-current='page'] {
     color: var(--color-text);
     font-weight: 500;
+  }
+
+  .product-breadcrumb__home {
+    font-size: 1.125rem;
+    line-height: 1;
   }
 </style>

@@ -9,13 +9,21 @@ interface Props {
 const { products } = Astro.props;
 ---
 
-<ul class="product-grid catalog-grid">
+<ul class="product-grid catalog-grid" data-catalog-grid>
   {
-    products.map((product) => (
-      <li>
-        <ProductCard product={product} />
-      </li>
-    ))
+    products.map((product) => {
+      const pricingIncomplete = product.variants.every((v) => v.priceCents == null);
+      return (
+        <li
+          data-catalog-product
+          data-catalog-category={product.category}
+          data-catalog-name={product.name}
+          data-catalog-pricing-incomplete={pricingIncomplete ? 'true' : 'false'}
+        >
+          <ProductCard product={product} />
+        </li>
+      );
+    })
   }
 </ul>
 

@@ -1,6 +1,7 @@
 ---
 import Badge from '@/components/ui/Badge.astro';
 import Button from '@/components/ui/Button.astro';
+import SectionHead from '@/components/ui/SectionHead.astro';
 import ProductBreadcrumb from '@/components/catalog/ProductBreadcrumb.astro';
 import CatalogProductGrid from '@/components/catalog/CatalogProductGrid.astro';
 import { ProductSpinViewer } from '@/components/catalog/ProductSpinViewer';
@@ -99,8 +100,8 @@ const hasLongDescription = (product.description?.length ?? 0) > 220;
 
   {
     related.length > 0 && (
-      <section class="product-detail__related" aria-labelledby="related-title">
-        <h2 id="related-title">Della stessa categoria</h2>
+      <section class="product-detail__related">
+        <SectionHead title="Della stessa categoria" titleId="related-title" showOrnament={false} />
         <CatalogProductGrid products={related} />
       </section>
     )
@@ -193,9 +194,7 @@ const hasLongDescription = (product.description?.length ?? 0) > 220;
     border-top: 1px solid var(--color-border);
   }
 
-  .product-detail__related h2 {
-    font-family: var(--font-display);
-    color: var(--color-primary);
-    margin: 0 0 var(--space-md);
+  .product-detail__related :global(.section-head) {
+    margin-bottom: var(--space-md);
   }
 </style>

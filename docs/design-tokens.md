@@ -9,7 +9,9 @@ Riferimento implementazione: `src/styles/tokens.css` (F04).
 | `--color-bg` | `#FAFAF7` | Sfondo pagina |
 | `--color-surface` | `#FFFFFF` | Card, header |
 | `--color-text` | `#2C2A26` | Testo principale |
-| `--color-text-muted` | `#5C574F` | Secondario |
+| `--color-text-muted` | `#4A4640` | Secondario (contrasto AA) |
+| `--color-surface-sunken` | `#F3F0E8` | Notice, riepiloghi |
+| `--color-border-strong` | `#D8D2C6` | Hover card |
 | `--color-primary` | `#3D4F37` | Nav, titoli, CTA secondari |
 | `--color-accent` | `#B8A066` | Accenti, badge premium |
 | `--color-accent-warm` | `#9C6B4E` | Territorio / citazioni (accento A) |
@@ -41,7 +43,12 @@ Caricamento font: subset latin, `font-display: swap`.
 - `--radius-sm`: 4px  
 - `--radius-md`: 8px  
 - `--radius-lg`: 12px  
-- Ombre: evitare ombre pesanti (flat, coerente con analisi)
+- `--radius-xl`: 16px  
+- `--shadow-sm` / `--shadow-md` / `--shadow-lg`: elevazione leggera (card, toolbar sticky)  
+- `--content-max`: 72rem (~1152px)  
+- `--z-sticky`, `--z-fab`, `--z-header`, `--z-overlay`  
+- `--duration-fast`, `--duration-normal`, `--ease-out`  
+- `--text-xs` … `--text-xl`  
 
 ## Breakpoint
 

@@ -95,7 +95,7 @@ export const CartPage: FC = () => {
     <>
       {waUrl ? (
         <a
-          className="cart-btn cart-btn--wa"
+          className="btn btn--whatsapp"
           href={waUrl}
           target="_blank"
           rel="noopener noreferrer"
@@ -109,10 +109,10 @@ export const CartPage: FC = () => {
           <a href={`tel:${siteConfig.phoneTel}`}>telefono</a>.
         </p>
       )}
-      <a className="cart-btn cart-btn--mail" href={mailUrl} onClick={guardExternalOrder}>
+      <a className="btn btn--secondary" href={mailUrl} onClick={guardExternalOrder}>
         Ordina via email
       </a>
-      <button type="button" className="cart-btn cart-btn--ghost" onClick={onCopy}>
+      <button type="button" className="btn btn--ghost" onClick={onCopy}>
         Copia testo ordine
       </button>
     </>

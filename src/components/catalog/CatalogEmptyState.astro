@@ -1,19 +1,24 @@
 ---
+import Button from '@/components/ui/Button.astro';
+
 interface Props {
   kind: 'category' | 'pricing';
 }
 
 const { kind } = Astro.props;
 
-const message =
-  kind === 'category'
-    ? 'Nessun prodotto in questa categoria al momento.'
-    : 'Il listino è in aggiornamento: alcuni prezzi compariranno come «Prezzo su richiesta» finché non saranno confermati.';
+const isCategory = kind === 'category';
 ---
 
-<div class:list={['catalog-empty', { 'catalog-empty--info': kind === 'pricing' }]} role="status">
-  <p>{message}</p>
-  <a href="/catalogo">Vedi tutti i prodotti</a>
+<div class="catalog-empty" role="status">
+  <p class="catalog-empty__text">
+    {
+      isCategory
+        ? 'Nessun prodotto in questa categoria al momento.'
+        : 'Il listino è in aggiornamento: alcuni prezzi compariranno come «Prezzo su richiesta» finché non saranno confermati.'
+    }
+  </p>
+  {isCategory && <Button href="/catalogo">Vedi tutti i prodotti</Button>}
 </div>
 
 <style>
@@ -24,27 +29,13 @@ const message =
     background: var(--color-surface);
     border: 1px dashed var(--color-border);
     border-radius: var(--radius-lg);
+    max-width: 28rem;
+    margin-inline: auto;
   }
 
-  .catalog-empty p {
-    margin: 0 0 var(--space-md);
+  .catalog-empty__text {
+    margin: 0 0 var(--space-lg);
     color: var(--color-text-muted);
-  }
-
-  .catalog-empty a {
-    font-weight: 600;
-    color: var(--color-primary);
-  }
-
-  .catalog-empty--info {
-    text-align: left;
-    border-style: solid;
-    background: #fff8e6;
-    margin-top: var(--space-lg);
-    padding: var(--space-md) var(--space-lg);
-  }
-
-  .catalog-empty--info a {
-    display: none;
+    line-height: 1.6;
   }
 </style>

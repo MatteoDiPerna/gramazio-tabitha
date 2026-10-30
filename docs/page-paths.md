@@ -63,7 +63,8 @@ Il carrello in header è un’isola React: `src/components/cart/CartNavLink.tsx`
 
 | Cosa modifichi | Path |
 |----------------|------|
-| Layout catalogo, filtri, griglia | `src/pages/catalogo/index.astro`, `src/components/catalog/Catalog*.astro` |
+| Layout catalogo, filtri, griglia | `src/pages/catalogo/index.astro`, `CatalogToolbar.astro`, `CatalogCategoryNav.astro`, `CatalogIntro.astro` |
+| Design system condiviso | `src/styles/tokens.css`, `buttons.css`, `sections.css`, `SectionHead.astro`, `Notice.astro` |
 | Intro testuale catalogo | `src/content/catalogPage.ts`, `CatalogIntro.astro` |
 | Etichette categorie | `src/domain/catalog/catalogCategories.ts` |
 | Elenco prodotti, prezzi, categorie | `src/domain/catalog/products.data.ts` |
