@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/layout/PageHero.astro';
-import Button from '@/components/ui/Button.astro';
 import Card from '@/components/ui/Card.astro';
+import CallPopover from '@/components/ui/CallPopover.astro';
 import { siteConfig } from '@/config/site.config';
 import { staticPageHeroes } from '@/content/pageHeroes';
 
@@ -27,32 +27,36 @@ const mapsDirectionsHref = `https://www.google.com/maps/search/?api=1&query=${ma
     <section class="contact-page__details" aria-label="Recapiti">
       <div class="container contact-page__grid">
         <Card class="contact-block">
-          <span class="contact-block__icon" aria-hidden="true">📍</span>
-          <h2 class="contact-block__label">Indirizzo</h2>
-          <p class="contact-block__value">
-            {addressLine1}<br />
-            {addressLine2}<br />
-            {addressLine3}
-          </p>
+          <div class="contact-block__main">
+            <span class="contact-block__icon" aria-hidden="true">📍</span>
+            <h2 class="contact-block__label">Indirizzo</h2>
+            <p class="contact-block__value">
+              {addressLine1}<br />
+              {addressLine2}<br />
+              {addressLine3}
+            </p>
+          </div>
         </Card>
 
         <Card class="contact-block">
-          <span class="contact-block__icon" aria-hidden="true">📞</span>
-          <h2 class="contact-block__label">Telefono</h2>
-          <p class="contact-block__value">
-            <a href={`tel:${siteConfig.phoneTel}`}>{siteConfig.phoneDisplay}</a>
-          </p>
-          <Button href={`tel:${siteConfig.phoneTel}`} variant="secondary" class="contact-block__btn">
-            Chiama
-          </Button>
+          <div class="contact-block__main">
+            <span class="contact-block__icon" aria-hidden="true">📞</span>
+            <h2 class="contact-block__label">Telefono</h2>
+            <p class="contact-block__value">
+              <a href={`tel:${siteConfig.phoneTel}`}>{siteConfig.phoneDisplay}</a>
+            </p>
+          </div>
+          <CallPopover variant="button" class="contact-block__call-popover" />
         </Card>
 
         <Card class="contact-block">
-          <span class="contact-block__icon" aria-hidden="true">✉</span>
-          <h2 class="contact-block__label">E mail</h2>
-          <p class="contact-block__value">
-            <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
-          </p>
+          <div class="contact-block__main">
+            <span class="contact-block__icon" aria-hidden="true">✉</span>
+            <h2 class="contact-block__label">E mail</h2>
+            <p class="contact-block__value">
+              <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+            </p>
+          </div>
         </Card>
       </div>
     </section>
@@ -88,22 +92,37 @@ const mapsDirectionsHref = `https://www.google.com/maps/search/?api=1&query=${ma
     display: grid;
     gap: var(--space-lg);
     text-align: center;
-    max-width: 52rem;
+    width: 100%;
+    max-width: var(--content-max);
     margin-inline: auto;
+    align-items: stretch;
   }
 
   @media (min-width: 768px) {
     .contact-page__grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      column-gap: var(--space-xl);
+      column-gap: var(--space-lg);
       row-gap: var(--space-lg);
-      align-items: start;
     }
   }
 
   .contact-block:global(.card) {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
     height: 100%;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .contact-block__main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 auto;
   }
 
   .contact-block__icon {
@@ -122,14 +141,23 @@ const mapsDirectionsHref = `https://www.google.com/maps/search/?api=1&query=${ma
 
   .contact-block__value {
     margin: 0;
+    width: 100%;
+    max-width: 100%;
     font-size: 1rem;
     line-height: 1.65;
     color: var(--color-text);
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    hyphens: auto;
   }
 
   .contact-block__value a {
+    display: inline-block;
+    max-width: 100%;
     text-decoration: none;
     color: inherit;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   .contact-block__value a:hover {
@@ -137,9 +165,12 @@ const mapsDirectionsHref = `https://www.google.com/maps/search/?api=1&query=${ma
     text-decoration: underline;
   }
 
-  .contact-block__btn:global(.btn) {
-    margin-top: var(--space-xl);
-    min-width: 10.5rem;
+  .contact-block__call-popover {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding-top: var(--space-lg);
+    width: 100%;
+    max-width: 12rem;
   }
 
   .contact-map {

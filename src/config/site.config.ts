@@ -32,6 +32,9 @@ export const siteConfig = {
   /** E.164 senza + — placeholder: confermare che sia WhatsApp (F08.01) */
   whatsappE164: '' as string,
 
+  /** Referente per telefono / FAB «Chiama» */
+  contactPerson: 'Francesco Cannarozzi',
+
   phoneDisplay: '+39 333 412 5391',
   phoneTel: '+393334125391',
 

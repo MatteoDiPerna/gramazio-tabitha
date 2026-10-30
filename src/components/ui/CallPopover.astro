@@ -1,0 +1,265 @@
+---
+import { siteConfig } from '@/config/site.config';
+
+interface Props {
+  /** FAB fisso in basso a destra oppure pulsante inline (es. pagina Contatti) */
+  variant?: 'fab' | 'button';
+  class?: string;
+}
+
+const { variant = 'button', class: className = '' } = Astro.props;
+
+const contactName = siteConfig.contactPerson;
+const panelId = `call-popover-panel-${variant}`;
+---
+
+<div
+  class:list={['call-popover', variant === 'fab' && 'call-popover--fab', className]}
+  data-call-popover
+>
+  {
+    variant === 'fab' ? (
+      <button
+        type="button"
+        class="call-popover__trigger call-popover__trigger--fab"
+        data-call-popover-trigger
+        aria-expanded="false"
+        aria-controls={panelId}
+        aria-haspopup="dialog"
+      >
+        <span class="call-popover__fab-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+          </svg>
+        </span>
+        <span class="call-popover__fab-label">Chiama</span>
+      </button>
+    ) : (
+      <button
+        type="button"
+        class="call-popover__trigger btn btn--secondary"
+        data-call-popover-trigger
+        aria-expanded="false"
+        aria-controls={panelId}
+        aria-haspopup="dialog"
+      >
+        Chiama
+      </button>
+    )
+  }
+
+  <div
+    id={panelId}
+    class="call-popover__panel"
+    data-call-popover-panel
+    hidden
+    role="dialog"
+    aria-modal="true"
+    aria-label={`Telefono — ${contactName}`}
+  >
+    <p class="call-popover__eyebrow">Contatto telefonico</p>
+    <p class="call-popover__name">{contactName}</p>
+    <p class="call-popover__number">{siteConfig.phoneDisplay}</p>
+    <div class="call-popover__actions">
+      <a href={`tel:${siteConfig.phoneTel}`} class="btn btn--primary call-popover__call-link">
+        Chiama ora
+      </a>
+      <button type="button" class="btn btn--ghost call-popover__dismiss" data-call-popover-close>
+        Chiudi
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function setOpen(root: HTMLElement, open: boolean) {
+    const trigger = root.querySelector<HTMLElement>('[data-call-popover-trigger]');
+    const panel = root.querySelector<HTMLElement>('[data-call-popover-panel]');
+    if (!trigger || !panel) return;
+
+    root.classList.toggle('is-open', open);
+    trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    panel.hidden = !open;
+    if (open) {
+      panel.querySelector<HTMLElement>('[data-call-popover-close]')?.focus();
+    } else {
+      trigger.focus();
+    }
+  }
+
+  function initCallPopovers() {
+    document.querySelectorAll<HTMLElement>('[data-call-popover]').forEach((root) => {
+      if (root.dataset.callPopoverBound === 'true') return;
+      root.dataset.callPopoverBound = 'true';
+
+      const trigger = root.querySelector<HTMLElement>('[data-call-popover-trigger]');
+      const panel = root.querySelector<HTMLElement>('[data-call-popover-panel]');
+      if (!trigger || !panel) return;
+
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const open = !root.classList.contains('is-open');
+        document.querySelectorAll<HTMLElement>('[data-call-popover].is-open').forEach((other) => {
+          if (other !== root) setOpen(other, false);
+        });
+        setOpen(root, open);
+      });
+
+      root.querySelectorAll('[data-call-popover-close]').forEach((btn) => {
+        btn.addEventListener('click', () => setOpen(root, false));
+      });
+    });
+  }
+
+  function onDocumentClick(event: MouseEvent) {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    document.querySelectorAll<HTMLElement>('[data-call-popover].is-open').forEach((root) => {
+      if (!root.contains(target)) setOpen(root, false);
+    });
+  }
+
+  function onDocumentKeydown(event: KeyboardEvent) {
+    if (event.key !== 'Escape') return;
+    document.querySelectorAll<HTMLElement>('[data-call-popover].is-open').forEach((root) => {
+      setOpen(root, false);
+    });
+  }
+
+  initCallPopovers();
+  document.addEventListener('astro:page-load', initCallPopovers);
+  document.addEventListener('click', onDocumentClick);
+  document.addEventListener('keydown', onDocumentKeydown);
+</script>
+
+<style>
+  .call-popover__panel {
+    margin: 0;
+    padding: var(--space-md) var(--space-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+    z-index: calc(var(--z-fab) + 1);
+  }
+
+  .call-popover__eyebrow {
+    margin: 0 0 var(--space-xs);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .call-popover__name {
+    margin: 0 0 var(--space-xs);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    line-height: 1.25;
+  }
+
+  .call-popover__number {
+    margin: 0 0 var(--space-md);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-text);
+    letter-spacing: 0.02em;
+  }
+
+  .call-popover__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    align-items: stretch;
+  }
+
+  .call-popover__call-link,
+  .call-popover__dismiss {
+    width: 100%;
+  }
+
+  .call-popover--fab {
+    position: fixed;
+    right: var(--space-md);
+    bottom: var(--space-md);
+    z-index: var(--z-fab);
+  }
+
+  .call-popover--fab .call-popover__panel {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + var(--space-sm));
+    min-width: min(18rem, calc(100vw - 2 * var(--layout-inline-padding)));
+    max-width: 20rem;
+  }
+
+  .call-popover__trigger--fab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    min-width: var(--touch-min);
+    min-height: var(--touch-min);
+    padding: 0 var(--space-md);
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--text-sm);
+    color: #fff;
+    background: var(--color-primary);
+    border: 2px solid #fff;
+    border-radius: 999px;
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+  }
+
+  .call-popover__trigger--fab:hover {
+    filter: brightness(1.05);
+  }
+
+  .call-popover__fab-icon {
+    display: flex;
+    line-height: 0;
+  }
+
+  .call-popover__fab-label {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .call-popover--fab {
+      right: var(--space-lg);
+      bottom: var(--space-lg);
+    }
+
+    .call-popover__trigger--fab {
+      padding-inline: var(--space-lg);
+    }
+
+    .call-popover__fab-label {
+      display: inline;
+    }
+  }
+
+  .call-popover:not(.call-popover--fab) .call-popover__panel {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(100% + var(--space-sm));
+    min-width: min(18rem, 100%);
+    width: max-content;
+    max-width: 20rem;
+  }
+
+  .call-popover:not(.call-popover--fab) {
+    position: relative;
+    display: inline-flex;
+    width: 100%;
+    max-width: 12rem;
+    justify-content: center;
+  }
+</style>
