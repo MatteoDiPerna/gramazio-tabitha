@@ -48,11 +48,11 @@
 
   --header-height: 5rem;
   --header-logo-max: 3.25rem;
-  /** Larghezza contenuto e gutter */
-  --content-max: 72rem;
-  --layout-inline-padding: clamp(1.25rem, 5vw, 2.75rem);
-  --content-inset-start: 0.5rem;
-  --content-inset-end: 0.5rem;
+  /** Larghezza contenuto e gutter (margini laterali pagine) */
+  --content-max: 100rem;
+  --layout-inline-padding: clamp(0.625rem, 1.75vw, 1rem);
+  --content-inset-start: 0;
+  --content-inset-end: 0;
   /** @deprecated — usare --layout-inline-padding */
   --container-padding-inline: var(--layout-inline-padding);
   --touch-min: 44px;

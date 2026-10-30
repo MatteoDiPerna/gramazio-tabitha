@@ -45,7 +45,8 @@ Caricamento font: subset latin, `font-display: swap`.
 - `--radius-lg`: 12px  
 - `--radius-xl`: 16px  
 - `--shadow-sm` / `--shadow-md` / `--shadow-lg`: elevazione leggera (card, toolbar sticky)  
-- `--content-max`: 72rem (~1152px)  
+- `--content-max`: 100rem (~1600px), con cap fluido `min(..., 100vw − gutter)` su `.container`  
+- `--layout-inline-padding`: `clamp(0.625rem, 1.75vw, 1rem)` — gutter laterale pagine  
 - `--z-sticky`, `--z-fab`, `--z-header`, `--z-overlay`  
 - `--duration-fast`, `--duration-normal`, `--ease-out`  
 - `--text-xs` … `--text-xl`  

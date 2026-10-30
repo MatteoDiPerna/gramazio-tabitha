@@ -192,6 +192,7 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 | 2026-10-13 | Creato `worklog.md`; banner/hero/header overlay implementati |
 | 2026-10-30 | Refactor catalogo, scheda prodotto, chi siamo, FAQ accordion, carrello; ESLint/Prettier; test aggiuntivi |
 | 2026-10-30 | Redesign UI/UX (spec `docs/ui-ux-redesign-spec.md`): token, tab catalogo, toolbar, SectionHead, Notice, home.css |
+| 2026-10-30 | Gutter laterali ridotti (`--layout-inline-padding`, `--content-max` fluido) |
 
 ---
 
