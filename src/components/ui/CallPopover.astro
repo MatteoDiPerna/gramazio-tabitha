@@ -258,8 +258,8 @@ const panelId = `call-popover-panel-${variant}`;
   .call-popover:not(.call-popover--fab) {
     position: relative;
     display: inline-flex;
-    width: 100%;
-    max-width: 12rem;
+    width: auto;
+    max-width: min(12rem, 100%);
     justify-content: center;
   }
 </style>
