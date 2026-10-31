@@ -10,6 +10,9 @@ import imageUrlBuilder from '@sanity/image-url';
 import { buildLegacyBundle } from '../../src/cms/legacyBundle.ts';
 import { catalogSchema } from '../../src/domain/catalog/catalog.schema.ts';
 import type { CmsBundle, CmsEditorialSnapshot } from '../../src/cms/types.ts';
+import { loadCmsEnv } from './loadDotenv.ts';
+
+loadCmsEnv();
 
 const projectId = process.env.SANITY_PROJECT_ID;
 const dataset = process.env.SANITY_DATASET ?? 'production';

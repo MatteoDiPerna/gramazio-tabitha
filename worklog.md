@@ -14,8 +14,12 @@ Aggiornare le checkbox man mano che si completa il lavoro.
 | [docs/concorrenti.md](./docs/concorrenti.md) | Benchmark «Chi siamo» e racconto |
 | [docs/testing.md](./docs/testing.md) | Collaudo manuale |
 | [docs/ui-ux-redesign-spec.md](./docs/ui-ux-redesign-spec.md) | Redesign UI/UX — audit, gap, istruzioni implementazione per agent |
+| [PLAN-BACKOFFICE.md](./PLAN-BACKOFFICE.md) | Piano backoffice Sanity (analisi + fasi) |
+| [docs/backoffice-setup.md](./docs/backoffice-setup.md) | Avvio Studio, `.env`, import/sync |
+| [docs/backoffice-manuale-operatore.md](./docs/backoffice-manuale-operatore.md) | Guida titolare |
+| [docs/vercel-staging.md](./docs/vercel-staging.md) | Deploy staging su Vercel (passo-passo) |
 
-**Ultimo aggiornamento worklog:** 2026-10-30
+**Ultimo aggiornamento worklog:** 2026-10-31
 
 ---
 
@@ -37,15 +41,32 @@ Aggiornare le checkbox man mano che si completa il lavoro.
 
 ---
 
+## Backoffice Sanity (2026-10-31)
+
+- [x] **P1** — Piano [`PLAN-BACKOFFICE.md`](./PLAN-BACKOFFICE.md) (21 sezioni, ADM-001 → soluzione CMS)
+- [x] **P0** — Sanity Studio in [`backoffice/`](./backoffice/) (schema prodotti, impostazioni, home, FAQ, legali, struttura menu IT)
+- [x] **P0** — Runtime sito da `src/generated/cms/bundle.json` + validazione Zod catalogo
+- [x] **P0** — Seed legacy `src/content/seeds/`, `buildLegacyBundle()`, `npm run cms:snapshot`
+- [x] **P0** — Script `cms:import`, `cms:sync` (prebuild), `loadDotenv` (root + `backoffice/.env`)
+- [x] **P1** — Pagine legali da bundle CMS (`LegalHtml.astro`, avviso + `bodyHtml`)
+- [x] **P1** — Documentazione setup + manuale operatore + ADR [003-backoffice-cms.md](./docs/decisions/003-backoffice-cms.md)
+- [ ] **P1** — Popolamento Sanity in cloud (`npm run cms:import` + Publish in Studio) — **per ambiente dev**
+- [ ] **P1** — Token Sanity + variabili su Vercel preview/production
+- [ ] **P2** — Webhook Sanity → Deploy Hook Vercel (pubblicazione automatica sito)
+- [ ] **P2** — Upload immagini prodotto via Studio + sync download in `public/`
+- [ ] **P2** — Collaudo autonomia titolare (18/20 attività PLAN-BACKOFFICE §4)
+
+---
+
 ## Dati e go-live (🚫 dipendono dal cliente)
 
 Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 
-- [ ] **P0** — Listino completo (prodotto × formato × prezzo IVA incl.) in `products.data.ts`
+- [ ] **P0** — Listino completo (prodotto × formato × prezzo IVA incl.) — backoffice Sanity o seed / bundle
 - [ ] **P0** — Foto prodotti reali + diritti d’uso (`public/images/products/`)
 - [ ] **P0** — P.IVA, ragione sociale, REA, PEC → note legali
-- [ ] **P0** — Testi privacy / cookie / note legali approvati (sostituire bozze in `privacy.astro`, `cookie.astro`, `note-legali.astro`)
-- [ ] **P0** — Conferma WhatsApp E.164 in `site.config.ts` (F08.01)
+- [ ] **P0** — Testi privacy / cookie / note legali approvati (contenuto in bundle CMS / legali Sanity)
+- [ ] **P0** — Conferma WhatsApp E.164 (Impostazioni sito / bundle CMS)
 - [ ] **P1** — Zone spedizione, costi, corrieri, tempi → FAQ + copy carrello
 - [ ] **P1** — Metodi di pagamento e condizioni commerciali
 - [ ] **P1** — Dominio produzione + `SITE_URL` / `siteConfig.url`
@@ -61,13 +82,14 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 - [ ] **P2** — Immagini hero/WebP: pipeline o asset ottimizzati (F11.04)
 - [x] **P2** — Documentare header overlay in `docs/page-paths.md` (`headerScroll.ts`)
 - [ ] **P2** — Banner cookie solo se si aggiunge analytics (F12.02)
-- [ ] **P2** — Deploy Vercel + smoke test (F15) — **dopo** miglioramento v1
+- [ ] **P1** — Deploy Vercel **staging** (`*.vercel.app`, `SITE_URL` = URL preview) — **consigliato prima del go-live pubblico**
+- [ ] **P0** — Go-live **pubblico** (dominio, dati legali/listino confermati, no placeholder recensioni) — F15
 
 ---
 
 ## Homepage (`src/pages/index.astro`)
 
-- [ ] **P1** — Copy definitivo sezioni (allineare `homePage.ts` al materiale cliente)
+- [ ] **P1** — Copy definitivo sezioni (Homepage in Sanity / bundle CMS)
 - [x] **P1** — Recensioni: disclaimer esplicito placeholder in `homePage.ts` + homepage
 - [ ] **P2** — Ridurre peso JS (galleria, bundle React) se Lighthouse lo richiede
 - [ ] **P2** — Coerenza eyebrow sezioni interne vs banner (opzionale)
@@ -177,11 +199,11 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 
 ## Ordine di lavoro suggerito
 
-1. Dati cliente bloccanti (listino, foto, legali, WhatsApp) — in parallelo dove possibile  
-2. ~~Scheda prodotto~~ + ~~refactoring catalogo~~  
-3. ~~Chi siamo~~, ~~FAQ~~, ~~carrello~~  
-4. Collaudo + performance  
-5. Deploy (F15)
+1. Deploy Vercel **staging** + smoke (opzionale ma utile subito)  
+2. Dati cliente (listino, foto, legali, WhatsApp) — anche via backoffice dopo import  
+3. ~~Refactor v1~~ + ~~backoffice MVP~~  
+4. Collaudo + Lighthouse  
+5. Dominio + go-live pubblico (F15)
 
 ---
 
@@ -194,6 +216,7 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 | 2026-10-30 | Redesign UI/UX (spec `docs/ui-ux-redesign-spec.md`): token, tab catalogo, toolbar, SectionHead, Notice, home.css |
 | 2026-10-30 | Gutter laterali ridotti (`--layout-inline-padding`, `--content-max` fluido) |
 | 2026-10-31 | Chiusura PLAN v1: SITE_URL Vercel, ricerca catalogo, smoke/verify CI, legali, FAQ, deploy-log |
+| 2026-10-31 | Backoffice: PLAN-BACKOFFICE, Sanity Studio (`backoffice/`), bundle CMS, cms:import/sync/snapshot, legali da CMS, doc setup/manuale/ADR 003; README aggiornato |
 
 ---
 
@@ -232,7 +255,13 @@ Verificare in locale (`npm run dev` o preview su `dist/`) e su mobile reale o em
 - Telefono invalido (es. `123`) blocca WA/email con messaggio errore; telefono vuoto o valido consente l’invio.
 - Barra azioni sticky su mobile (WhatsApp / email / copia).
 - `<details>` anteprima messaggio; copia negli appunti.
-- Simula prodotto rimosso: imposta temporaneamente `published: false` su un id in `products.data.ts`, ricarica carrello → avviso rimozione righe.
+- Simula prodotto rimosso: `published: false` in backoffice (o bundle) → `cms:sync` + riavvio dev → avviso rimozione righe in carrello.
+
+### Backoffice (Sanity Studio)
+
+- `npm run backoffice:dev` → http://localhost:3333 — login Sanity, menu «Gestione sito».
+- Dopo `npm run cms:import`: 4 prodotti in Catalogo, singleton impostazioni/home/FAQ; **Pubblica** ogni documento.
+- Modifica prezzo → Publish → `npm run cms:sync` → riavvia `npm run dev` → verifica catalogo e carrello.
 
 ### FAQ (`/faq`)
 

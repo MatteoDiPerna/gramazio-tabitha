@@ -1,44 +1,8 @@
 {
   "version": 1,
-  "syncedAt": "2026-10-31T14:35:29.250Z",
-  "source": "repo-snapshot",
+  "syncedAt": "2026-10-31T15:05:14.891Z",
+  "source": "sanity",
   "catalog": [
-    {
-      "id": "olio-evo-bio",
-      "slug": "olio-extravergine-biologico",
-      "name": "Olio extravergine di oliva biologico",
-      "shortDescription": "Olio EVO biologico da cultivar autoctone, nel rispetto dei cicli naturali.",
-      "description": "Olio extravergine biologico da cultivar autoctone. Listino prodotti v1 confermato — vedi docs/listino.md.",
-      "productInfo": {
-        "storage": "Conservare al riparo da luce e fonti di calore, in contenitore ben chiuso. Consumare preferibilmente entro i termini indicati in etichetta."
-      },
-      "category": "olio",
-      "image": {
-        "src": "/images/products/olio-extravergine-biologico.jpg",
-        "alt": "Lattina di olio extravergine di oliva biologico Nine"
-      },
-      "variants": [
-        {
-          "id": "500ml",
-          "label": "500 ml",
-          "priceCents": 1290,
-          "unit": "ml",
-          "unitAmount": 500
-        },
-        {
-          "id": "750ml",
-          "label": "750 ml",
-          "priceCents": 1790,
-          "unit": "ml",
-          "unitAmount": 750
-        }
-      ],
-      "published": true,
-      "available": true,
-      "badges": [
-        "bio"
-      ]
-    },
     {
       "id": "fava-carpino",
       "slug": "fava-di-carpino",
@@ -47,7 +11,7 @@
       "category": "legumi",
       "image": {
         "src": "/images/products/fava-di-carpino.jpg",
-        "alt": "Confezione di Fava di Carpino Presidio Slow Food"
+        "alt": "Fava di Carpino"
       },
       "variants": [
         {
@@ -71,7 +35,7 @@
       "category": "legumi",
       "image": {
         "src": "/images/products/la-favetta.jpg",
-        "alt": "Confezione La Favetta, fave spezzate di Carpino"
+        "alt": "La Favetta"
       },
       "variants": [
         {
@@ -84,6 +48,42 @@
       "available": true
     },
     {
+      "id": "olio-evo-bio",
+      "slug": "olio-extravergine-biologico",
+      "name": "Olio extravergine di oliva biologico",
+      "shortDescription": "Olio EVO biologico da cultivar autoctone, nel rispetto dei cicli naturali.",
+      "description": "Olio extravergine biologico da cultivar autoctone. Listino prodotti v1 confermato — vedi docs/listino.md.",
+      "category": "olio",
+      "image": {
+        "src": "/images/products/olio-extravergine-biologico.jpg",
+        "alt": "Olio extravergine di oliva biologico"
+      },
+      "variants": [
+        {
+          "id": "500ml",
+          "label": "500 ml",
+          "priceCents": 1290,
+          "unit": "ml",
+          "unitAmount": 500
+        },
+        {
+          "id": "750ml",
+          "label": "750 ml",
+          "priceCents": 1790,
+          "unit": "ml",
+          "unitAmount": 750
+        }
+      ],
+      "published": true,
+      "available": true,
+      "badges": [
+        "bio"
+      ],
+      "productInfo": {
+        "storage": "Conservare al riparo da luce e fonti di calore, in contenitore ben chiuso. Consumare preferibilmente entro i termini indicati in etichetta."
+      }
+    },
+    {
       "id": "pate-fave",
       "slug": "pate-di-fave",
       "name": "Patè di fave",
@@ -91,7 +91,7 @@
       "category": "condimenti",
       "image": {
         "src": "/images/products/pate-di-fave.jpg",
-        "alt": "Vaso di patè di fave con Fava di Carpino"
+        "alt": "Patè di fave"
       },
       "variants": [
         {
@@ -109,20 +109,20 @@
     "shortName": "Gramazio Tabitha",
     "description": "Olio extravergine biologico e prodotti agricoli da Carpino (FG), Gargano.",
     "address": {
-      "street": "Via Matteotti, 54",
       "city": "Carpino",
-      "province": "FG",
+      "country": "IT",
       "postalCode": "71010",
-      "country": "IT"
+      "province": "FG",
+      "street": "Via Matteotti, 54"
     },
     "email": "francescocannarozzi@virgilio.it",
     "ordersEmail": "francescocannarozzi@virgilio.it",
     "whatsappE164": "393299147756",
     "legal": {
+      "ateco": "01.26 — Coltivazione di frutti oleosi",
       "businessName": "Gramazio Tabitha",
-      "vatNumber": "04192910711",
       "pec": "tabithagramazio@pec.it",
-      "ateco": "01.26 — Coltivazione di frutti oleosi"
+      "vatNumber": "04192910711"
     },
     "contactPerson": "Francesco Cannarozzi",
     "phoneDisplay": "+39 333 412 5391",
@@ -130,14 +130,13 @@
     "orderDisclaimer": "Inviando la richiesta d'ordine dichiari di aver letto l'informativa privacy. La richiesta non costituisce ordine confermato: l'azienda ti ricontatterà per disponibilità, spedizione e pagamento.",
     "nav": [
       {
-        "kind": "link",
         "href": "/catalogo",
+        "kind": "link",
         "label": "Prodotti"
       },
       {
         "kind": "group",
         "label": "Azienda",
-        "menuId": "nav-azienda",
         "links": [
           {
             "href": "/chi-siamo",
@@ -147,11 +146,12 @@
             "href": "/faq",
             "label": "Ordini e spedizioni"
           }
-        ]
+        ],
+        "menuId": "nav-azienda"
       },
       {
-        "kind": "link",
         "href": "/contatti",
+        "kind": "link",
         "label": "Contatti"
       }
     ],
@@ -177,173 +177,173 @@
   "editorial": {
     "homeAbout": {
       "eyebrow": "Carpino · Gargano · FG",
-      "title": "Azienda Agricola Gramazio Tabitha",
+      "highlights": [
+        {
+          "text": "Estrazione a freddo e origine controllata dal campo alla bottiglia.",
+          "title": "Olio extravergine biologico"
+        },
+        {
+          "text": "Processi meccanici che non superano i 27 °C, come per un vero EVO di qualità.",
+          "title": "Temperatura di lavorazione"
+        }
+      ],
       "paragraphs": [
         "Produzione agricola artigianale nel cuore del Gargano: olio extravergine biologico e specialità del territorio, dalla fava di Carpino alle conserve di stagione.",
         "Le olive e i legumi vengono curati rispettando i ritmi naturali, con attenzione alla qualità del frutto e alla tracciabilità della filiera.",
         "Gli oli dell’azienda sono ottenuti da cultivar del territorio, con lavorazioni che privilegiano la spremitura a freddo e la conservazione corretta del prodotto finito."
       ],
-      "highlights": [
-        {
-          "title": "Olio extravergine biologico",
-          "text": "Estrazione a freddo e origine controllata dal campo alla bottiglia."
-        },
-        {
-          "title": "Temperatura di lavorazione",
-          "text": "Processi meccanici che non superano i 27 °C, come per un vero EVO di qualità."
-        }
-      ]
+      "title": "Azienda Agricola Gramazio Tabitha"
     },
     "homeBannerDivider": {
       "title": "Il nostro olio extravergine biologico"
     },
     "homeServicesSection": {
       "eyebrow": "Cosa facciamo",
-      "title": "I servizi dell’azienda",
       "items": [
         {
-          "title": "Vendita olio EVO bio",
           "description": "Olio extravergine biologico di produzione propria, ottenuto da olive selezionate e spremute a freddo, disponibile nei formati indicati in catalogo.",
-          "href": "/catalogo?categoria=olio"
+          "href": "/catalogo?categoria=olio",
+          "title": "Vendita olio EVO bio"
         },
         {
-          "title": "Legumi e specialità locali",
           "description": "Fava di Carpino, conserve e prodotti agricoli del Gargano, con stagionalità e disponibilità da confermare al momento dell’ordine.",
-          "href": "/catalogo?categoria=legumi"
+          "href": "/catalogo?categoria=legumi",
+          "title": "Legumi e specialità locali"
         },
         {
-          "title": "Ordini diretti con l’azienda",
           "description": "Componi il riepilogo ordine sul sito e invialo via WhatsApp, email o telefono. Nessuna registrazione: ti ricontattiamo per disponibilità, spedizione e pagamento.",
-          "href": "/carrello"
+          "href": "/carrello",
+          "title": "Ordini diretti con l’azienda"
         }
-      ]
+      ],
+      "title": "I servizi dell’azienda"
     },
     "homeGallerySection": {
       "eyebrow": "Alcune foto dell’azienda",
-      "title": "Il territorio",
       "slides": [
         {
-          "src": "/images/home/ulivi_2.jpg",
+          "alt": "Oliveto nel territorio del Gargano",
           "caption": "Gli oliveti",
-          "alt": "Oliveto nel territorio del Gargano"
+          "src": "/images/home/ulivi_2.jpg"
         },
         {
-          "src": "/images/home/ulivi_3.jpg",
+          "alt": "Ulivi e paesaggio agricolo",
           "caption": "Cura del frutto",
-          "alt": "Ulivi e paesaggio agricolo"
+          "src": "/images/home/ulivi_3.jpg"
         },
         {
-          "src": "/images/home/olive.jpg",
+          "alt": "Olive su ulivo nel Gargano",
           "caption": "Le olive",
-          "alt": "Olive su ulivo nel Gargano"
+          "src": "/images/home/olive.jpg"
         },
         {
-          "src": "/images/home/fiera_2.jpg",
+          "alt": "Stand dell’azienda in fiera",
           "caption": "In fiera",
-          "alt": "Stand dell’azienda in fiera"
+          "src": "/images/home/fiera_2.jpg"
         }
-      ]
+      ],
+      "title": "Il territorio"
     },
     "homeOilFactsSection": {
       "eyebrow": "Informazioni, caratteristiche",
-      "title": "L’olio extravergine di oliva",
       "steps": [
         {
+          "bodyHtml": "La spremitura a freddo aiuta a preservare aroma, polifenoli e qualità organolettiche. <strong>Un buon EVO si riconosce al profumo di oliva fresca, al gusto equilibrato e a un’acidità libera contenuta.</strong>",
           "num": "01",
-          "title": "Il prodotto di qualità",
-          "bodyHtml": "La spremitura a freddo aiuta a preservare aroma, polifenoli e qualità organolettiche. <strong>Un buon EVO si riconosce al profumo di oliva fresca, al gusto equilibrato e a un’acidità libera contenuta.</strong>"
+          "title": "Il prodotto di qualità"
         },
         {
+          "bodyHtml": "In etichetta cercare diciture come «extravergine» e, quando applicabile, «estratto a freddo» o «biologico». Significa olio ottenuto solo da olive, con estrazione meccanica e senza riscaldamenti eccessivi in lavorazione.",
           "num": "02",
-          "title": "Riconoscere l’extravergine",
-          "bodyHtml": "In etichetta cercare diciture come «extravergine» e, quando applicabile, «estratto a freddo» o «biologico». Significa olio ottenuto solo da olive, con estrazione meccanica e senza riscaldamenti eccessivi in lavorazione."
+          "title": "Riconoscere l’extravergine"
         },
         {
+          "bodyHtml": "Dalla raccolta al confezionamento passano lavaggio, molitura, estrazione e separazione dell’olio. Ogni fase incide su profumo, colore e shelf life del prodotto finito.",
           "num": "03",
-          "title": "Dal frutto al prodotto",
-          "bodyHtml": "Dalla raccolta al confezionamento passano lavaggio, molitura, estrazione e separazione dell’olio. Ogni fase incide su profumo, colore e shelf life del prodotto finito."
+          "title": "Dal frutto al prodotto"
         },
         {
+          "bodyHtml": "Tenere l’olio al riparo da luce e calore, preferibilmente in bottiglia scura e luogo fresco. Consumarlo entro i termini indicati in etichetta per gustarlo al meglio.",
           "num": "04",
-          "title": "Conservazione",
-          "bodyHtml": "Tenere l’olio al riparo da luce e calore, preferibilmente in bottiglia scura e luogo fresco. Consumarlo entro i termini indicati in etichetta per gustarlo al meglio."
+          "title": "Conservazione"
         }
-      ]
+      ],
+      "title": "L’olio extravergine di oliva"
     },
     "homeQuoteDivider": {
-      "quote": "… e su gli olivi, su i fratelli olivi che fan di santità pallidi i clivi…",
-      "attribution": "Gabriele d’Annunzio — La sera fiesolana"
+      "attribution": "Gabriele d’Annunzio — La sera fiesolana",
+      "quote": "… e su gli olivi, su i fratelli olivi che fan di santità pallidi i clivi…"
     },
     "homeReviewsSection": {
-      "eyebrow": "Testimonianze",
-      "title": "Dicono di noi",
       "disclaimer": "Esempi di feedback tipico: sostituire con recensioni reali o rimuovere la sezione dopo approvazione.",
+      "eyebrow": "Testimonianze",
       "items": [
         {
           "name": "Marco R.",
           "place": "Foggia",
-          "text": "Olio profumato e genuino: si sente il territorio. Ordine semplice e risposta rapida dell’azienda.",
-          "rating": 5
+          "rating": 5,
+          "text": "Olio profumato e genuino: si sente il territorio. Ordine semplice e risposta rapida dell’azienda."
         },
         {
           "name": "Giulia P.",
           "place": "Bari",
-          "text": "Abbiamo provato anche la fava di Carpino: qualità eccellente. Consigliatissimi per chi cerca prodotti locali.",
-          "rating": 5
+          "rating": 5,
+          "text": "Abbiamo provato anche la fava di Carpino: qualità eccellente. Consigliatissimi per chi cerca prodotti locali."
         },
         {
           "name": "Antonio L.",
           "place": "Roma",
-          "text": "Spedizione puntuale e imballo curato. L’EVO bio è diventato il nostro olio quotidiano in cucina.",
-          "rating": 5
+          "rating": 5,
+          "text": "Spedizione puntuale e imballo curato. L’EVO bio è diventato il nostro olio quotidiano in cucina."
         }
-      ]
+      ],
+      "title": "Dicono di noi"
     },
     "chiSiamoIntro": {
-      "title": "Radici nel Gargano",
-      "lead": "Produzione agricola artigianale a Carpino, tra oliveti e coltivazioni tipiche del territorio."
+      "lead": "Produzione agricola artigianale a Carpino, tra oliveti e coltivazioni tipiche del territorio.",
+      "title": "Radici nel Gargano"
     },
     "chiSiamoSections": [
       {
-        "id": "approccio",
         "eyebrow": "Il nostro modo di lavorare",
-        "title": "Approccio produttivo",
+        "id": "approccio",
+        "image": {
+          "alt": "Oliveto nel territorio del Gargano",
+          "src": "/images/home/ulivi_2.jpg"
+        },
         "paragraphs": [
           "Nelle informazioni pubbliche legate alla partecipazione a eventi sul territorio viene sottolineata una produzione sostenibile: olio biologico da cultivar autoctone, nel rispetto dei cicli naturali.",
           "Olive e legumi vengono curati privilegiando la qualità del frutto e la tracciabilità dalla coltivazione al confezionamento."
         ],
-        "image": {
-          "src": "/images/home/ulivi_2.jpg",
-          "alt": "Oliveto nel territorio del Gargano"
-        }
+        "title": "Approccio produttivo"
       },
       {
-        "id": "territorio",
         "eyebrow": "Carpino · Gargano",
-        "title": "Territorio e prodotti",
+        "id": "territorio",
+        "image": {
+          "alt": "Olive su ulivo nel Gargano",
+          "src": "/images/home/olive.jpg"
+        },
         "paragraphs": [
           "Carpino e il Gargano offrono un contesto unico per olio e legumi tipici, tra cui la fava di Carpino, parte del patrimonio enogastronomico citato nelle fonti disponibili.",
           "L’azienda propone olio extravergine biologico e specialità agricole che raccontano il legame con questa area."
         ],
-        "image": {
-          "src": "/images/home/olive.jpg",
-          "alt": "Olive su ulivo nel Gargano"
-        }
+        "title": "Territorio e prodotti"
       },
       {
         "id": "prodotti",
-        "title": "Cosa trovi in catalogo",
         "paragraphs": [
           "Olio EVO bio, legumi del territorio e condimenti a base di prodotti propri. Formati, prezzi e disponibilità sono indicati in scheda e possono essere aggiornati quando il listino ufficiale è completo."
-        ]
+        ],
+        "title": "Cosa trovi in catalogo"
       },
       {
         "id": "trasparenza",
-        "title": "Trasparenza",
         "paragraphs": [
           "Testi, certificazioni e immagini definitive saranno aggiornati con materiali approvati dall’azienda. Non pubblichiamo claim non documentati.",
           "Per visite in azienda, ordini o approfondimenti commerciali, contattaci dalla pagina Contatti o componi una richiesta dal catalogo."
-        ]
+        ],
+        "title": "Trasparenza"
       }
     ],
     "chiSiamoCta": {
@@ -352,111 +352,116 @@
     },
     "catalogPageIntro": {
       "all": {
-        "title": "I nostri prodotti",
-        "body": "Olio extravergine biologico, legumi tipici e condimenti dal Gargano. Sfoglia per categoria o apri la scheda per formati, prezzi e disponibilità."
+        "body": "Olio extravergine biologico, legumi tipici e condimenti dal Gargano. Sfoglia per categoria o apri la scheda per formati, prezzi e disponibilità.",
+        "title": "I nostri prodotti"
       },
       "byCategory": {
-        "olio": {
-          "title": "Olio extravergine biologico",
-          "body": "EVO da cultivar del territorio, lavorato con attenzione alla qualità del frutto. I formati e i prezzi ufficiali saranno pubblicati appena confermati."
+        "condimenti": {
+          "body": "Preparazioni a base di prodotti agricoli propri. Per ingredienti e conservazione fai riferimento alle informazioni in scheda prodotto.",
+          "title": "Condimenti e conserve"
         },
         "legumi": {
-          "title": "Legumi e specialità locali",
-          "body": "Dalla fava di Carpino alle preparazioni dell’azienda: controlla disponibilità e formato in ogni scheda prima di inviare l’ordine."
+          "body": "Dalla fava di Carpino alle preparazioni dell’azienda: controlla disponibilità e formato in ogni scheda prima di inviare l’ordine.",
+          "title": "Legumi e specialità locali"
         },
-        "condimenti": {
-          "title": "Condimenti e conserve",
-          "body": "Preparazioni a base di prodotti agricoli propri. Per ingredienti e conservazione fai riferimento alle informazioni in scheda prodotto."
+        "olio": {
+          "body": "EVO da cultivar del territorio, lavorato con attenzione alla qualità del frutto. I formati e i prezzi ufficiali saranno pubblicati appena confermati.",
+          "title": "Olio extravergine biologico"
         }
       }
     },
     "contactsPageIntro": {
-      "title": "Siamo a Carpino, nel Gargano",
+      "_createdAt": "2026-10-31T14:54:42Z",
+      "_id": "contactsPageIntro",
+      "_rev": "pR9eTOqkSKLxQuUiesMfSp",
+      "_type": "contactsPageIntro",
+      "_updatedAt": "2026-10-31T14:54:42Z",
       "body": "Per ordini, disponibilità e spedizioni puoi usare il catalogo e il riepilogo ordine online, oppure contattare direttamente il referente. Rispondiamo il prima possibile in orario lavorativo.",
+      "ordersHint": "Ordini via sito: <a href=\"/carrello\">riepilogo ordine</a>",
       "referentLabel": "Referente",
       "referentName": "Francesco Cannarozzi",
-      "ordersHint": "Ordini via sito: <a href=\"/carrello\">riepilogo ordine</a>"
+      "title": "Siamo a Carpino, nel Gargano"
     },
     "faqIntro": "Informazioni generali sul funzionamento del sito. I dettagli commerciali definitivi saranno comunicati dall'azienda al momento della conferma dell'ordine.",
     "faqItems": [
       {
+        "answerHtml": "Componi il riepilogo dal <a href=\"/catalogo\">catalogo</a> e invia la richiesta dalla pagina <a href=\"/carrello\">Carrello</a> via WhatsApp o email. Non serve creare un account. Per domande generiche usa anche <a href=\"/contatti\">Contatti</a>.",
         "id": "come-ordinare",
-        "question": "Come posso ordinare?",
-        "answerHtml": "Componi il riepilogo dal <a href=\"/catalogo\">catalogo</a> e invia la richiesta dalla pagina <a href=\"/carrello\">Carrello</a> via WhatsApp o email. Non serve creare un account. Per domande generiche usa anche <a href=\"/contatti\">Contatti</a>."
+        "question": "Come posso ordinare?"
       },
       {
+        "answerHtml": "No. L'invio è una <strong>richiesta d'ordine</strong>. Ti ricontattiamo per confermare disponibilità, costi di spedizione, modalità di pagamento e tempi.",
         "id": "conferma-ordine",
-        "question": "L'ordine online è immediatamente confermato?",
-        "answerHtml": "No. L'invio è una <strong>richiesta d'ordine</strong>. Ti ricontattiamo per confermare disponibilità, costi di spedizione, modalità di pagamento e tempi."
+        "question": "L'ordine online è immediatamente confermato?"
       },
       {
+        "answerHtml": "Spediamo in Italia su accordo. Costi e tempi dipendono da peso, destinazione e prodotti ordinati: li confermiamo insieme a disponibilità e importo definitivo. Per urgenze scrivi da <a href=\"/contatti\">Contatti</a> o nel riepilogo ordine.",
         "id": "spedizioni",
-        "question": "Quali sono i costi di spedizione?",
-        "answerHtml": "Spediamo in Italia su accordo. Costi e tempi dipendono da peso, destinazione e prodotti ordinati: li confermiamo insieme a disponibilità e importo definitivo. Per urgenze scrivi da <a href=\"/contatti\">Contatti</a> o nel riepilogo ordine."
+        "question": "Quali sono i costi di spedizione?"
       },
       {
+        "answerHtml": "Di solito bonifico bancario su coordinate che inviamo in conferma ordine. Altre modalità (es. contrassegno) solo se concordate caso per caso. Dettagli nel messaggio d'ordine e in <a href=\"/carrello\">Carrello</a>.",
         "id": "pagamenti",
-        "question": "Quali metodi di pagamento accettate?",
-        "answerHtml": "Di solito bonifico bancario su coordinate che inviamo in conferma ordine. Altre modalità (es. contrassegno) solo se concordate caso per caso. Dettagli nel messaggio d'ordine e in <a href=\"/carrello\">Carrello</a>."
+        "question": "Quali metodi di pagamento accettate?"
       },
       {
+        "answerHtml": "In catalogo vedi prezzi indicativi del listino v1 quando disponibili; l'importo definitivo è quello confermato per iscritto prima dell'evasione. Eventuali voci «Prezzo su richiesta» restano da concordare direttamente.",
         "id": "prezzi-listino",
-        "question": "Perché alcuni prezzi non sono visibili?",
-        "answerHtml": "In catalogo vedi prezzi indicativi del listino v1 quando disponibili; l'importo definitivo è quello confermato per iscritto prima dell'evasione. Eventuali voci «Prezzo su richiesta» restano da concordare direttamente."
+        "question": "Perché alcuni prezzi non sono visibili?"
       },
       {
+        "answerHtml": "I dati opzionali nel carrello servono solo a comporre il messaggio d'ordine. Leggi l'<a href=\"/privacy\">informativa privacy</a> e le <a href=\"/note-legali\">note legali</a>.",
         "id": "privacy-dati",
-        "question": "Come trattate i dati che inserisco?",
-        "answerHtml": "I dati opzionali nel carrello servono solo a comporre il messaggio d'ordine. Leggi l'<a href=\"/privacy\">informativa privacy</a> e le <a href=\"/note-legali\">note legali</a>."
+        "question": "Come trattate i dati che inserisco?"
       }
     ],
     "homeMediaPaths": {
+      "aboutPhoto": "images/home/olive",
+      "bannerDivider": "images/home/ulivi_1",
       "heroBanner": "images/home/hero-banner",
       "stripChiSiamo": "images/home/strip-chi-siamo",
-      "stripTerritorio": "images/home/strip-territorio",
-      "aboutPhoto": "images/home/olive",
-      "bannerDivider": "images/home/ulivi_1"
+      "stripTerritorio": "images/home/strip-territorio"
     },
     "staticPageHeroes": {
+      "carrello": {
+        "image": "/images/home/ulivi_3.jpg",
+        "lead": "Invia la richiesta — nessuna registrazione",
+        "title": "Riepilogo ordine"
+      },
       "catalogo": {
-        "title": "Catalogo",
+        "image": "/images/home/ulivi_1.jpg",
         "lead": "Scopri olio bio e specialità del Gargano",
-        "image": "/images/home/ulivi_1.jpg"
+        "title": "Catalogo"
       },
       "chiSiamo": {
-        "title": "Chi siamo",
+        "image": "/images/home/olive.jpg",
         "lead": "Tradizione agricola e territorio a Carpino",
-        "image": "/images/home/olive.jpg"
+        "title": "Chi siamo"
       },
       "contatti": {
-        "title": "Contatti",
+        "image": "/images/home/hero-banner.webp",
         "lead": "Parla con noi per ordini e informazioni",
-        "image": "/images/home/hero-banner.webp"
-      },
-      "faq": {
-        "title": "Ordini e spedizioni",
-        "lead": "Risposte rapide sulle domande più frequenti",
-        "image": "/images/home/ulivi_2.jpg"
-      },
-      "carrello": {
-        "title": "Riepilogo ordine",
-        "lead": "Invia la richiesta — nessuna registrazione",
-        "image": "/images/home/ulivi_3.jpg"
-      },
-      "privacy": {
-        "title": "Informativa privacy",
-        "lead": "Trattamento dei dati personali",
-        "image": "/images/home/hero-banner.webp"
+        "title": "Contatti"
       },
       "cookie": {
-        "title": "Cookie",
+        "image": "/images/home/hero-banner.webp",
         "lead": "Uso dei cookie su questo sito",
-        "image": "/images/home/hero-banner.webp"
+        "title": "Cookie"
+      },
+      "faq": {
+        "image": "/images/home/ulivi_2.jpg",
+        "lead": "Risposte rapide sulle domande più frequenti",
+        "title": "Ordini e spedizioni"
       },
       "noteLegali": {
-        "title": "Note legali",
+        "image": "/images/home/hero-banner.webp",
         "lead": "Informazioni legali sul sito",
-        "image": "/images/home/hero-banner.webp"
+        "title": "Note legali"
+      },
+      "privacy": {
+        "image": "/images/home/hero-banner.webp",
+        "lead": "Trattamento dei dati personali",
+        "title": "Informativa privacy"
       }
     },
     "legal": {

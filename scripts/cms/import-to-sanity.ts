@@ -3,13 +3,22 @@
  */
 import { createClient } from '@sanity/client';
 import { buildLegacyBundle } from '../../src/cms/legacyBundle.ts';
+import { loadCmsEnv } from './loadDotenv.ts';
+
+loadCmsEnv();
 
 const projectId = process.env.SANITY_PROJECT_ID;
 const dataset = process.env.SANITY_DATASET ?? 'production';
 const token = process.env.SANITY_API_TOKEN;
 
 if (!projectId || !token) {
-  console.error('Imposta SANITY_PROJECT_ID e SANITY_API_TOKEN (permesso scrittura).');
+  console.error(
+    'Mancano SANITY_PROJECT_ID e/o SANITY_API_TOKEN.\n' +
+      '  • Crea `.env` nella root del repo (vedi `.env.example`)\n' +
+      '  • SANITY_PROJECT_ID = stesso valore di SANITY_STUDIO_PROJECT_ID in backoffice/.env\n' +
+      '  • SANITY_API_TOKEN = token Editor su sanity.io/manage → API → Tokens\n' +
+      '  (Il project ID può essere letto anche da backoffice/.env; il token va nella root.)',
+  );
   process.exit(1);
 }
 

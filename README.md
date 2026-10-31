@@ -47,11 +47,17 @@ Il sito mette in risalto brand e catalogo e permette al cliente finale di **comp
 
 - Pagamenti online, account utente, gestionale magazzino, analytics con banner cookie (finché non servono).
 
-**Backoffice contenuti:** Sanity Studio in [`backoffice/`](./backoffice/) (server separato dal sito) — vedi [docs/backoffice-setup.md](./docs/backoffice-setup.md).
+### Backoffice contenuti (2026-10-31)
+
+- **Sanity Studio** in [`backoffice/`](./backoffice/) — applicazione **separata** dal sito (locale `npm run backoffice:dev` o hosted `*.sanity.studio`).
+- Piano e requisiti: [`PLAN-BACKOFFICE.md`](./PLAN-BACKOFFICE.md).
+- Sorgente runtime del sito: `src/generated/cms/bundle.json` (validazione catalogo Zod invariata).
+- Script: `cms:snapshot` (seed repo), `cms:import` (→ Sanity), `cms:sync` (Sanity → bundle, anche in `prebuild`).
+- Guide: [docs/backoffice-setup.md](./docs/backoffice-setup.md), [docs/backoffice-manuale-operatore.md](./docs/backoffice-manuale-operatore.md), ADR [003-backoffice-cms.md](./docs/decisions/003-backoffice-cms.md).
 
 ---
 
-## Stack e competenze messe in gioco
+## Stack e competenze messe in giogo
 
 | Area | Scelte / pratiche |
 |------|-------------------|
@@ -60,8 +66,9 @@ Il sito mette in risalto brand e catalogo e permette al cliente finale di **comp
 | **Linguaggio & qualità** | TypeScript strict, validazione catalogo (schema), test unitari ([Vitest](https://vitest.dev)) |
 | **Design** | Design system leggero (token, componenti UI riusabili), layout responsive e touch-friendly |
 | **Accessibilità & UX** | Navigazione chiara, accordion FAQ accessibile, form ordine con validazione leggera, header adattivo su banner |
-| **DevOps leggero** | CI (build + test), script pre-release, deploy previsto su **Vercel** (config presente, dominio da attivare) |
-| **Documentazione** | Analisi, checklist implementazione, gap informativi cliente, mappa URL→file, guida catalogo e go-live |
+| **DevOps leggero** | CI GitHub Actions (`npm run verify`), `vercel.json`, deploy **Vercel** (Hobby) |
+| **Contenuti / CMS** | Sanity headless + bundle JSON; seed in `src/content/seeds/` |
+| **Documentazione** | PLAN v1/v backoffice, gap cliente, mappa URL, catalogo, deploy e backoffice |
 
 Documentazione tecnica di supporto (non necessaria per capire il valore business): [docs/architecture.md](./docs/architecture.md), [docs/strctural_analysis.md](./docs/strctural_analysis.md).
 
@@ -75,37 +82,47 @@ Due livelli distinti — è normale in progetti B2B con dati che arrivano dal cl
 
 - Architettura informativa e pagine principali (home, catalogo, scheda prodotto, carrello, chi siamo, FAQ, contatti, legali bozza).
 - Refactoring UX su catalogo, scheda prodotto, carrello e FAQ (componenti dedicati, mobile sticky, breadcrumb, correlati).
-- Flusso ordine end-to-end in ambiente locale/staging.
-- Test automatici su logiche critiche (catalogo, carrello, messaggio ordine, SEO strutturato).
-- ESLint / Prettier, worklog e checklist aggiornati.
+- Flusso ordine end-to-end in locale; CI con test, lint, build, smoke dist, check release.
+- **Backoffice Sanity:** studio in `backoffice/`, integrazione CMS → `bundle.json`, pagine legali editabili da bundle, documentazione operatore/setup.
+- Piano backoffice: `PLAN-BACKOFFICE.md` (analisi + roadmap implementazione).
 
 Dettaglio checkbox: [worklog.md](./worklog.md).
 
-### Ancora aperto prima del go-live “pubblico”
+### Ancora aperto prima del go-live **pubblico** (dominio, marketing)
 
-Non dipende da ulteriore codice feature, ma da **input azienda** e **fasi finali**:
+Non blocca un **deploy di prova** su Vercel, ma sì la promozione come sito ufficiale:
 
 | Tema | Perché è ancora aperto |
 |------|-------------------------|
-| **Listino** (formati × prezzi IVA) | Serve conferma commerciale → [docs/listino.md](./docs/listino.md), `products.data.ts` |
-| **Foto prodotto** e diritti | Asset reali da cliente |
-| **Dati legali** (P.IVA, REA, PEC, ragione sociale) | Obbligatori per note legali corrette → [docs/information-gaps.md](./docs/information-gaps.md) |
-| **Testi privacy/cookie** approvati | Revisione professionista, non inventabile in repo |
-| **WhatsApp E.164 verificato** | Il telefono pubblico non è ancora confermato come linea WA |
-| **Spedizioni, pagamenti, dominio** | Condizioni commerciali e URL produzione (`SITE_URL`) |
-| **Collaudo manuale + Lighthouse** | Attività di QA pre-deploy → [docs/testing.md](./docs/testing.md) |
-| **Deploy Vercel** | **Dopo** chiusura gap sopra → [docs/release-go-live.md](./docs/release-go-live.md), [docs/deployment.md](./docs/deployment.md) |
+| **Listino definitivo** (IVA, formati) | Prezzi attuali = listino v1 **indicativo** → [docs/listino.md](./docs/listino.md); aggiornabile da backoffice dopo conferma |
+| **Foto / diritti** | Alcune immagini presenti; validazione commerciale e sostituzioni via CMS |
+| **Dati legali e testi privacy/cookie** | Bozze tecniche; revisione professionista → [docs/information-gaps.md](./docs/information-gaps.md) |
+| **WhatsApp E.164** | Da confermare con titolare (`site.config` / Impostazioni sito in Sanity) |
+| **Spedizioni, pagamenti, FAQ** | Copy generico finché l’azienda non fissa condizioni |
+| **Dominio custom + SEO “finale”** | `SITE_URL` su `*.vercel.app` sufficiente per staging |
+| **Collaudo manuale + Lighthouse** | [docs/testing.md](./docs/testing.md) |
 
-**Ordine consigliato:** raccogliere dati cliente → aggiornare config/catalogo/legali → collaudo → impostare dominio e `SITE_URL` → deploy Vercel e smoke test ordini reali.
+### Deploy su Vercel (gratuito) — quando conviene
+
+| Obiettivo | Momento | Note |
+|-----------|---------|------|
+| **Staging / anteprima** (URL `*.vercel.app`, non indicizzato come brand ufficiale) | **Sì, ora** | Build già pronta (`vercel.json`, CI verde). Utile per demo al cliente, test ordini WA/email, prova backoffice + `cms:sync` in preview. Imposta `SITE_URL` = URL del deployment. **Non** serve listino finale né dominio. |
+| **Go-live pubblico** (dominio azienda, Google, materiale stampa) | **Dopo** gap sopra | Evita recensioni placeholder visibili, prezzi non confermati e legali in bozza come “ufficiali”. |
+
+**Ordine consigliato:** (1) deploy Vercel staging + smoke test → (2) dati cliente + edit backoffice → (3) collaudo → (4) dominio + `SITE_URL` produzione → (5) comunicazione pubblica.
+
+Procedura dettagliata staging: [docs/vercel-staging.md](./docs/vercel-staging.md).  
+Vedi anche [docs/deployment.md](./docs/deployment.md), [docs/release-go-live.md](./docs/release-go-live.md).
 
 ---
 
 ## Roadmap (allineata al worklog)
 
-1. **Miglioramento v1** — sostanzialmente completato in codice.  
-2. **Dati e compliance** — in attesa azienda (bloccante go-live).  
-3. **Collaudo e performance** — manuale + Lighthouse.  
-4. **Pubblicazione (F15)** — Vercel, DNS, smoke test WhatsApp/email.
+1. **Miglioramento v1 + backoffice MVP** — completato in codice (2026-10-31).  
+2. **Deploy Vercel staging** — consigliato per validazione con cliente (opzionale Sanity env in preview).  
+3. **Dati e compliance** — in attesa azienda (bloccante go-live **pubblico**).  
+4. **Collaudo e performance** — manuale + Lighthouse.  
+5. **Go-live dominio** — DNS, `SITE_URL` definitivo, webhook Sanity → Vercel (se CMS attivo).
 
 ---
 
@@ -113,14 +130,17 @@ Non dipende da ulteriore codice feature, ma da **input azienda** e **fasi finali
 
 | Comando | Uso |
 |---------|-----|
-| `npm run dev` | Anteprima locale |
+| `npm run dev` | Sito locale (http://localhost:4321) |
+| `npm run backoffice:dev` | Sanity Studio locale (http://localhost:3333) |
+| `npm run cms:import` | Seed repo → Sanity (token in `.env` root) |
+| `npm run cms:sync` | Sanity → `bundle.json` (anche in `prebuild`) |
+| `npm run cms:snapshot` | Rigenera bundle dai seed senza Sanity |
 | `npm run build` | Build produzione in `dist/` |
 | `npm test` | Test unitari |
-| `npm run check:release` | Controlli pre-go-live |
-| `npm run verify` | Test + lint + build + smoke dist + check release |
-| `npm run lint` | Lint codice |
+| `npm run verify` | Test + lint + build + smoke + check release |
+| `npm run backoffice:deploy` | Pubblica Studio su sanity.studio |
 
-Configurazione commerciale centralizzata: `src/config/site.config.ts`. Catalogo: `src/domain/catalog/products.data.ts`.
+Contenuti runtime: `src/generated/cms/bundle.json` (catalogo + impostazioni + editoriali). Seed tecnico: `src/content/seeds/`, `src/domain/catalog/products.data.ts`.
 
 ---
 
@@ -132,7 +152,10 @@ Configurazione commerciale centralizzata: `src/config/site.config.ts`. Catalogo:
 | [implementation-checklist.md](./implementation-checklist.md) | Fasi F00–F16 e collaudo formale |
 | [docs/information-gaps.md](./docs/information-gaps.md) | Elenco dati da raccogliere con l’azienda |
 | [docs/page-paths.md](./docs/page-paths.md) | Mappa pagine (per manutenzione) |
-| [docs/catalog-management.md](./docs/catalog-management.md) | Come aggiornare prodotti e prezzi |
+| [docs/catalog-management.md](./docs/catalog-management.md) | Catalogo (backoffice o seed tecnico) |
+| [PLAN-BACKOFFICE.md](./PLAN-BACKOFFICE.md) | Piano backoffice e autonomia contenuti |
+| [docs/backoffice-setup.md](./docs/backoffice-setup.md) | Avvio Studio, import, sync, Vercel |
+| [docs/backoffice-manuale-operatore.md](./docs/backoffice-manuale-operatore.md) | Guida per il titolare |
 
 ---
 

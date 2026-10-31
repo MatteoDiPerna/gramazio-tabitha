@@ -38,6 +38,10 @@ npm run check:release
 
 ## Vercel
 
+**Procedura completa staging (passo-passo):** [vercel-staging.md](./vercel-staging.md).
+
+In sintesi:
+
 1. Collegare repository GitHub a Vercel.
 2. Framework: **Astro** — `vercel.json` imposta `outputDirectory: dist` e header di sicurezza base.
 3. Environment variable **`SITE_URL`** = URL del deployment (preview `*.vercel.app` o dominio custom).

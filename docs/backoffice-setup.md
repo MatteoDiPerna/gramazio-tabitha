@@ -2,6 +2,116 @@
 
 Il backoffice è **Sanity Studio** nella cartella `backoffice/`, separato dal sito statico Astro.
 
+## Avvio in locale (sviluppatore / test)
+
+Il backoffice **non** gira insieme ad Astro: è un “server” di sviluppo Sanity a parte. Il sito vetrina resta su un altro processo (`npm run dev` in root).
+
+### Prerequisiti (prima volta)
+
+1. Progetto su [sanity.io/manage](https://www.sanity.io/manage) e **Project ID** copiato.
+2. File `backoffice/.env` (da `backoffice/.env.example`):
+
+   ```env
+   SANITY_STUDIO_PROJECT_ID=abc123xy
+   SANITY_STUDIO_DATASET=production
+   ```
+
+3. Dipendenze Studio installate:
+
+   ```powershell
+   cd d:\progetti\gramazio-tabitha\backoffice
+   npm install
+   ```
+
+4. **Obbligatorio per `cms:import`:** file `.env` nella **root** del repo (accanto a `package.json`), non solo `backoffice/.env`:
+
+   ```env
+   SANITY_PROJECT_ID=abc123xy
+   SANITY_DATASET=production
+   SANITY_API_TOKEN=sk...
+   ```
+
+   - `SANITY_PROJECT_ID` = stesso valore di `SANITY_STUDIO_PROJECT_ID` in `backoffice/.env` (gli script possono copiarlo da lì, ma **il token deve stare in root**).
+   - Token: [sanity.io/manage](https://www.sanity.io/manage) → progetto → **API** → **Tokens** → permesso **Editor** (import) o **Viewer** (solo `cms:sync`).
+   - Copia da `.env.example`; non committare `.env`.
+
+5. (Una tantum) Caricare i contenuti del repo in Sanity:
+
+   ```powershell
+   cd d:\progetti\gramazio-tabitha
+   npm run cms:import
+   ```
+
+   Poi in Studio: apri i documenti e clic **Pubblica** dove compaiono bozze.
+
+### Avviare il server backoffice
+
+Dalla root del repository:
+
+```powershell
+cd d:\progetti\gramazio-tabitha
+npm run backoffice:dev
+```
+
+Equivalente:
+
+```powershell
+cd d:\progetti\gramazio-tabitha\backoffice
+npm run dev
+```
+
+- Il terminale resta **aperto** (processo in foreground).
+- Sanity stampa l’URL locale, di solito **http://localhost:3333** — aprilo nel browser.
+- Al primo accesso: login con l’account Sanity invitato sul progetto (Google/GitHub/email, come configurato su sanity.io).
+
+**Fermare il server:** `Ctrl+C` nel terminale dove gira `dev`.
+
+### Test completo: backoffice + sito nello stesso momento
+
+Due terminali:
+
+| Terminale | Comando | URL browser |
+|-----------|---------|-------------|
+| 1 — Backoffice | `npm run backoffice:dev` (root o `backoffice/`) | http://localhost:3333 |
+| 2 — Sito Astro | `npm run dev` (solo root) | http://localhost:4321 |
+
+Dopo una modifica in Studio:
+
+1. **Pubblica** il documento (non basta “Salva bozza”).
+2. Nel terminale 2 (o un terzo), dalla root:
+
+   ```powershell
+   npm run cms:sync
+   ```
+
+3. Riavvia o ricarica il sito: Astro in dev legge `src/generated/cms/bundle.json` al riavvio del processo; se non vedi l’aggiornamento, ferma `npm run dev` e rilancialo.
+
+Senza `SANITY_*` in root, `cms:sync` non fa nulla e il sito usa il `bundle.json` già committato.
+
+### Problemi frequenti
+
+| Sintomo | Cosa controllare |
+|---------|------------------|
+| Studio bianco / errore project | `SANITY_STUDIO_PROJECT_ID` in `backoffice/.env`, non `replace-me` |
+| Login loop | Utente aggiunto in Sanity → Project → **Members** |
+| Menu vuoto dopo import | Esegui `cms:import`, poi **Pubblica** i singleton in Studio |
+| Sito non cambia dopo edit | `Publish` in Sanity + `npm run cms:sync` + riavvio `astro dev` |
+| Porta 3333 occupata | Chiudi l’altro `sanity dev` o usa la porta indicata in console |
+
+### Studio online (senza `npm run dev` locale)
+
+Per un URL stabile tipo `https://nome.sanity.studio`:
+
+```powershell
+cd d:\progetti\gramazio-tabitha\backoffice
+npx sanity login
+npm run deploy
+```
+
+Vedi anche `backoffice/README.md`.
+
+---
+
 ## Architettura
 
 ```mermaid
