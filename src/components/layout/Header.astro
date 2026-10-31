@@ -87,8 +87,13 @@ function isGroupActive(links: readonly { href: string }[]): boolean {
         aria-expanded="false"
         aria-controls="site-nav"
         id="nav-toggle"
+        aria-label="Apri menu"
       >
-        Menu
+        <span class="header__toggle-icon" aria-hidden="true">
+          <span class="header__toggle-bar"></span>
+          <span class="header__toggle-bar"></span>
+          <span class="header__toggle-bar"></span>
+        </span>
       </button>
     </div>
   </div>
@@ -98,37 +103,54 @@ function isGroupActive(links: readonly { href: string }[]): boolean {
   import { initHeaderScroll } from '@/scripts/headerScroll';
   import { initHeaderNavMenu } from '@/scripts/headerNavMenu';
 
-  const toggle = document.getElementById('nav-toggle');
-  const nav = document.getElementById('site-nav');
+  let mobileNavAbort: AbortController | undefined;
 
   function closeMobileNav() {
+    const toggle = document.getElementById('nav-toggle');
+    const nav = document.getElementById('site-nav');
     nav?.classList.remove('is-open');
     toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.setAttribute('aria-label', 'Apri menu');
     initHeaderScroll();
   }
 
-  toggle?.addEventListener('click', () => {
-    const open = nav?.classList.toggle('is-open');
-    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    initHeaderScroll();
-  });
+  function initMobileNav() {
+    mobileNavAbort?.abort();
+    mobileNavAbort = new AbortController();
+    const { signal } = mobileNavAbort;
 
-  function bindNavCloseOnNavigate() {
-    nav?.querySelectorAll('a[href]').forEach((link) => {
-      if (link.dataset.navCloseBound === 'true') return;
-      link.dataset.navCloseBound = 'true';
-      link.addEventListener('click', () => {
-        if (window.matchMedia('(max-width: 767px)').matches) {
-          closeMobileNav();
-        }
-      });
+    const toggle = document.getElementById('nav-toggle');
+    const nav = document.getElementById('site-nav');
+    if (!toggle || !nav) return;
+
+    toggle.addEventListener(
+      'click',
+      () => {
+        const open = nav.classList.toggle('is-open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        toggle.setAttribute('aria-label', open ? 'Chiudi menu' : 'Apri menu');
+        initHeaderScroll();
+      },
+      { signal },
+    );
+
+    nav.querySelectorAll('a[href]').forEach((link) => {
+      link.addEventListener(
+        'click',
+        () => {
+          if (window.matchMedia('(max-width: 767px)').matches) {
+            closeMobileNav();
+          }
+        },
+        { signal },
+      );
     });
   }
 
   function initHeader() {
     initHeaderScroll();
     initHeaderNavMenu();
-    bindNavCloseOnNavigate();
+    initMobileNav();
   }
 
   initHeader();
@@ -229,15 +251,59 @@ function isGroupActive(links: readonly { href: string }[]): boolean {
   }
 
   .header__toggle {
-    display: flex;
-    min-height: var(--touch-min);
-    padding: 0 var(--space-md);
-    font: inherit;
-    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--touch-min);
+    height: var(--touch-min);
+    padding: 0;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
+    color: inherit;
     cursor: pointer;
+    flex-shrink: 0;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .header__toggle:hover {
+    background: var(--color-bg);
+    box-shadow: 0 1px 4px rgb(0 0 0 / 0.06);
+  }
+
+  .header__toggle-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 1.25rem;
+  }
+
+  .header__toggle-bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    border-radius: 1px;
+    background: currentColor;
+    transition:
+      transform 0.22s ease,
+      opacity 0.22s ease;
+  }
+
+  .header__toggle[aria-expanded='true'] .header__toggle-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .header__toggle[aria-expanded='true'] .header__toggle-bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .header__toggle[aria-expanded='true'] .header__toggle-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
   }
 
   .header__nav {
