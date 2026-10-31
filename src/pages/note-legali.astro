@@ -2,29 +2,29 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageContainer from '@/components/layout/PageContainer.astro';
 import PageHero from '@/components/layout/PageHero.astro';
+import LegalHtml from '@/components/legal/LegalHtml.astro';
 import { siteConfig } from '@/config/site.config';
 import { staticPageHeroes } from '@/content/pageHeroes';
+import { getEditorial } from '@/cms/editorial';
 
 const hero = staticPageHeroes.noteLegali;
-const { legal } = siteConfig;
+const { legal: legalEntity } = siteConfig;
+const legal = getEditorial().legal.noteLegali;
 ---
 
 <BaseLayout title="Note legali" description="Informazioni legali e note sul sito.">
   <PageHero title={hero.title} lead={hero.lead} imageSrc={hero.image} />
   <PageContainer prose>
-    <p class="legal-notice">
-      <strong>Testi legali.</strong> Privacy e cookie restano bozze tecniche da revisione
-      professionale; i dati anagrafici sotto sono quelli comunicati per il sito.
-    </p>
+    <p class="legal-notice" set:html={legal.noticeHtml} />
     <h2>Titolare</h2>
     <p>
       <strong>{siteConfig.name}</strong>
       <br />
-      Ragione sociale / denominazione: {legal.businessName}
+      Ragione sociale / denominazione: {legalEntity.businessName}
       <br />
-      Partita IVA: {legal.vatNumber}
+      Partita IVA: {legalEntity.vatNumber}
       <br />
-      Codice ATECO: {legal.ateco}
+      Codice ATECO: {legalEntity.ateco}
     </p>
     <p>
       {siteConfig.address.street}, {siteConfig.address.postalCode}{' '}
@@ -33,20 +33,18 @@ const { legal } = siteConfig;
     <p>
       Email: <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
       <br />
-      PEC: <a href={`mailto:${legal.pec}`}>{legal.pec}</a>
+      PEC: <a href={`mailto:${legalEntity.pec}`}>{legalEntity.pec}</a>
       <br />
       Telefono: <a href={`tel:${siteConfig.phoneTel}`}>{siteConfig.phoneDisplay}</a>
     </p>
-    <h2>Prezzi e ordini</h2>
-    <p>
-      I prezzi indicati sul sito, quando presenti, hanno valore <strong>indicativo</strong> fino a
-      conferma scritta dell&apos;ordine da parte dell&apos;azienda. L&apos;invio di una richiesta
-      d&apos;ordine non costituisce contratto di vendita.
-    </p>
-    <p>
-      Per l&apos;informativa sul trattamento dei dati personali vedi la pagina{' '}
-      <a href="/privacy">Privacy</a>.
-    </p>
+    <LegalHtml html={legal.bodyHtml} />
+    {
+      legal.lastReviewedAt ? (
+        <p class="legal-reviewed">
+          <small>Ultima revisione contenuto: {legal.lastReviewedAt}</small>
+        </p>
+      ) : null
+    }
   </PageContainer>
 </BaseLayout>
 
@@ -56,5 +54,9 @@ const { legal } = siteConfig;
     background: var(--color-surface-sunken, #f3f0e8);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
+  }
+  .legal-reviewed {
+    margin-top: var(--space-lg);
+    color: var(--color-text-muted, #666);
   }
 </style>

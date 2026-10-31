@@ -1,7 +1,4 @@
-/** Link secondari (footer) — le voci principali restano in site.config.ts `nav`. */
-export const footerInfoLinks = [
-  { href: '/faq', label: 'Ordini e spedizioni' },
-  { href: '/privacy', label: 'Privacy' },
-  { href: '/cookie', label: 'Cookie' },
-  { href: '/note-legali', label: 'Note legali' },
-] as const;
+import { getCmsBundle } from '@/cms/loadBundle';
+
+/** Link secondari (footer) — allineati al CMS / impostazioni sito. */
+export const footerInfoLinks = getCmsBundle().site.footerInfoLinks;

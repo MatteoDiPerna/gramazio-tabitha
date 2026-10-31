@@ -1,8 +1,8 @@
 import type { Product } from '@/domain/catalog/catalog.schema';
-import { rawCatalog } from '@/domain/catalog/products.data';
+import bundleJson from '@/generated/cms/bundle.json';
 
 /**
- * Catalogo per componenti React (islands). Stessi dati di `catalog` in index.ts,
- * validati lì con Zod — senza importare Zod nel browser (evita errori Vite optimizeDeps).
+ * Catalogo per componenti React (islands). Stessi dati del bundle CMS,
+ * senza Zod/fs nel browser.
  */
-export const catalog: Product[] = rawCatalog as Product[];
+export const catalog: Product[] = (bundleJson as { catalog: Product[] }).catalog;

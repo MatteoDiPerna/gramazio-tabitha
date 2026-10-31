@@ -2,37 +2,32 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageContainer from '@/components/layout/PageContainer.astro';
 import PageHero from '@/components/layout/PageHero.astro';
+import LegalHtml from '@/components/legal/LegalHtml.astro';
 import { siteConfig } from '@/config/site.config';
 import { staticPageHeroes } from '@/content/pageHeroes';
+import { getEditorial } from '@/cms/editorial';
 
 const hero = staticPageHeroes.privacy;
+const legal = getEditorial().legal.privacy;
 ---
 
 <BaseLayout title="Privacy" description="Informativa sul trattamento dei dati personali.">
-  <PageHero
-    title={hero.title}
-    lead={hero.lead}
-    imageSrc={hero.image}
-  />
+  <PageHero title={hero.title} lead={hero.lead} imageSrc={hero.image} />
   <PageContainer prose>
-    <p class="legal-notice">
-      <strong>Bozza tecnica.</strong> Testo da sostituire con informativa redatta dal titolare
-      del trattamento e/o professionista qualificato (GDPR).
-    </p>
+    <p class="legal-notice" set:html={legal.noticeHtml} />
     <p>
       <strong>Titolare del trattamento:</strong> {siteConfig.name} — P.IVA{' '}
       {siteConfig.legal.vatNumber} — PEC{' '}
       <a href={`mailto:${siteConfig.legal.pec}`}>{siteConfig.legal.pec}</a>.
     </p>
-    <p>
-      Attraverso questo sito puoi contattare l&apos;azienda e inviare richieste d&apos;ordine. I
-      dati che inserisci volontariamente (nome, telefono, note, indirizzo) servono a comporre il
-      messaggio d&apos;ordine e a gestire la richiesta commerciale.
-    </p>
-    <p>
-      Per esercitare i diritti previsti dal Regolamento UE 2016/679 o per chiarimenti, usa i
-      contatti nella pagina <a href="/contatti">Contatti</a>.
-    </p>
+    <LegalHtml html={legal.bodyHtml} />
+    {
+      legal.lastReviewedAt ? (
+        <p class="legal-reviewed">
+          <small>Ultima revisione contenuto: {legal.lastReviewedAt}</small>
+        </p>
+      ) : null
+    }
   </PageContainer>
 </BaseLayout>
 
@@ -42,5 +37,9 @@ const hero = staticPageHeroes.privacy;
     background: #fff8e6;
     border: 1px solid #e8dcc4;
     border-radius: var(--radius-md);
+  }
+  .legal-reviewed {
+    margin-top: var(--space-lg);
+    color: var(--color-text-muted, #666);
   }
 </style>

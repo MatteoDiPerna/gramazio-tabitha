@@ -1,0 +1,15 @@
+---
+interface Props {
+  html: string;
+}
+
+const { html } = Astro.props;
+---
+
+<div class="legal-body" set:html={html} />
+
+<style>
+  .legal-body :global(h2) {
+    margin-top: var(--space-lg);
+  }
+</style>

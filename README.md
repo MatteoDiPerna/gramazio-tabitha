@@ -45,7 +45,9 @@ Il sito mette in risalto brand e catalogo e permette al cliente finale di **comp
 
 ### Esplicitamente fuori scope (scelta di prodotto)
 
-- Pagamenti online, account utente, gestionale magazzino, CMS admin, analytics con banner cookie (finché non servono).
+- Pagamenti online, account utente, gestionale magazzino, analytics con banner cookie (finché non servono).
+
+**Backoffice contenuti:** Sanity Studio in [`backoffice/`](./backoffice/) (server separato dal sito) — vedi [docs/backoffice-setup.md](./docs/backoffice-setup.md).
 
 ---
 

@@ -1,12 +1,12 @@
 import { catalogSchema, type Product } from '@/domain/catalog/catalog.schema';
-import { rawCatalog } from '@/domain/catalog/products.data';
+import { getCmsBundle } from '@/cms/loadBundle';
 
 export { catalogSchema } from '@/domain/catalog/catalog.schema';
 export type { Product, ProductVariant } from '@/domain/catalog/catalog.schema';
 export { catalogCategories, isCatalogCategory } from '@/domain/catalog/catalogCategories';
 export type { CatalogCategoryId } from '@/domain/catalog/catalogCategories';
 
-export const catalog: Product[] = catalogSchema.parse(rawCatalog);
+export const catalog: Product[] = catalogSchema.parse(getCmsBundle().catalog);
 
 export function getPublishedProducts(): Product[] {
   return catalog.filter((p) => p.published);

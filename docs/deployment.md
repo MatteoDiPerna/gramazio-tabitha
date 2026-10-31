@@ -15,6 +15,9 @@ Il file `netlify.toml` è legacy/opzionale: non usarlo salvo deploy esplicito su
 | Variabile | Obbligatoria | Descrizione |
 |-----------|--------------|-------------|
 | `SITE_URL` | Sì (produzione/preview) | Es. `https://gramazio-tabitha.vercel.app` — sitemap e `import.meta.env.SITE` |
+| `SANITY_PROJECT_ID` | Con backoffice | Sync contenuti in `prebuild` |
+| `SANITY_DATASET` | No | Default `production` |
+| `SANITY_API_TOKEN` | Con backoffice | Token lettura dataset (solo server Vercel) |
 
 Copia [.env.example](../.env.example) in `.env` in locale per test build; **non** committare `.env`.
 

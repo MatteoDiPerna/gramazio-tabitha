@@ -2,27 +2,26 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageContainer from '@/components/layout/PageContainer.astro';
 import PageHero from '@/components/layout/PageHero.astro';
+import LegalHtml from '@/components/legal/LegalHtml.astro';
 import { staticPageHeroes } from '@/content/pageHeroes';
+import { getEditorial } from '@/cms/editorial';
 
 const hero = staticPageHeroes.cookie;
+const legal = getEditorial().legal.cookie;
 ---
 
 <BaseLayout title="Cookie" description="Informazioni sull'uso dei cookie.">
-  <PageHero
-    title={hero.title}
-    lead={hero.lead}
-    imageSrc={hero.image}
-  />
+  <PageHero title={hero.title} lead={hero.lead} imageSrc={hero.image} />
   <PageContainer prose>
-    <p class="legal-notice">
-      <strong>Bozza tecnica.</strong> Aggiornare se verranno introdotti strumenti di analitica o
-      embed di terze parti.
-    </p>
-    <p>
-      In questa fase il sito utilizza prevalentemente cookie tecnici necessari al funzionamento
-      (ad esempio preferenze locali del carrello in memoria del browser). Non utilizziamo cookie
-      di profilazione senza consenso esplicito.
-    </p>
+    <p class="legal-notice" set:html={legal.noticeHtml} />
+    <LegalHtml html={legal.bodyHtml} />
+    {
+      legal.lastReviewedAt ? (
+        <p class="legal-reviewed">
+          <small>Ultima revisione contenuto: {legal.lastReviewedAt}</small>
+        </p>
+      ) : null
+    }
   </PageContainer>
 </BaseLayout>
 
@@ -32,5 +31,9 @@ const hero = staticPageHeroes.cookie;
     background: #fff8e6;
     border: 1px solid #e8dcc4;
     border-radius: var(--radius-md);
+  }
+  .legal-reviewed {
+    margin-top: var(--space-lg);
+    color: var(--color-text-muted, #666);
   }
 </style>

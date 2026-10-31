@@ -1,7 +1,8 @@
 /**
- * Configurazione centralizzata — aggiornare qui contatti e testi commerciali.
+ * Configurazione centralizzata — dati da CMS (bundle.json) + URL da ambiente build.
  * Non inserire segreti o credenziali.
  */
+import { getCmsBundle } from '@/cms/loadBundle';
 import { DEFAULT_PRODUCTION_SITE_URL } from '@/config/siteUrl';
 
 function resolvePublicSiteUrl(): string {
@@ -11,62 +12,11 @@ function resolvePublicSiteUrl(): string {
   return DEFAULT_PRODUCTION_SITE_URL;
 }
 
+const cmsSite = getCmsBundle().site;
+
 export const siteConfig = {
-  name: 'Azienda Agricola Gramazio Tabitha',
-  shortName: 'Gramazio Tabitha',
-  description:
-    'Olio extravergine biologico e prodotti agricoli da Carpino (FG), Gargano.',
-  /** In produzione preferire SITE_URL in build; fallback manual per dev */
+  ...cmsSite,
   url: resolvePublicSiteUrl(),
-
-  address: {
-    street: 'Via Matteotti, 54',
-    city: 'Carpino',
-    province: 'FG',
-    postalCode: '71010',
-    country: 'IT',
-  },
-
-  /** Email ordini e contatto — verificata su Cibovagare; confermare con l'azienda */
-  email: 'francescocannarozzi@virgilio.it',
-  ordersEmail: 'francescocannarozzi@virgilio.it',
-
-  /** E.164 senza + (WhatsApp ordini e FAB) */
-  whatsappE164: '393299147756',
-
-  /** Dati anagrafici/fiscali — verificare con titolare prima del go-live */
-  legal: {
-    businessName: 'Gramazio Tabitha',
-    vatNumber: '04192910711',
-    pec: 'tabithagramazio@pec.it',
-    ateco: '01.26 — Coltivazione di frutti oleosi',
-  },
-
-  /** Referente per telefono / FAB «Chiama» */
-  contactPerson: 'Francesco Cannarozzi',
-
-  phoneDisplay: '+39 333 412 5391',
-  phoneTel: '+393334125391',
-
-  orderDisclaimer:
-    'Inviando la richiesta d\'ordine dichiari di aver letto l\'informativa privacy. ' +
-    'La richiesta non costituisce ordine confermato: l\'azienda ti ricontatterà per disponibilità, ' +
-    'spedizione e pagamento.',
-
-  /** Menu header: Prodotti · Azienda (sotto-menu) · Contatti */
-  nav: [
-    { kind: 'link', href: '/catalogo', label: 'Prodotti' },
-    {
-      kind: 'group',
-      label: 'Azienda',
-      menuId: 'nav-azienda',
-      links: [
-        { href: '/chi-siamo', label: 'Chi siamo' },
-        { href: '/faq', label: 'Ordini e spedizioni' },
-      ],
-    },
-    { kind: 'link', href: '/contatti', label: 'Contatti' },
-  ],
 } as const;
 
 export type SiteConfig = typeof siteConfig;

@@ -1,9 +1,16 @@
 # Gestione catalogo (F16.01)
 
-## Dove sono i dati
+## Backoffice (consigliato)
+
+Per modifiche **senza codice**, usa Sanity Studio in `backoffice/` — vedi [backoffice-setup.md](./backoffice-setup.md).
+
+Flusso: modifica in Studio → Pubblica → rebuild sito (`cms:sync` in prebuild).
+
+## Dove sono i dati (tecnico)
 
 - Schema: `src/domain/catalog/catalog.schema.ts`
-- Dati prodotti: `src/domain/catalog/products.data.ts` (validati via `src/domain/catalog/index.ts`)
+- Runtime sito: `src/generated/cms/bundle.json` (sync Sanity o `npm run cms:snapshot`)
+- Seed legacy: `src/domain/catalog/products.data.ts` + `src/content/seeds/`
 
 ## Esempio: aggiornare prezzo e immagine
 
