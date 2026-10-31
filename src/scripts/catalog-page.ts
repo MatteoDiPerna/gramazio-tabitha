@@ -1,8 +1,8 @@
-import { catalogCategories } from '@/domain/catalog/catalogCategories';
 import {
   buildCatalogHref,
   compareCatalogGridItems,
   matchesCategory,
+  matchesSearch,
   parseCatalogQuery,
   type CatalogGridItem,
 } from '@/domain/catalog/catalogPageQuery';
@@ -27,8 +27,18 @@ function readConfig(): CatalogPageConfig | null {
 function gridItemFromElement(li: HTMLElement): CatalogGridItem | null {
   const category = li.dataset.catalogCategory;
   const name = li.dataset.catalogName;
+  const searchText = li.dataset.catalogSearch ?? name ?? '';
   if (!category || !name) return null;
-  return { category: category as CatalogGridItem['category'], name };
+  return {
+    category: category as CatalogGridItem['category'],
+    name,
+    searchText,
+  };
+}
+
+function currentSearchQuery(root: HTMLElement): string {
+  const input = root.querySelector<HTMLInputElement>('[data-catalog-search]');
+  return input?.value ?? '';
 }
 
 function setLinkActive(link: HTMLAnchorElement, active: boolean) {
@@ -88,13 +98,17 @@ function applyCatalogPageState() {
 
   const config = readConfig();
   const { category, sort } = parseCatalogQuery(window.location.search);
+  const searchQuery = currentSearchQuery(root);
 
   const items = [...grid.querySelectorAll<HTMLElement>('[data-catalog-product]')];
   const visible: HTMLElement[] = [];
 
   for (const li of items) {
     const item = gridItemFromElement(li);
-    const show = item != null && matchesCategory(item, category);
+    const show =
+      item != null &&
+      matchesCategory(item, category) &&
+      matchesSearch(item, searchQuery);
     li.hidden = !show;
     if (show) visible.push(li);
   }
@@ -182,6 +196,12 @@ function bindCatalogPageNavigation() {
     true,
   );
 
+  root.querySelectorAll<HTMLInputElement>('[data-catalog-search]').forEach((input) => {
+    if (input.dataset.bound === 'true') return;
+    input.dataset.bound = 'true';
+    input.addEventListener('input', () => applyCatalogPageState());
+  });
+
   root.querySelectorAll<HTMLSelectElement>('[data-catalog-nav-select]').forEach((select) => {
     if (select.dataset.bound === 'true') return;
     select.dataset.bound = 'true';
@@ -211,6 +231,9 @@ if (typeof window !== 'undefined') {
     const root = document.querySelector('[data-catalog-page]');
     if (root instanceof HTMLElement) {
       delete root.dataset.catalogNavBound;
+      root.querySelectorAll('[data-catalog-search]').forEach((el) => {
+        if (el instanceof HTMLElement) delete el.dataset.bound;
+      });
     }
     initCatalogPage();
   });

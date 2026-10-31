@@ -1,5 +1,10 @@
-import { useMemo, useState, type FC, type MouseEvent } from 'react';
+import { useEffect, useMemo, useState, type FC, type MouseEvent } from 'react';
 import { siteConfig } from '@/config/site.config';
+import {
+  clearCartFormDraft,
+  loadCartFormDraft,
+  saveCartFormDraft,
+} from '@/domain/cart/cartFormStorage';
 import {
   cartLineKey,
   computeCartTotals,
@@ -15,13 +20,28 @@ import { QuantityStepper } from '../ui/QuantityStepper';
 import './cartPage.css';
 
 export const CartPage: FC = () => {
-  const { ready, lines, updateQty, remove, catalogSyncRemoved } = useCart();
+  const { ready, lines, updateQty, remove, clear, catalogSyncRemoved } = useCart();
   const [notes, setNotes] = useState('');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [deliveryAddress, setDeliveryAddress] = useState('');
   const [copyStatus, setCopyStatus] = useState<string | null>(null);
   const [fieldError, setFieldError] = useState<string | null>(null);
+  const [formHydrated, setFormHydrated] = useState(false);
+
+  useEffect(() => {
+    const draft = loadCartFormDraft();
+    setNotes(draft.notes);
+    setName(draft.name);
+    setPhone(draft.phone);
+    setDeliveryAddress(draft.deliveryAddress);
+    setFormHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!formHydrated) return;
+    saveCartFormDraft({ notes, name, phone, deliveryAddress });
+  }, [formHydrated, notes, name, phone, deliveryAddress]);
 
   const totals = useMemo(() => computeCartTotals(lines), [lines]);
 
@@ -52,6 +72,14 @@ export const CartPage: FC = () => {
     if (!validateContact()) {
       event.preventDefault();
     }
+  };
+
+  const onClearCart = () => {
+    if (!window.confirm('Vuoi svuotare il riepilogo ordine?')) return;
+    clear();
+    clearCartFormDraft();
+    setCopyStatus(null);
+    setFieldError(null);
   };
 
   const onCopy = async () => {
@@ -162,6 +190,12 @@ export const CartPage: FC = () => {
           );
         })}
       </ul>
+
+      <div className="cart-toolbar">
+        <button type="button" className="btn btn--ghost cart-toolbar__clear" onClick={onClearCart}>
+          Svuota riepilogo
+        </button>
+      </div>
 
       <div className="cart-summary">
         <p>

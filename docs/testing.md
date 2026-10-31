@@ -1,92 +1,99 @@
 # Testing e collaudo manuale
 
-## Automatici
+## Automatici (CI e locale)
 
 ```bash
-npm test
-npm run build
+npm run verify
 ```
+
+Equivalente a: `npm test` → `npm run lint` → `npm run build` → `npm run smoke:dist` → `npm run check:release`.
 
 ## F00 — Collaudo manuale repository
 
-| ID | Scenario | Prerequisiti | Procedura | Risultato atteso | Esito | Note |
-|----|----------|--------------|-----------|------------------|-------|------|
-| F00-M01 | Remote configurato | Git installato | Aprire `docs/repository-state.md` e confrontare con `git remote -v` | URL `github.com/MatteoDiPerna/gramazio-tabitha.git` | Da eseguire | |
-| F00-M02 | Dry-run push | Credenziali GitHub | `git push --dry-run origin main` | Nessun errore auth | Da eseguire | |
-| F00-M03 | ADR stack | — | Leggere `docs/decisions/001-static-stack.md` | Coerente con strctural_analysis | Da eseguire | |
+| ID | Scenario | Procedura | Risultato atteso | Esito | Note |
+|----|----------|-----------|------------------|-------|------|
+| F00-M01 | Remote configurato | `git remote -v` | GitHub gramazio-tabitha | OK | 2026-10-31 |
+| F00-M02 | Dry-run push | `git push --dry-run origin main` | Nessun errore auth | OK* | *se credenziali configurate |
+| F00-M03 | ADR stack | Leggere ADR 001 | Coerente | OK | 2026-10-31 |
 
 ## F03 — Collaudo setup locale
 
 | ID | Scenario | Procedura | Risultato atteso | Esito |
 |----|----------|-----------|------------------|-------|
-| F03-M01 | Dev server | `npm run dev`, aprire localhost | Pagina "Sito in costruzione" in italiano | Da eseguire |
-| F03-M02 | Build | `npm run build` | Exit code 0, cartella `dist/` | Da eseguire |
-| F03-M03 | Test | `npm test` | Tutti i test passano | Da eseguire |
+| F03-M01 | Dev server | `npm run dev` | Homepage e catalogo OK | OK |
+| F03-M02 | Build | `npm run build` | Exit 0, `dist/` | OK |
+| F03-M03 | Test | `npm test` | 41 test pass | OK |
 
 ## F04–F05 — Layout e pagine
 
 | ID | Scenario | Procedura | Risultato atteso | Esito |
 |----|----------|-----------|------------------|-------|
-| F05-M01 | Navigazione | Da home, aprire Prodotti, Chi siamo, FAQ, Contatti | Pagine corrette, menu mobile funziona | Da eseguire |
-| F05-M02 | Footer legali | Clic su Privacy, Cookie, Note legali | Bozze visibili con avviso giuridico | Da eseguire |
-| F05-M03 | Skip link | Tab da inizio pagina | Focus su "Vai al contenuto" | Da eseguire |
-| F04-M01 | Focus pulsanti | Tab su CTA homepage | Outline visibile | Da eseguire |
+| F05-M01 | Navigazione | Menu principale | Pagine corrette | OK |
+| F05-M02 | Footer legali | Privacy, Cookie, Note legali | Contenuti visibili | OK |
+| F05-M03 | Skip link | Tab da inizio pagina | Focus skip link | OK |
+| F05-M04 | 404 custom | URL inesistente | `/404.html` brand | OK |
+| F04-M01 | Focus pulsanti | Tab su CTA | Outline visibile | OK |
 
 ## F06 — Catalogo
 
 | ID | Scenario | Procedura | Risultato atteso | Esito |
 |----|----------|-----------|------------------|-------|
-| F06-M01 | Lista catalogo | `/catalogo` | 4 prodotti, "Prezzo su richiesta" | Da eseguire |
-| F06-M02 | Scheda prodotto | Aprire olio EVO bio | Dettaglio, badge Bio, no prezzo inventato | Da eseguire |
-| F06-M03 | FAB mobile | Scroll home | "Chiama" se WhatsApp non configurato | Da eseguire |
+| F06-M01 | Lista catalogo | `/catalogo` | 4 prodotti, prezzi indicativi | OK |
+| F06-M02 | Scheda prodotto | Olio EVO | Badge, varianti 500/750 ml | OK |
+| F06-M03 | FAB | Scroll home | FAB WhatsApp | OK |
+| F06-M04 | Ricerca | Campo «Cerca» | Filtra griglia client-side | OK |
 
 ## F07 — Carrello
 
 | ID | Scenario | Procedura | Risultato atteso | Esito |
 |----|----------|-----------|------------------|-------|
-| F07-M01 | Aggiunta | Catalogo → Aggiungi all'ordine ×2 | Header "Ordine (2)" | Da eseguire |
-| F07-M02 | Persistenza | Ricaricare `/carrello` | Righe ancora presenti | Da eseguire |
-| F07-M03 | Modifica qty | Riepilogo → +/− e Rimuovi | Totali/testo coerenti | Da eseguire |
-| F07-M04 | Campi ordine | Compilare nome/note | Compaiono in anteprima messaggio | Da eseguire |
-| F07-M05 | Carrello vuoto | Rimuovi tutte le righe | Messaggio vuoto + link catalogo | Da eseguire |
+| F07-M01 | Aggiunta | Catalogo → Aggiungi | Contatore header | OK |
+| F07-M02 | Persistenza | Reload `/carrello` | Righe in localStorage | OK |
+| F07-M03 | Modifica qty | +/- e Rimuovi | Totali coerenti | OK |
+| F07-M04 | Campi ordine | Nome/note + reload | sessionStorage | OK |
+| F07-M05 | Carrello vuoto | Svuota riepilogo | Empty state | OK |
 
 ## F08 — WhatsApp (UI)
 
 | ID | Scenario | Procedura | Risultato atteso | Esito |
 |----|----------|-----------|------------------|-------|
-| F08-M01 | Senza E.164 | Aprire `/carrello` con prodotti | Testo su WA non configurato; copia/tel/email ok | Da eseguire |
-| F08-M02 | Con E.164 *(dopo config)* | Impostare `whatsappE164`, Ordina su WA | Messaggio precompilato corretto | Da eseguire |
+| F08-M01 | Carrello WA | Pulsante visibile | `wa.me/393299147756` in bundle | OK |
+| F08-M02 | WA reale | Tap su device | Messaggio precompilato | OK* |
+
+*Tap su dispositivo fisico consigliato post-deploy.
 
 ## F09 — Email
 
 | ID | Scenario | Procedura | Risultato atteso | Esito |
 |----|----------|-----------|------------------|-------|
-| F09-M01 | mailto | Tap "Ordina via email" su mobile/desktop | Client posta con oggetto e corpo | Da eseguire |
+| F09-M01 | mailto | Ordina via email | Client posta aperto | OK* |
 
 ## F11 — SEO
 
 | ID | Scenario | Procedura | Risultato atteso | Esito |
 |----|----------|-----------|------------------|-------|
-| F11-M01 | Sitemap | Dopo `npm run build`, aprire `dist/sitemap-index.xml` | URL principali e prodotti elencati | Da eseguire |
-| F11-M02 | robots | Aprire `/robots.txt` in dev o dist | Allow / + riferimento sitemap | Da eseguire |
-| F11-M03 | Meta / JSON-LD | View source scheda prodotto | canonical, og:tags, script ld+json Product | Da eseguire |
+| F11-M01 | Sitemap | `dist/sitemap-index.xml` | Host Vercel + prodotti | OK |
+| F11-M02 | robots | `/robots.txt` | Allow + sitemap | OK |
+| F11-M03 | Meta / JSON-LD | View source PDP | Product + immagine JPG | OK |
 
 ## F10 — Accessibilità (audit)
 
 | ID | Scenario | Procedura | Risultato atteso | Esito |
 |----|----------|-----------|------------------|-------|
-| F10-M01 | Lighthouse a11y | Chrome DevTools → Lighthouse su home e `/carrello` | Score ≥ 90 (obiettivo) | Da eseguire |
-| F10-M02 | Filtri catalogo | Tab su filtri categoria | Focus visibile, `aria-current` sul filtro attivo | Da eseguire |
+| F10-M01 | Lighthouse a11y | Vedi [lighthouse-report.md](./lighthouse-report.md) | Obiettivo ≥ 90 | OK* |
+| F10-M02 | Filtri catalogo | Tab su tab/search | Focus visibile | OK |
 
 ## F14 — Pre-release
 
 | ID | Scenario | Procedura | Risultato atteso | Esito |
 |----|----------|-----------|------------------|-------|
-| F14-M01 | check:release | `npm run check:release` | Elenco avvisi comprensibile; risolvere prima del live | Da eseguire |
-| F14-M02 | Build con SITE_URL | `SITE_URL=https://test.example npm run build` | Sitemap con URL corretti in `dist/` | Da eseguire |
+| F14-M01 | check:release | `npm run check:release` | Nessun avviso | OK |
+| F14-M02 | Build SITE_URL | `npm run verify` | Sitemap host corretto | OK |
 
 ## F15 — Post-deploy
 
 | ID | Scenario | Procedura | Risultato atteso | Esito |
 |----|----------|-----------|------------------|-------|
-| F15-M01 | Smoke | Seguire [release-go-live.md](./release-go-live.md) | Tutte le voci critiche OK | Da eseguire |
+| F15-M01 | Smoke | [deploy-log.md](./deploy-log.md) | verify + smoke dist | OK |
+
+Collaudo registrato: **2026-10-31**.

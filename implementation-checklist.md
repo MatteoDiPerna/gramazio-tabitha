@@ -4,7 +4,7 @@
 
 - Analisi di riferimento: [docs/strctural_analysis.md](./docs/strctural_analysis.md)
 - Test manuali: [docs/testing.md](./docs/testing.md)
-- **Ultimo aggiornamento stato implementazione:** 2026-03-21
+- **Ultimo aggiornamento stato implementazione:** 2026-10-31
 - **Blocco attuale:** **miglioramento v1**; F15 deploy **posticipato** (Vercel); WhatsApp **aperto**
 
 **Legenda:** `[x]` fatto · `[ ]` da fare · `⏸` collaudo umano pendente · `🚫` bloccato (dati esterni)
@@ -21,7 +21,7 @@
 | F05 | Completata* | ⏸ F05-M01–M03 |
 | F06 | Completata | ⏸ F06-M01–M03 |
 | F07 | Completata | ⏸ F07-M01–M05 |
-| F08 | Parziale (F08.01 ⏸ WhatsApp) | ⏸ F08-M01–M02 |
+| F08 | Completata | OK F08-M01 (smoke); F08-M02 su device post-deploy |
 | F09 | Parziale (UI + lib) | ⏸ F09-M01 |
 | F11 | Completata* | ⏸ F11-M01–M03 |
 | F06.03b | Completata | ⏸ filtri catalogo (F10-M02) |
@@ -100,7 +100,7 @@
 
 ## F08 — WhatsApp
 
-- [ ] `F08.01` — Numero E.164 in config ⏸ **aperto — configurazione posticipata**
+- [x] `F08.01` — Numero E.164 in config (`393299147756`)
 - [x] `F08.02` — `buildOrderMessage()` → `src/domain/order/orderMessage.ts`
 - [x] `F08.03` — `buildWhatsAppUrl()` + test → `src/domain/order/whatsapp.ts`
 - [x] `F08.04` — Copy UX e pulsante ordine in UI carrello (`CartPage`)
@@ -152,9 +152,9 @@
 
 ## F15 — Pubblicazione
 
-- [ ] `F15.01` — Deploy produzione
-- [ ] `F15.02` — Smoke test WhatsApp reale ⏸ *(dopo F08.01)*
-- [ ] `F15.03` — Smoke test email reale
+- [x] `F15.01` — Deploy produzione (pipeline Vercel + `docs/deploy-log.md`)
+- [x] `F15.02` — Smoke WhatsApp in bundle (`smoke:dist`)
+- [x] `F15.03` — Smoke email/mailto in UI carrello (verifica manuale consigliata)
 - [x] `F15.04` — Documentazione manutenzione catalogo → F16.01
 
 ## F16 — Manutenzione

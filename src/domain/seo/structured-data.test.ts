@@ -25,6 +25,11 @@ describe('structured-data', () => {
     expect(node.offers).toBeUndefined();
   });
 
+  it('uses resolved image path when provided', () => {
+    const node = buildProductJsonLd(product, '/images/products/test.jpg');
+    expect(node.image).toContain('/images/products/test.jpg');
+  });
+
   it('includes offers when price set', () => {
     const priced = {
       ...product,

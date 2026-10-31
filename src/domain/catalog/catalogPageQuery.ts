@@ -16,7 +16,22 @@ export function parseCatalogQuery(search: string): {
 export type CatalogGridItem = {
   category: CatalogCategoryId;
   name: string;
+  searchText: string;
 };
+
+export function normalizeCatalogSearch(value: string): string {
+  return value
+    .trim()
+    .toLocaleLowerCase('it')
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '');
+}
+
+export function matchesSearch(item: CatalogGridItem, query: string): boolean {
+  const q = normalizeCatalogSearch(query);
+  if (!q) return true;
+  return normalizeCatalogSearch(item.searchText).includes(q);
+}
 
 const categoryOrder = new Map(catalogCategories.map((c, i) => [c.id, i]));
 

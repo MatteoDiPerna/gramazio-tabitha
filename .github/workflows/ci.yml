@@ -17,5 +17,13 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+      - run: npm run lint
       - run: npm run build
+        env:
+          SITE_URL: https://gramazio-tabitha.vercel.app
+      - run: npm run smoke:dist
+        env:
+          SITE_URL: https://gramazio-tabitha.vercel.app
       - run: npm run check:release
+        env:
+          SITE_URL: https://gramazio-tabitha.vercel.app

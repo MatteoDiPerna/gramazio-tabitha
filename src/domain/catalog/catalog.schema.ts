@@ -23,6 +23,8 @@ export const productSchema = z.object({
   published: z.boolean(),
   available: z.boolean(),
   badges: z.array(z.enum(['bio', 'slow-food'])).optional(),
+  /** Nota stagionalità/disponibilità — solo testo verificato */
+  seasonalNote: z.string().optional(),
   /** Informazioni aggiuntive verificate — opzionali */
   productInfo: z
     .object({

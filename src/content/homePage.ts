@@ -43,7 +43,7 @@ export const homeServicesSection = {
     {
       title: 'Ordini diretti con l’azienda',
       description:
-        'Componi il carrello sul sito e invia la richiesta via email o telefono: ti ricontattiamo per disponibilità, spedizione e pagamento.',
+        'Componi il riepilogo ordine sul sito e invialo via WhatsApp, email o telefono. Nessuna registrazione: ti ricontattiamo per disponibilità, spedizione e pagamento.',
       href: '/carrello',
     },
   ],

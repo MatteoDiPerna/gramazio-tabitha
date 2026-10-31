@@ -18,6 +18,7 @@ const { products } = Astro.props;
           data-catalog-product
           data-catalog-category={product.category}
           data-catalog-name={product.name}
+          data-catalog-search={`${product.name} ${product.shortDescription}`}
           data-catalog-pricing-incomplete={pricingIncomplete ? 'true' : 'false'}
         >
           <ProductCard product={product} />

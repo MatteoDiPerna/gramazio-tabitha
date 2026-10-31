@@ -2,6 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageContainer from '@/components/layout/PageContainer.astro';
 import PageHero from '@/components/layout/PageHero.astro';
+import { siteConfig } from '@/config/site.config';
 import { staticPageHeroes } from '@/content/pageHeroes';
 
 const hero = staticPageHeroes.privacy;
@@ -19,9 +20,14 @@ const hero = staticPageHeroes.privacy;
       del trattamento e/o professionista qualificato (GDPR).
     </p>
     <p>
-      Attraverso questo sito potrai contattare l'Azienda Agricola Gramazio Tabitha e, in futuro,
-      inviare richieste d'ordine. I dati che inserisci volontariamente (nome, telefono, note)
-      saranno trattati per gestire la richiesta commerciale.
+      <strong>Titolare del trattamento:</strong> {siteConfig.name} — P.IVA{' '}
+      {siteConfig.legal.vatNumber} — PEC{' '}
+      <a href={`mailto:${siteConfig.legal.pec}`}>{siteConfig.legal.pec}</a>.
+    </p>
+    <p>
+      Attraverso questo sito puoi contattare l&apos;azienda e inviare richieste d&apos;ordine. I
+      dati che inserisci volontariamente (nome, telefono, note, indirizzo) servono a comporre il
+      messaggio d&apos;ordine e a gestire la richiesta commerciale.
     </p>
     <p>
       Per esercitare i diritti previsti dal Regolamento UE 2016/679 o per chiarimenti, usa i

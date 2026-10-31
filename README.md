@@ -115,6 +115,7 @@ Non dipende da ulteriore codice feature, ma da **input azienda** e **fasi finali
 | `npm run build` | Build produzione in `dist/` |
 | `npm test` | Test unitari |
 | `npm run check:release` | Controlli pre-go-live |
+| `npm run verify` | Test + lint + build + smoke dist + check release |
 | `npm run lint` | Lint codice |
 
 Configurazione commerciale centralizzata: `src/config/site.config.ts`. Catalogo: `src/domain/catalog/products.data.ts`.

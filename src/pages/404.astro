@@ -1,0 +1,35 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageContainer from '@/components/layout/PageContainer.astro';
+import PageHero from '@/components/layout/PageHero.astro';
+import Button from '@/components/ui/Button.astro';
+---
+
+<BaseLayout
+  title="Pagina non trovata"
+  description="La pagina richiesta non esiste o è stata spostata."
+  noindex
+>
+  <PageHero
+    title="Pagina non trovata"
+    lead="Il contenuto che cerchi non è disponibile su questo indirizzo."
+    size="compact"
+  />
+  <PageContainer centered prose>
+    <p>Puoi tornare alla home, sfogliare il catalogo o contattarci per assistenza.</p>
+    <div class="not-found__actions">
+      <Button href="/" variant="primary">Home</Button>
+      <Button href="/catalogo" variant="secondary">Catalogo prodotti</Button>
+      <Button href="/contatti" variant="ghost">Contatti</Button>
+    </div>
+  </PageContainer>
+</BaseLayout>
+
+<style>
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+  }
+</style>

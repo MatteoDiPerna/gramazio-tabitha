@@ -11,7 +11,7 @@ Elenco per raccolta con l'azienda. **Bloccanti per go-live** contrassegnati.
 
 ## Contatti e ordini
 
-- [ ] Conferma numero **WhatsApp** (E.164) — telefono pubblico +39 333 412 5391 **non** verificato come WhatsApp
+- [x] Numero **WhatsApp** ordini in config: `393299147756` (confermare con titolare in produzione)
 - [ ] Email dedicata ordini (se diversa da Virgilio)
 - [ ] Orari e tempi di risposta agli ordini
 
@@ -23,7 +23,7 @@ Elenco per raccolta con l'azienda. **Bloccanti per go-live** contrassegnati.
 
 ## Legale e compliance
 
-- [ ] **Bloccante:** P.IVA, ragione sociale completa, REA, eventuale PEC
+- [x] P.IVA, ragione sociale, PEC in `site.config.ts` / note legali (REA se disponibile)
 - [ ] Testi approvati per bio, Slow Food, certificazioni (solo claim documentati)
 - [ ] Informativa privacy e note legali (revisione professionista)
 

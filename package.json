@@ -13,6 +13,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "check:release": "node scripts/check-release.mjs",
+    "smoke:dist": "node scripts/smoke-dist.mjs",
+    "verify": "npm test && npm run lint && npm run build && npm run smoke:dist && npm run check:release",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

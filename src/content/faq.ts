@@ -25,19 +25,22 @@ export const faqItems: FaqItem[] = [
     id: 'spedizioni',
     question: 'Quali sono i costi di spedizione?',
     answerHtml:
-      "Da definire con l'azienda e pubblicati qui appena disponibili. Non mostriamo importi non confermati. Nel frattempo puoi chiedere informazioni via <a href=\"/contatti\">Contatti</a>.",
+      'Spediamo in Italia su accordo. Costi e tempi dipendono da peso, destinazione e prodotti ordinati: ' +
+      'li confermiamo insieme a disponibilità e importo definitivo. Per urgenze scrivi da <a href="/contatti">Contatti</a> o nel riepilogo ordine.',
   },
   {
     id: 'pagamenti',
     question: 'Quali metodi di pagamento accettate?',
     answerHtml:
-      "Da concordare al momento della conferma (es. bonifico, contrassegno — da verificare con l'azienda). Vedi anche il riepilogo in <a href=\"/carrello\">Carrello</a>.",
+      'Di solito bonifico bancario su coordinate che inviamo in conferma ordine. Altre modalità (es. contrassegno) solo se concordate caso per caso. ' +
+      'Dettagli nel messaggio d\'ordine e in <a href="/carrello">Carrello</a>.',
   },
   {
     id: 'prezzi-listino',
     question: 'Perché alcuni prezzi non sono visibili?',
     answerHtml:
-      'Pubblicheremo listino e formati ufficiali non appena forniti. Fino ad allora compare «Prezzo su richiesta» in catalogo e carrello.',
+      'In catalogo vedi prezzi indicativi del listino v1 quando disponibili; l\'importo definitivo è quello confermato per iscritto prima dell\'evasione. ' +
+      'Eventuali voci «Prezzo su richiesta» restano da concordare direttamente.',
   },
   {
     id: 'privacy-dati',

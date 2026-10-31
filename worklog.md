@@ -193,6 +193,13 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 | 2026-10-30 | Refactor catalogo, scheda prodotto, chi siamo, FAQ accordion, carrello; ESLint/Prettier; test aggiuntivi |
 | 2026-10-30 | Redesign UI/UX (spec `docs/ui-ux-redesign-spec.md`): token, tab catalogo, toolbar, SectionHead, Notice, home.css |
 | 2026-10-30 | Gutter laterali ridotti (`--layout-inline-padding`, `--content-max` fluido) |
+| 2026-10-31 | Chiusura PLAN v1: SITE_URL Vercel, ricerca catalogo, smoke/verify CI, legali, FAQ, deploy-log |
+
+---
+
+## Font (T-022 / SEO-002)
+
+**Decisione 2026-10-31:** mantenere Google Fonts (Cormorant + DM Sans) con `preconnect` e `display=swap` in `BaseLayout.astro`. Self-host valutato in v2 (`docs/roadmap-v2.md`) — nessun regressione visiva, LCP accettabile su statico Astro.
 
 ---
 

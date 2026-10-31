@@ -3,6 +3,7 @@ import {
   buildCatalogHref,
   compareCatalogGridItems,
   matchesCategory,
+  matchesSearch,
   parseCatalogQuery,
 } from '@/domain/catalog/catalogPageQuery';
 
@@ -20,8 +21,8 @@ describe('parseCatalogQuery', () => {
 });
 
 describe('compareCatalogGridItems', () => {
-  const a = { category: 'legumi' as const, name: 'Zeta' };
-  const b = { category: 'olio' as const, name: 'Alpha' };
+  const a = { category: 'legumi' as const, name: 'Zeta', searchText: 'zeta legumi' };
+  const b = { category: 'olio' as const, name: 'Alpha', searchText: 'alpha olio' };
 
   it('sorts by name', () => {
     expect(compareCatalogGridItems(a, b, 'name')).toBeGreaterThan(0);
@@ -34,11 +35,24 @@ describe('compareCatalogGridItems', () => {
 
 describe('matchesCategory', () => {
   it('matches all when category null', () => {
-    expect(matchesCategory({ category: 'olio', name: 'x' }, null)).toBe(true);
+    expect(matchesCategory({ category: 'olio', name: 'x', searchText: 'x' }, null)).toBe(true);
   });
 
   it('filters by category', () => {
-    expect(matchesCategory({ category: 'olio', name: 'x' }, 'legumi')).toBe(false);
+    expect(matchesCategory({ category: 'olio', name: 'x', searchText: 'x' }, 'legumi')).toBe(false);
+  });
+});
+
+describe('matchesSearch', () => {
+  const item = { category: 'legumi' as const, name: 'Fava di Carpino', searchText: 'fava carpino slow' };
+
+  it('matches empty query', () => {
+    expect(matchesSearch(item, '')).toBe(true);
+  });
+
+  it('matches normalized substring', () => {
+    expect(matchesSearch(item, 'carpino')).toBe(true);
+    expect(matchesSearch(item, 'olio')).toBe(false);
   });
 });
 

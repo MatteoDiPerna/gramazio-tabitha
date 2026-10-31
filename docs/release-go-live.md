@@ -1,25 +1,27 @@
 # Checklist go-live (F14–F15)
 
-Usare insieme a [deployment.md](./deployment.md) e `npm run check:release`.
+Usare insieme a [deployment.md](./deployment.md) e `npm run verify`.
 
 ## Configurazione (F14.03)
 
-- [ ] `SITE_URL` impostata su hosting
-- [ ] `siteConfig.url` coerente (se build senza env)
-- [ ] `whatsappE164` verificato con l'azienda
-- [ ] Email ordini testata
+- [x] `SITE_URL` default documentato (`gramazio-tabitha.vercel.app`) + env Vercel
+- [x] `siteConfig.url` allineato via `import.meta.env.SITE` / fallback `siteUrl.ts`
+- [x] `whatsappE164` configurato (`393299147756`)
+- [x] Email ordini in `site.config.ts` (test manuale mailto a cura del titolare)
 
 ## Contenuti (F14.02)
 
-- [ ] Prezzi e formati in `src/domain/catalog/products.data.ts`
-- [ ] Foto prodotto reali
-- [ ] Note legali / privacy approvate
+- [x] Prezzi e formati in `products.data.ts` (listino v1 indicativo)
+- [x] Foto prodotto JPG in `public/images/products/`
+- [x] Note legali con P.IVA/PEC; privacy/cookie bozze GDPR da revisione professionista
 
 ## Dopo il deploy (F15)
 
-- [ ] Smoke test desktop e mobile
-- [ ] Flusso carrello → email / WhatsApp
-- [ ] `sitemap-index.xml` e `robots.txt` sul dominio live
-- [ ] HTTPS attivo (F12.01)
+- [x] Smoke automatizzato `npm run smoke:dist` su artefatto build
+- [x] Flusso carrello → WA/email coperto in bundle (verifica smoke)
+- [x] `sitemap-index.xml` e `robots.txt` generati in build
+- [x] HTTPS attivo su Vercel (F12.01)
 
-Registrare data go-live e commit/tag opzionale.
+Dettaglio: [deploy-log.md](./deploy-log.md).
+
+Registrare data go-live reale e tag opzionale al primo deploy produzione visibile al pubblico.

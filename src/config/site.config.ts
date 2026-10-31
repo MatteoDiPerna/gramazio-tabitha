@@ -2,11 +2,13 @@
  * Configurazione centralizzata — aggiornare qui contatti e testi commerciali.
  * Non inserire segreti o credenziali.
  */
+import { DEFAULT_PRODUCTION_SITE_URL } from '@/config/siteUrl';
+
 function resolvePublicSiteUrl(): string {
   if (typeof import.meta !== 'undefined' && import.meta.env?.SITE) {
     return String(import.meta.env.SITE).replace(/\/$/, '');
   }
-  return 'https://example.com';
+  return DEFAULT_PRODUCTION_SITE_URL;
 }
 
 export const siteConfig = {
@@ -29,8 +31,16 @@ export const siteConfig = {
   email: 'francescocannarozzi@virgilio.it',
   ordersEmail: 'francescocannarozzi@virgilio.it',
 
-  /** E.164 senza + — placeholder: confermare che sia WhatsApp (F08.01) */
-  whatsappE164: '' as string,
+  /** E.164 senza + (WhatsApp ordini e FAB) */
+  whatsappE164: '393299147756',
+
+  /** Dati anagrafici/fiscali — verificare con titolare prima del go-live */
+  legal: {
+    businessName: 'Gramazio Tabitha',
+    vatNumber: '04192910711',
+    pec: 'tabithagramazio@pec.it',
+    ateco: '01.26 — Coltivazione di frutti oleosi',
+  },
 
   /** Referente per telefono / FAB «Chiama» */
   contactPerson: 'Francesco Cannarozzi',

@@ -38,7 +38,9 @@ describe('buildOrderMessage', () => {
       { notes: 'Per favore' },
     );
     const url = buildWhatsAppUrl(msg);
-    expect(url).toBeNull();
+    expect(url).not.toBeNull();
+    expect(url).toContain(encodeURIComponent('Patè'));
+    expect(url).toContain('wa.me/393299147756');
   });
 });
 

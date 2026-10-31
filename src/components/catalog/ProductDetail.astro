@@ -2,6 +2,7 @@
 import Badge from '@/components/ui/Badge.astro';
 import Button from '@/components/ui/Button.astro';
 import SectionHead from '@/components/ui/SectionHead.astro';
+import Notice from '@/components/ui/Notice.astro';
 import ProductBreadcrumb from '@/components/catalog/ProductBreadcrumb.astro';
 import CatalogProductGrid from '@/components/catalog/CatalogProductGrid.astro';
 import { ProductSpinViewer } from '@/components/catalog/ProductSpinViewer';
@@ -42,6 +43,13 @@ const hasLongDescription = (product.description?.length ?? 0) > 220;
         )}
       </div>
       <p class="product-detail__short">{product.shortDescription}</p>
+      {
+        product.seasonalNote && (
+          <div class="product-detail__seasonal">
+            <Notice variant="info">{product.seasonalNote}</Notice>
+          </div>
+        )
+      }
       <ProductPurchasePanel client:load product={product} />
       <div class="product-detail__actions">
         <Button href="/catalogo" variant="secondary">Torna al catalogo</Button>
@@ -142,6 +150,11 @@ const hasLongDescription = (product.description?.length ?? 0) > 220;
     margin: 0 0 var(--space-md);
     color: var(--color-text-muted);
     line-height: 1.55;
+  }
+
+  .product-detail__seasonal :global(.notice) {
+    margin-top: 0;
+    margin-bottom: var(--space-md);
   }
 
   .product-detail__actions {

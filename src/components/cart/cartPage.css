@@ -4,6 +4,15 @@
   gap: 1.25rem;
 }
 
+.cart-toolbar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cart-toolbar__clear {
+  font-size: var(--text-sm);
+}
+
 .cart-lines {
   list-style: none;
   margin: 0;

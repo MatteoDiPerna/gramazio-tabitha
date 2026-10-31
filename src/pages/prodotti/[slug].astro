@@ -32,7 +32,7 @@ const heroLead = product.shortDescription;
   canonicalPath={`/prodotti/${product.slug}`}
   ogType="product"
   ogImagePath={imageSrc}
-  jsonLdNodes={[buildProductJsonLd(product)]}
+  jsonLdNodes={[buildProductJsonLd(product, imageSrc)]}
 >
   <PageHero title={product.name} lead={heroLead} imageSrc={imageSrc} />
   <PageContainer>

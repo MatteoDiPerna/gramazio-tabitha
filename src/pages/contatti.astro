@@ -4,6 +4,7 @@ import PageHero from '@/components/layout/PageHero.astro';
 import Card from '@/components/ui/Card.astro';
 import CallPopover from '@/components/ui/CallPopover.astro';
 import { siteConfig } from '@/config/site.config';
+import { contactsPageIntro } from '@/content/contactsPage';
 import { staticPageHeroes } from '@/content/pageHeroes';
 
 const contactHero = staticPageHeroes.contatti;
@@ -24,6 +25,14 @@ const mapsDirectionsHref = `https://www.google.com/maps/search/?api=1&query=${ma
   <PageHero title={contactHero.title} lead={contactHero.lead} imageSrc={contactHero.image} />
 
   <div class="contact-page">
+    <section class="contact-page__intro container" aria-labelledby="contact-intro-title">
+      <h2 id="contact-intro-title" class="contact-page__intro-title">{contactsPageIntro.title}</h2>
+      <p class="contact-page__intro-body">{contactsPageIntro.body}</p>
+      <p class="contact-page__intro-meta">
+        <strong>{contactsPageIntro.referentLabel}:</strong> {contactsPageIntro.referentName}
+      </p>
+      <p class="contact-page__intro-meta" set:html={contactsPageIntro.ordersHint} />
+    </section>
     <section class="contact-page__details" aria-label="Recapiti">
       <div class="container contact-page__grid">
         <Card class="contact-block">
@@ -52,9 +61,11 @@ const mapsDirectionsHref = `https://www.google.com/maps/search/?api=1&query=${ma
         <Card class="contact-block">
           <div class="contact-block__main">
             <span class="contact-block__icon" aria-hidden="true">✉</span>
-            <h2 class="contact-block__label">E mail</h2>
+            <h2 class="contact-block__label">Email e PEC</h2>
             <p class="contact-block__value">
               <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+              <br />
+              PEC: <a href={`mailto:${siteConfig.legal.pec}`}>{siteConfig.legal.pec}</a>
             </p>
           </div>
         </Card>
@@ -82,6 +93,27 @@ const mapsDirectionsHref = `https://www.google.com/maps/search/?api=1&query=${ma
 <style>
   .contact-page {
     background: var(--color-bg);
+  }
+
+  .contact-page__intro {
+    max-width: var(--content-max);
+    margin-inline: auto;
+    padding: var(--space-xl) var(--layout-inline-padding) var(--space-lg);
+    text-align: center;
+  }
+
+  .contact-page__intro-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    margin: 0 0 var(--space-md);
+    color: var(--color-primary);
+  }
+
+  .contact-page__intro-body,
+  .contact-page__intro-meta {
+    margin: 0 0 var(--space-sm);
+    color: var(--color-text-muted);
+    line-height: 1.6;
   }
 
   .contact-page__details {

@@ -7,7 +7,7 @@ export function cartLineKey(productId: string, variantId: string): string {
 }
 
 export function canAddProductToCart(product: Product): boolean {
-  return product.published;
+  return product.published && product.available;
 }
 
 export function createCartLine(

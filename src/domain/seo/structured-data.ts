@@ -34,14 +34,15 @@ export function buildLocalBusinessJsonLd(): JsonLd {
   };
 }
 
-export function buildProductJsonLd(product: Product): JsonLd {
+export function buildProductJsonLd(product: Product, imagePath?: string): JsonLd {
   const variant = product.variants[0];
+  const imageSrc = imagePath ?? product.image.src;
   const data: JsonLd = {
     '@type': 'Product',
     '@id': `${absoluteUrl(`/prodotti/${product.slug}`)}#product`,
     name: product.name,
     description: product.shortDescription,
-    image: absoluteUrl(product.image.src),
+    image: absoluteUrl(imageSrc),
     url: absoluteUrl(`/prodotti/${product.slug}`),
   };
 

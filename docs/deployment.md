@@ -1,59 +1,50 @@
 # Deployment e preparazione rilascio (F14–F15)
 
+**Hosting di riferimento:** [Vercel](https://vercel.com) (`vercel.json` in root).  
+Il file `netlify.toml` è legacy/opzionale: non usarlo salvo deploy esplicito su Netlify.
+
 ## Prerequisiti
 
-- [ ] Dominio registrato e DNS configurato (F14.01)
-- [x] Assortimento listino allineato → [listino.md](./listino.md) (F14.02); foto prodotto ancora placeholder
-- [ ] Dominio + `SITE_URL` (F14.01); email/tel in `site.config.ts` OK · **`whatsappE164` da configurare** (F08.01, posticipato)
-- [ ] Testi legali revisionati da professionista
+- [ ] URL Vercel (preview o custom domain) definito
+- [x] Assortimento listino in `products.data.ts` — sostituire prezzi **placeholder** prima del go-live pubblico
+- [x] `whatsappE164` in `site.config.ts` (verificare numero ordini)
+- [ ] Testi privacy/cookie revisionati da professionista (bozze tecniche in repo)
 
 ## Variabili d'ambiente
 
 | Variabile | Obbligatoria | Descrizione |
 |-----------|--------------|-------------|
-| `SITE_URL` | Sì (produzione) | Es. `https://www.tuodominio.it` — alimenta sitemap e `import.meta.env.SITE` |
+| `SITE_URL` | Sì (produzione/preview) | Es. `https://gramazio-tabitha.vercel.app` — sitemap e `import.meta.env.SITE` |
 
-Copia [.env.example](../.env.example) in locale solo per test build; **non** committare `.env`.
+Copia [.env.example](../.env.example) in `.env` in locale per test build; **non** committare `.env`.
 
-Allineare anche `siteConfig.url` in `src/config/site.config.ts` al dominio reale (canonical/OG se `SITE` non impostato in dev).
+In dev, se `SITE_URL` non è impostata, canonical/sitemap usano il fallback documentato in `astro.config.mjs`.
 
 ## Build locale di verifica
 
 ```bash
 npm ci
 npm test
-set SITE_URL=https://www.tuodominio.it   # Windows
+npm run lint
+# Windows PowerShell:
+$env:SITE_URL="https://tuo-progetto.vercel.app"
 npm run build
 npm run preview
 npm run check:release
 ```
 
-## Vercel (target iniziale)
+## Vercel
 
 1. Collegare repository GitHub a Vercel.
-2. Framework: Astro — impostazioni in [vercel.json](../vercel.json) (`dist`, header di sicurezza base).
-3. Variabile d'ambiente **`SITE_URL`** = URL produzione (es. dominio custom).
-4. Deploy → verificare HTTPS e pagine statiche.
+2. Framework: **Astro** — `vercel.json` imposta `outputDirectory: dist` e header di sicurezza base.
+3. Environment variable **`SITE_URL`** = URL del deployment (preview `*.vercel.app` o dominio custom).
+4. Deploy → verificare HTTPS, `/404` custom, pagine statiche.
 
-## Netlify (alternativa)
+## Post-deploy (F15 smoke)
 
-1. Collegare repository GitHub.
-2. Build command / publish directory: già in [netlify.toml](../netlify.toml).
-3. Impostare `SITE_URL` nelle variabili d'ambiente.
-4. Deploy → verificare HTTPS automatico (F12.01).
+1. Homepage, catalogo, scheda prodotto, carrello, pagina 404 inesistente.
+2. Ordine test → WhatsApp (se E.164 configurato), email, copia testo.
+3. `/robots.txt` e `/sitemap-index.xml` con host corretto.
+4. Link footer (privacy, note legali, contatti).
 
-## Cloudflare Pages
-
-- Build: `npm run build`
-- Output: `dist`
-- Variabile `SITE_URL` uguale al dominio Pages/custom domain.
-- Header di sicurezza: usare regole Transform Rules o [public/_headers](../public/_headers) se supportati.
-
-## Post-deploy (F15 smoke — fase finale)
-
-1. Homepage, catalogo, scheda prodotto, carrello.
-2. Ordine test → email / copia testo / telefono; WhatsApp dopo configurazione E.164.
-3. `/robots.txt` e `/sitemap-index.xml`.
-4. Link footer (privacy, contatti).
-
-Vedi [testing.md](./testing.md) sezione F15.
+Vedi [testing.md](./testing.md) e [release-go-live.md](./release-go-live.md).

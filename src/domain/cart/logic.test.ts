@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { Product } from '@/domain/catalog/catalog.schema';
 import {
   addLine,
+  canAddProductToCart,
   cartItemCount,
   computeCartTotals,
   createCartLine,
@@ -66,6 +67,12 @@ describe('cart logic', () => {
     expect(lines[0].qty).toBe(5);
     lines = removeLine(lines, 'olio-evo-bio', '500ml');
     expect(lines).toHaveLength(0);
+  });
+
+  it('blocks unpublished or unavailable products', () => {
+    expect(canAddProductToCart(sampleProduct)).toBe(true);
+    expect(canAddProductToCart({ ...sampleProduct, published: false })).toBe(false);
+    expect(canAddProductToCart({ ...sampleProduct, available: false })).toBe(false);
   });
 
   it('syncs from catalog', () => {
