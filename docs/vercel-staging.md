@@ -1,5 +1,7 @@
 # Procedura: deploy staging su Vercel (gratuito)
 
+> **Deprecato per pre-staging attuale:** usare [netlify-pre-staging.md](./netlify-pre-staging.md) (host gratuito + rimozione progetto Vercel). Questa pagina resta come riferimento storico.
+
 Guida passo-passo per pubblicare il sito **Gramazio Tabitha** su un URL `*.vercel.app` per **anteprima e collaudo**, senza dominio custom e senza trattarlo come go-live pubblico ufficiale.
 
 **Cosa ottieni:** HTTPS, build identica alla CI, sitemap/robots con host corretto (se `SITE_URL` è impostato), flusso ordine WhatsApp/email testabile.

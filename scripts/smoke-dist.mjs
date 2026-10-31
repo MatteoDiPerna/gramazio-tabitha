@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
-const site = (process.env.SITE_URL ?? 'https://gramazio-tabitha.vercel.app').replace(/\/$/, '');
+const site = (process.env.SITE_URL ?? 'https://gramazio-tabitha.netlify.app').replace(/\/$/, '');
 
 const requiredFiles = [
   'index.html',

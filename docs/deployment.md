@@ -1,7 +1,7 @@
 # Deployment e preparazione rilascio (F14–F15)
 
-**Hosting di riferimento:** [Vercel](https://vercel.com) (`vercel.json` in root).  
-Il file `netlify.toml` è legacy/opzionale: non usarlo salvo deploy esplicito su Netlify.
+**Pre-staging (gratuito):** [Netlify](https://www.netlify.com) — [`netlify.toml`](../netlify.toml), guida [netlify-pre-staging.md](./netlify-pre-staging.md).  
+**Vercel:** non usato in pre-staging (progetto rimosso); `vercel.json` opzionale/legacy.
 
 ## Prerequisiti
 
@@ -14,7 +14,7 @@ Il file `netlify.toml` è legacy/opzionale: non usarlo salvo deploy esplicito su
 
 | Variabile | Obbligatoria | Descrizione |
 |-----------|--------------|-------------|
-| `SITE_URL` | Sì (produzione/preview) | Es. `https://gramazio-tabitha.vercel.app` — sitemap e `import.meta.env.SITE` |
+| `SITE_URL` | Sì (produzione/preview) | Es. `https://gramazio-tabitha.netlify.app` — sitemap e `import.meta.env.SITE` |
 | `SANITY_PROJECT_ID` | Con backoffice | Sync contenuti in `prebuild` |
 | `SANITY_DATASET` | No | Default `production` |
 | `SANITY_API_TOKEN` | Con backoffice | Token lettura dataset (solo server Vercel) |
@@ -30,22 +30,21 @@ npm ci
 npm test
 npm run lint
 # Windows PowerShell:
-$env:SITE_URL="https://tuo-progetto.vercel.app"
+$env:SITE_URL="https://tuo-sito.netlify.app"
 npm run build
 npm run preview
 npm run check:release
 ```
 
-## Vercel
+## Netlify (pre-staging)
 
-**Procedura completa staging (passo-passo):** [vercel-staging.md](./vercel-staging.md).
+**Procedura completa:** [netlify-pre-staging.md](./netlify-pre-staging.md) (include rimozione progetto Vercel).
 
 In sintesi:
 
-1. Collegare repository GitHub a Vercel.
-2. Framework: **Astro** — `vercel.json` imposta `outputDirectory: dist` e header di sicurezza base.
-3. Environment variable **`SITE_URL`** = URL del deployment (preview `*.vercel.app` o dominio custom).
-4. Deploy → verificare HTTPS, `/404` custom, pagine statiche.
+1. Import GitHub → repo root, build da `netlify.toml`.
+2. Environment variable **`SITE_URL`** = URL `*.netlify.app` (senza slash finale) → redeploy.
+3. Verificare HTTPS, `/404` custom, sitemap/robots con host corretto.
 
 ## Post-deploy (F15 smoke)
 

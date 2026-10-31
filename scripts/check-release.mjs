@@ -6,7 +6,7 @@ const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const configPath = path.join(root, 'src/config/site.config.ts');
 const catalogPath = path.join(root, 'src/domain/catalog/products.data.ts');
 
-const DEFAULT_SITE = 'https://gramazio-tabitha.vercel.app';
+const DEFAULT_SITE = 'https://gramazio-tabitha.netlify.app';
 const warnings = [];
 
 const siteUrl = (process.env.SITE_URL ?? DEFAULT_SITE).replace(/\/$/, '');

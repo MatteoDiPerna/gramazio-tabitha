@@ -6,9 +6,10 @@
 
 | Voce | Valore |
 |------|--------|
-| Framework | Astro (`vercel.json`) |
+| Framework | Astro (`netlify.toml`) |
 | Output | `dist/` |
-| `SITE_URL` | `https://gramazio-tabitha.vercel.app` (Environment Variables → Production + Preview) |
+| Pre-staging | Netlify — vedi [netlify-pre-staging.md](./netlify-pre-staging.md) |
+| `SITE_URL` | `https://gramazio-tabitha.netlify.app` (Netlify env → Production) |
 | Repository | GitHub `MatteoDiPerna/gramazio-tabitha` |
 
 ## Verifiche pre-deploy (automatizzate in CI)
@@ -30,7 +31,7 @@ Include: test unitari, lint, build, `smoke:dist`, `check:release`.
 
 ## Deploy produzione
 
-1. Push su `main` → Vercel build automatica **oppure** `npx vercel --prod` dalla root (CLI autenticata).
+1. Push su `main` → Netlify build automatica (dopo import GitHub).
 2. Impostare `SITE_URL` uguale all’URL assegnato da Vercel se diverso dal default.
 3. Smoke manuale post-deploy: [release-go-live.md](./release-go-live.md) + [testing.md](./testing.md) F15-M01.
 
