@@ -17,9 +17,16 @@ Aggiornare le checkbox man mano che si completa il lavoro.
 | [PLAN-BACKOFFICE.md](./PLAN-BACKOFFICE.md) | Piano backoffice Sanity (analisi + fasi) |
 | [docs/backoffice-setup.md](./docs/backoffice-setup.md) | Avvio Studio, `.env`, import/sync |
 | [docs/backoffice-manuale-operatore.md](./docs/backoffice-manuale-operatore.md) | Guida titolare |
-| [docs/vercel-staging.md](./docs/vercel-staging.md) | Deploy staging su Vercel (passo-passo) |
+| [docs/netlify-pre-staging.md](./docs/netlify-pre-staging.md) | Pre-staging / deploy su Netlify |
+| [docs/deployment.md](./docs/deployment.md) | Env, build, hosting Netlify |
 
-**Ultimo aggiornamento worklog:** 2026-10-31
+**Ultimo aggiornamento worklog:** 2026-11-01
+
+---
+
+## Prossimo
+
+- [ ] **P1** — **Recensioni reali** — sostituire testimonianze placeholder in homepage (`homePage.ts` + UI) non appena disponibili le recensioni verificate; rimuovere o aggiornare il disclaimer placeholder di conseguenza.
 
 ---
 
@@ -51,8 +58,8 @@ Aggiornare le checkbox man mano che si completa il lavoro.
 - [x] **P1** — Pagine legali da bundle CMS (`LegalHtml.astro`, avviso + `bodyHtml`)
 - [x] **P1** — Documentazione setup + manuale operatore + ADR [003-backoffice-cms.md](./docs/decisions/003-backoffice-cms.md)
 - [ ] **P1** — Popolamento Sanity in cloud (`npm run cms:import` + Publish in Studio) — **per ambiente dev**
-- [ ] **P1** — Token Sanity + variabili su Vercel preview/production
-- [ ] **P2** — Webhook Sanity → Deploy Hook Vercel (pubblicazione automatica sito)
+- [ ] **P1** — Token Sanity + variabili su Netlify (preview / production)
+- [ ] **P2** — Webhook Sanity → Deploy Hook Netlify (pubblicazione automatica sito)
 - [ ] **P2** — Upload immagini prodotto via Studio + sync download in `public/`
 - [ ] **P2** — Collaudo autonomia titolare (18/20 attività PLAN-BACKOFFICE §4)
 
@@ -82,7 +89,7 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 - [ ] **P2** — Immagini hero/WebP: pipeline o asset ottimizzati (F11.04)
 - [x] **P2** — Documentare header overlay in `docs/page-paths.md` (`headerScroll.ts`)
 - [ ] **P2** — Banner cookie solo se si aggiunge analytics (F12.02)
-- [ ] **P1** — Deploy Vercel **staging** (`*.vercel.app`, `SITE_URL` = URL preview) — **consigliato prima del go-live pubblico**
+- [ ] **P1** — Collaudo preview **Netlify** (`*.netlify.app`, `SITE_URL` = URL sito) — vedi [docs/netlify-pre-staging.md](./docs/netlify-pre-staging.md)
 - [ ] **P0** — Go-live **pubblico** (dominio, dati legali/listino confermati, no placeholder recensioni) — F15
 
 ---
@@ -91,6 +98,7 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 
 - [ ] **P1** — Copy definitivo sezioni (Homepage in Sanity / bundle CMS)
 - [x] **P1** — Recensioni: disclaimer esplicito placeholder in `homePage.ts` + homepage
+- [ ] **P1** — **Recensioni reali** (prossimo step — vedi sezione [Prossimo](#prossimo))
 - [ ] **P2** — Ridurre peso JS (galleria, bundle React) se Lighthouse lo richiede
 - [ ] **P2** — Coerenza eyebrow sezioni interne vs banner (opzionale)
 
@@ -199,11 +207,12 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 
 ## Ordine di lavoro suggerito
 
-1. Deploy Vercel **staging** + smoke (opzionale ma utile subito)  
-2. Dati cliente (listino, foto, legali, WhatsApp) — anche via backoffice dopo import  
-3. ~~Refactor v1~~ + ~~backoffice MVP~~  
-4. Collaudo + Lighthouse  
-5. Dominio + go-live pubblico (F15)
+1. **Recensioni reali** in homepage (appena recuperate)  
+2. Collaudo **Netlify** (preview `*.netlify.app`) + smoke — hosting attuale, non Vercel  
+3. Dati cliente (listino, foto, legali, WhatsApp) — anche via backoffice dopo import  
+4. ~~Refactor v1~~ + ~~backoffice MVP~~  
+5. Collaudo + Lighthouse  
+6. Dominio + go-live pubblico (F15)
 
 ---
 
@@ -217,6 +226,8 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 | 2026-10-30 | Gutter laterali ridotti (`--layout-inline-padding`, `--content-max` fluido) |
 | 2026-10-31 | Chiusura PLAN v1: SITE_URL Vercel, ricerca catalogo, smoke/verify CI, legali, FAQ, deploy-log |
 | 2026-10-31 | Backoffice: PLAN-BACKOFFICE, Sanity Studio (`backoffice/`), bundle CMS, cms:import/sync/snapshot, legali da CMS, doc setup/manuale/ADR 003; README aggiornato |
+| 2026-11-01 | Prossimo step: recensioni reali in homepage (placeholder + disclaimer già in sito) |
+| 2026-11-01 | Hosting deploy: **Netlify** (worklog aggiornato; Vercel non più in uso) |
 
 ---
 
