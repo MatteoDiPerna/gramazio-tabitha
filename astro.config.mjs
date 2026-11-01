@@ -12,7 +12,22 @@ const SITE = process.env.SITE_URL ?? DEFAULT_PRODUCTION_SITE_URL;
 // https://astro.build/config
 export default defineConfig({
   site: SITE,
-  integrations: [react(), sitemap()],
+  env: {
+    schema: {
+      SITE_NOINDEX: {
+        context: 'server',
+        access: 'public',
+        type: 'string',
+        optional: true,
+      },
+    },
+  },
+  integrations: [
+    react(),
+    sitemap({
+      filter: (page) => !page.includes('/carrello'),
+    }),
+  ],
   vite: {
     resolve: {
       alias: {

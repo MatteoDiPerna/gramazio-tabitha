@@ -42,6 +42,7 @@ Procedura a bullet per **Gramazio Tabitha** su `*.netlify.app` (collaudo / demo)
   - Nome: **`SITE_URL`**
   - Valore: `https://gramazio-tabitha.netlify.app` (stesso URL Netlify, **senza** `/` finale)
   - Scope: **Production** (+ **Deploy previews** se usi PR)
+- (Consigliato pre-staging) **`SITE_NOINDEX`** = `1` — meta `noindex` su tutte le pagine finché non vai live col dominio
 - **Deploys** → **Trigger deploy** → **Clear cache and deploy site**.
 - Pre-staging: **non** impostare `SANITY_PROJECT_ID` / `SANITY_API_TOKEN` (sync in skip).
 

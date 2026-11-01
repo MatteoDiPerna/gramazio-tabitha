@@ -4,7 +4,7 @@ Usare insieme a [deployment.md](./deployment.md) e `npm run verify`.
 
 ## Configurazione (F14.03)
 
-- [x] `SITE_URL` default documentato (`gramazio-tabitha.vercel.app`) + env Vercel
+- [x] `SITE_URL` default documentato (`gramazio-tabitha.netlify.app`) + env Netlify
 - [x] `siteConfig.url` allineato via `import.meta.env.SITE` / fallback `siteUrl.ts`
 - [x] `whatsappE164` configurato (`393299147756`)
 - [x] Email ordini in `site.config.ts` (test manuale mailto a cura del titolare)

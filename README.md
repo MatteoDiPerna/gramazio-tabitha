@@ -66,7 +66,7 @@ Il sito mette in risalto brand e catalogo e permette al cliente finale di **comp
 | **Linguaggio & qualità** | TypeScript strict, validazione catalogo (schema), test unitari ([Vitest](https://vitest.dev)) |
 | **Design** | Design system leggero (token, componenti UI riusabili), layout responsive e touch-friendly |
 | **Accessibilità & UX** | Navigazione chiara, accordion FAQ accessibile, form ordine con validazione leggera, header adattivo su banner |
-| **DevOps leggero** | CI GitHub Actions (`npm run verify`), `vercel.json`, deploy **Vercel** (Hobby) |
+| **DevOps leggero** | CI GitHub Actions (`npm run verify`), `netlify.toml`, deploy **Netlify** (pre-staging / produzione) |
 | **Contenuti / CMS** | Sanity headless + bundle JSON; seed in `src/content/seeds/` |
 | **Documentazione** | PLAN v1/v backoffice, gap cliente, mappa URL, catalogo, deploy e backoffice |
 

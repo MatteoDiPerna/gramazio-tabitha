@@ -10,6 +10,10 @@ const requiredFiles = [
   'index.html',
   '404.html',
   'carrello/index.html',
+  'chi-siamo/index.html',
+  'contatti/index.html',
+  'faq/index.html',
+  'privacy/index.html',
   'catalogo/index.html',
   'prodotti/olio-extravergine-biologico/index.html',
   'robots.txt',
@@ -45,6 +49,12 @@ if (!distContains('wa.me/393299147756')) {
 }
 if (!distContains('Ordina via email')) {
   errors.push('Build: copy ordine email non trovata in dist.');
+}
+if (!distContains('Svuota carrello')) {
+  errors.push('Carrello: pulsante «Svuota carrello» non trovato in dist.');
+}
+if (!distContains('Anteprima messaggio')) {
+  errors.push('Carrello: pulsante «Anteprima messaggio» non trovato in dist.');
 }
 
 const sitemap = fs.readFileSync(path.join(dist, 'sitemap-index.xml'), 'utf8');

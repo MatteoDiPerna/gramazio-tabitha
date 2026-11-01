@@ -3,7 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const configPath = path.join(root, 'src/config/site.config.ts');
+const bundlePath = path.join(root, 'src/generated/cms/bundle.json');
 const catalogPath = path.join(root, 'src/domain/catalog/products.data.ts');
 
 const DEFAULT_SITE = 'https://gramazio-tabitha.netlify.app';
@@ -14,9 +14,15 @@ if (siteUrl.includes('example.com')) {
   warnings.push('SITE_URL punta a example.com — impostare dominio reale.');
 }
 
-const config = fs.readFileSync(configPath, 'utf8');
-if (/whatsappE164:\s*''/.test(config)) {
+const bundle = fs.readFileSync(bundlePath, 'utf8');
+if (/whatsappE164:\s*""/.test(bundle) || /"whatsappE164":\s*""/.test(bundle)) {
   warnings.push('whatsappE164 vuoto: pulsante WhatsApp ordine disabilitato.');
+}
+if (bundle.includes('Bozza tecnica')) {
+  warnings.push('Pagine legali ancora in bozza (privacy/cookie/note legali).');
+}
+if (bundle.includes('Esempi di feedback tipico')) {
+  warnings.push('Home: sezione recensioni con testi placeholder.');
 }
 
 const catalog = fs.readFileSync(catalogPath, 'utf8');

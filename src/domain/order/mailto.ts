@@ -1,9 +1,9 @@
-import { siteConfig } from '@/config/site.config';
+import { siteClientConfig } from '@/config/site.client';
 
 const MAILTO_MAX_LENGTH = 1800;
 
 export function buildMailtoUrl(subject: string, body: string): string {
-  const to = siteConfig.ordersEmail;
+  const to = siteClientConfig.ordersEmail;
   let safeBody = body;
   const base = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=`;
   if (base.length + encodeURIComponent(safeBody).length > MAILTO_MAX_LENGTH) {

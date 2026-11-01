@@ -166,7 +166,7 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 - [x] **P1** — Empty state e riepilogo allineati al design system
 - [x] **P1** — Barra azioni sticky mobile
 - [x] **P1** — Validazione leggera telefono prima di WA / email
-- [x] **P2** — Anteprima messaggio ordine collassabile (`<details>`)
+- [x] **P2** — Anteprima messaggio ordine in modal (`OrderMessagePreviewModal.tsx`)
 - [x] **P2** — Messaggio se prodotti non più disponibili (`syncCartWithCatalog` + avviso UI)
 
 ---
@@ -254,7 +254,7 @@ Verificare in locale (`npm run dev` o preview su `dist/`) e su mobile reale o em
 - Con righe: totali, messaggio prezzi su richiesta se applicabile.
 - Telefono invalido (es. `123`) blocca WA/email con messaggio errore; telefono vuoto o valido consente l’invio.
 - Barra azioni sticky su mobile (WhatsApp / email / copia).
-- `<details>` anteprima messaggio; copia negli appunti.
+- Pulsante **Anteprima messaggio** → modal; copia negli appunti.
 - Simula prodotto rimosso: `published: false` in backoffice (o bundle) → `cms:sync` + riavvio dev → avviso rimozione righe in carrello.
 
 ### Backoffice (Sanity Studio)

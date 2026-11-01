@@ -31,6 +31,10 @@ const {
   jsonLdNodes = [],
 } = Astro.props;
 
+/** Imposta `SITE_NOINDEX=1` in build per staging non indicizzato. */
+const siteNoindex = import.meta.env.SITE_NOINDEX === '1';
+const robotsNoindex = noindex || siteNoindex;
+
 const pageTitle = title ? `${title} | ${siteConfig.shortName}` : siteConfig.shortName;
 const canonical = absoluteUrl(canonicalPath ?? Astro.url.pathname);
 const ogImage = absoluteUrl(ogImagePath);
@@ -45,7 +49,7 @@ const jsonLd = jsonLdGraph(...graphNodes);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {robotsNoindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32" />

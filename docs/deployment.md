@@ -15,6 +15,7 @@
 | Variabile | Obbligatoria | Descrizione |
 |-----------|--------------|-------------|
 | `SITE_URL` | Sì (produzione/preview) | Es. `https://gramazio-tabitha.netlify.app` — sitemap e `import.meta.env.SITE` |
+| `SITE_NOINDEX` | No (pre-staging) | `1` = meta `noindex` su tutte le pagine |
 | `SANITY_PROJECT_ID` | Con backoffice | Sync contenuti in `prebuild` |
 | `SANITY_DATASET` | No | Default `production` |
 | `SANITY_API_TOKEN` | Con backoffice | Token lettura dataset (solo server Vercel) |

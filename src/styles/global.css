@@ -93,6 +93,7 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   min-height: var(--touch-min);
   min-width: var(--touch-min);
   padding-inline: var(--space-xs);
@@ -251,7 +252,8 @@ a:hover {
   text-align: center;
 }
 
-.page.page--centered .cart-actions {
+.page.page--centered .cart-actions,
+.page.page--centered .cart-preview-actions {
   justify-content: center;
 }
 

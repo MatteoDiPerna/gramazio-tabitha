@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type FC, type MouseEvent } from 'react';
-import { siteConfig } from '@/config/site.config';
+import { siteClientConfig as siteConfig } from '@/config/site.client';
 import {
   clearCartFormDraft,
   loadCartFormDraft,
@@ -17,6 +17,7 @@ import { formatEuros } from '@/domain/order/money';
 import { buildWhatsAppUrl } from '@/domain/order/whatsapp';
 import { useCart } from '@/hooks/useCart';
 import { QuantityStepper } from '../ui/QuantityStepper';
+import { OrderMessagePreviewModal } from './OrderMessagePreviewModal';
 import './cartPage.css';
 
 export const CartPage: FC = () => {
@@ -28,6 +29,7 @@ export const CartPage: FC = () => {
   const [copyStatus, setCopyStatus] = useState<string | null>(null);
   const [fieldError, setFieldError] = useState<string | null>(null);
   const [formHydrated, setFormHydrated] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
 
   useEffect(() => {
     const draft = loadCartFormDraft();
@@ -75,7 +77,7 @@ export const CartPage: FC = () => {
   };
 
   const onClearCart = () => {
-    if (!window.confirm('Vuoi svuotare il riepilogo ordine?')) return;
+    if (!window.confirm('Vuoi svuotare il carrello?')) return;
     clear();
     clearCartFormDraft();
     setCopyStatus(null);
@@ -193,7 +195,7 @@ export const CartPage: FC = () => {
 
       <div className="cart-toolbar">
         <button type="button" className="btn btn--ghost cart-toolbar__clear" onClick={onClearCart}>
-          Svuota riepilogo
+          Svuota carrello
         </button>
       </div>
 
@@ -281,10 +283,21 @@ export const CartPage: FC = () => {
         </p>
       )}
 
-      <details className="cart-preview">
-        <summary>Anteprima messaggio</summary>
-        <pre>{orderMessage}</pre>
-      </details>
+      <div className="cart-preview-actions">
+        <button
+          type="button"
+          className="btn btn--secondary"
+          onClick={() => setPreviewOpen(true)}
+        >
+          Anteprima messaggio
+        </button>
+      </div>
+
+      <OrderMessagePreviewModal
+        open={previewOpen}
+        message={orderMessage}
+        onClose={() => setPreviewOpen(false)}
+      />
     </div>
   );
 };

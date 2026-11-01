@@ -51,7 +51,7 @@ Equivalente a: `npm test` → `npm run lint` → `npm run build` → `npm run sm
 | F07-M02 | Persistenza | Reload `/carrello` | Righe in localStorage | OK |
 | F07-M03 | Modifica qty | +/- e Rimuovi | Totali coerenti | OK |
 | F07-M04 | Campi ordine | Nome/note + reload | sessionStorage | OK |
-| F07-M05 | Carrello vuoto | Svuota riepilogo | Empty state | OK |
+| F07-M05 | Carrello vuoto | Svuota carrello | Empty state | OK |
 
 ## F08 — WhatsApp (UI)
 

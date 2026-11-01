@@ -1,4 +1,4 @@
-import { siteConfig } from '@/config/site.config';
+import { siteClientConfig } from '@/config/site.client';
 import { formatEuros, lineTotalCents, sumCents } from '@/domain/order/money';
 
 export type OrderLine = {
@@ -46,7 +46,7 @@ export function buildOrderMessage(
       : 'Totale indicativo prodotti: da confermare (prezzi non in listino)';
 
   const parts = [
-    `Richiesta ordine — ${siteConfig.name}`,
+    `Richiesta ordine — ${siteClientConfig.name}`,
     '',
     'Prodotti:',
     ...productLines,

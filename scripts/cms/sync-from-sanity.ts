@@ -2,7 +2,7 @@
  * Scarica contenuti da Sanity e scrive src/generated/cms/bundle.json.
  * Senza SANITY_PROJECT_ID + SANITY_API_TOKEN esce 0 (no-op).
  */
-import { mkdirSync, writeFileSync, createWriteStream, existsSync } from 'node:fs';
+import { mkdirSync, writeFileSync, createWriteStream } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { pipeline } from 'node:stream/promises';
 import { createClient, type SanityClient } from '@sanity/client';

@@ -166,15 +166,6 @@
   border-left: 3px solid var(--color-accent-warm);
 }
 
-.cart-preview pre {
-  white-space: pre-wrap;
-  font-size: 0.8125rem;
-  background: var(--color-surface);
-  padding: 1rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-}
-
 .cart-empty,
 .cart-loading {
   padding: 2rem 0;
