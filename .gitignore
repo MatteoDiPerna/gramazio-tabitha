@@ -67,3 +67,6 @@ docs/prompt.txt
 # --- Misc local overrides ---
 *.local
 *.local.*
+
+# --- Generated files ---
+./src/generated/cms/bundle.json
