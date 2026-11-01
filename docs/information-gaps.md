@@ -2,6 +2,8 @@
 
 Elenco per raccolta con l'azienda. **Bloccanti per go-live** contrassegnati.
 
+Questionario ampio (validazione testi, foto, legali): [clarification-questions.md](../clarification-questions.md) in radice repo.
+
 ## Commercio e catalogo
 
 - [ ] **Bloccante:** listino completo (prodotto × formato × prezzo IVA incl.)

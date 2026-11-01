@@ -9,6 +9,7 @@ Aggiornare le checkbox man mano che si completa il lavoro.
 |-----------|-----|
 | [implementation-checklist.md](./implementation-checklist.md) | Fasi F00–F16, collaudo formale, stati ⏸/🚫 |
 | [docs/information-gaps.md](./docs/information-gaps.md) | Dati mancanti dall’azienda (bloccanti go-live) |
+| [clarification-questions.md](./clarification-questions.md) | Questionario completo per validazione contenuti con il cliente |
 | [docs/release-go-live.md](./docs/release-go-live.md) | Checklist deploy |
 | [docs/page-paths.md](./docs/page-paths.md) | Mappa URL → file sorgente |
 | [docs/concorrenti.md](./docs/concorrenti.md) | Benchmark «Chi siamo» e racconto |
@@ -208,11 +209,12 @@ Vedi anche [docs/information-gaps.md](./docs/information-gaps.md).
 ## Ordine di lavoro suggerito
 
 1. **Recensioni reali** in homepage (appena recuperate)  
-2. Collaudo **Netlify** (preview `*.netlify.app`) + smoke — hosting attuale, non Vercel  
-3. Dati cliente (listino, foto, legali, WhatsApp) — anche via backoffice dopo import  
-4. ~~Refactor v1~~ + ~~backoffice MVP~~  
-5. Collaudo + Lighthouse  
-6. Dominio + go-live pubblico (F15)
+2. news page linked facebook account  
+3. Collaudo **Netlify** (preview `*.netlify.app`) + smoke — hosting attuale, non Vercel  
+4. Dati cliente (listino, foto, legali, WhatsApp) — anche via backoffice dopo import  
+5. ~~Refactor v1~~ + ~~backoffice MVP~~  
+6. Collaudo + Lighthouse  
+7. Dominio + go-live pubblico (F15)
 
 ---
 
