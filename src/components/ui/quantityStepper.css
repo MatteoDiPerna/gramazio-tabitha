@@ -30,10 +30,36 @@
   outline-offset: 2px;
 }
 
-.qty__value {
-  min-width: 2rem;
-  text-align: center;
+.qty__input {
+  box-sizing: border-box;
+  width: 2.75rem;
+  min-width: 2.75rem;
+  padding: 0.25rem 0.125rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  font: inherit;
   font-weight: 600;
+  text-align: center;
+  color: var(--color-text);
+  -moz-appearance: textfield;
+}
+
+.qty__input::-webkit-outer-spin-button,
+.qty__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.qty__input:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 1px;
+  border-color: var(--color-primary);
+}
+
+.qty__input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .qty--compact .qty__btn {
@@ -42,7 +68,8 @@
   font-size: 1.0625rem;
 }
 
-.qty--compact .qty__value {
-  min-width: 1.75rem;
+.qty--compact .qty__input {
+  width: 2.25rem;
+  min-width: 2.25rem;
   font-size: var(--text-sm);
 }

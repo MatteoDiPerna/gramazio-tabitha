@@ -1,11 +1,12 @@
 .cart-modal-root {
   position: fixed;
   inset: 0;
-  z-index: var(--z-overlay);
+  z-index: var(--z-modal);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: var(--layout-inline-padding);
+  box-sizing: border-box;
 }
 
 .cart-modal-backdrop {
@@ -21,10 +22,11 @@
 .cart-modal {
   position: relative;
   z-index: 1;
-  width: min(36rem, 100%);
-  max-height: min(85vh, 32rem);
+  width: min(40rem, 100%);
+  max-height: min(92vh, 100%);
   display: flex;
   flex-direction: column;
+  margin: auto;
   background: var(--color-surface);
   border: 1px solid var(--color-border-strong, var(--color-border));
   border-radius: var(--radius-lg);
@@ -33,15 +35,18 @@
 
 .cart-modal__header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: var(--space-md);
+  flex-shrink: 0;
   padding: var(--space-md) var(--space-lg);
   border-bottom: 1px solid var(--color-border);
 }
 
 .cart-modal__title {
   margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
   font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 600;
@@ -54,11 +59,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--touch-min);
-  height: var(--touch-min);
-  margin: calc(-1 * var(--space-xs));
+  width: 2.25rem;
+  height: 2.25rem;
+  margin: 0;
   padding: 0;
-  font-size: 1.5rem;
+  font-size: 1.375rem;
   line-height: 1;
   color: var(--color-text-muted);
   background: transparent;
@@ -72,6 +77,12 @@
   background: var(--color-bg);
 }
 
+.cart-modal__content {
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
 .cart-modal__lead {
   margin: 0;
   padding: var(--space-md) var(--space-lg) 0;
@@ -81,14 +92,20 @@
 }
 
 .cart-modal__body {
-  flex: 1 1 auto;
-  margin: var(--space-md) var(--space-lg);
+  display: block;
+  box-sizing: border-box;
+  width: calc(100% - 2 * var(--space-lg));
+  margin: var(--space-md) var(--space-lg) var(--space-lg);
   padding: var(--space-md);
+  min-height: 8rem;
+  max-height: min(55vh, 30rem);
   overflow: auto;
+  resize: vertical;
   white-space: pre-wrap;
+  word-break: break-word;
   font-family: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', monospace;
   font-size: 0.8125rem;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--color-text);
   background: var(--color-surface-sunken);
   border: 1px solid var(--color-border);
@@ -97,13 +114,8 @@
 
 .cart-modal__footer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  flex-shrink: 0;
   padding: var(--space-md) var(--space-lg) var(--space-lg);
   border-top: 1px solid var(--color-border);
-}
-
-.cart-preview-actions {
-  display: flex;
-  justify-content: center;
-  width: 100%;
 }

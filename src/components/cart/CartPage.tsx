@@ -6,6 +6,8 @@ import {
   saveCartFormDraft,
 } from '@/domain/cart/cartFormStorage';
 import {
+  CART_QTY_MAX,
+  CART_QTY_MIN,
   cartLineKey,
   computeCartTotals,
   toOrderLines,
@@ -121,7 +123,7 @@ export const CartPage: FC = () => {
     );
   }
 
-  const actionButtons = (
+  const orderActions = (
     <>
       {waUrl ? (
         <a
@@ -145,152 +147,212 @@ export const CartPage: FC = () => {
       <button type="button" className="btn btn--ghost" onClick={onCopy}>
         Copia testo ordine
       </button>
+      <button
+        type="button"
+        className="btn btn--secondary"
+        onClick={() => setPreviewOpen(true)}
+      >
+        Anteprima messaggio
+      </button>
     </>
+  );
+
+  const unitPriceLabel = (cents: number | null) =>
+    cents == null ? 'Su richiesta' : `${formatEuros(cents)} cad.`;
+
+  const summaryBlock = (variant: 'mobile-top' | 'aside') => (
+    <div
+      className={
+        variant === 'mobile-top'
+          ? 'cart-summary cart-summary--mobile-top'
+          : 'cart-summary cart-summary--aside'
+      }
+    >
+      <p className="cart-summary__total">
+        <span>Totale indicativo prodotti</span>
+        <strong>
+          {totals.totalCents != null ? formatEuros(totals.totalCents) : 'Da confermare'}
+        </strong>
+      </p>
+      {variant === 'aside' && totals.hasUnknownPrices && (
+        <p className="cart-hint">
+          Alcune voci non hanno prezzo in listino: l&apos;importo finale sarà concordato con
+          l&apos;azienda.
+        </p>
+      )}
+      {variant === 'aside' && (
+        <p className="cart-hint">Spedizione e pagamento: da concordare.</p>
+      )}
+    </div>
+  );
+
+  const stickyActions = waUrl ? (
+    <>
+      <a
+        className="btn btn--whatsapp"
+        href={waUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={guardExternalOrder}
+      >
+        WhatsApp
+      </a>
+      <a className="btn btn--secondary" href={mailUrl} onClick={guardExternalOrder}>
+        Email
+      </a>
+    </>
+  ) : (
+    <a className="btn btn--primary" href={mailUrl} onClick={guardExternalOrder}>
+      Ordina via email
+    </a>
   );
 
   return (
     <div className="cart-page cart-page--has-lines">
       {catalogSyncRemoved && (
-        <p className="cart-hint" role="status">
+        <p className="cart-hint cart-sync-notice" role="status">
           Alcuni prodotti non sono più disponibili nel catalogo e sono stati rimossi dal
           riepilogo.
         </p>
       )}
 
-      <ul className="cart-lines">
-        {lines.map((line) => {
-          const key = cartLineKey(line.productId, line.variantId);
-          const sub = totals.lineSubtotals.get(key);
-          return (
-            <li key={key} className="cart-line">
-              <div className="cart-line__info">
-                <strong>{line.name}</strong>
-                <span>{line.format}</span>
-                <span className="cart-line__price">
-                  {line.unitPriceCents == null
-                    ? 'Prezzo su richiesta'
-                    : `${formatEuros(line.unitPriceCents)} cad.`}
-                </span>
-              </div>
-              <QuantityStepper
-                value={line.qty}
-                min={1}
-                onChange={(q) => updateQty(line.productId, line.variantId, q)}
+      {summaryBlock('mobile-top')}
+
+      <div className="cart-layout">
+        <section className="cart-layout__products" aria-labelledby="cart-lines-title">
+          <div className="cart-layout__products-head">
+            <h2 id="cart-lines-title" className="cart-layout__heading">
+              Prodotti nel riepilogo
+            </h2>
+            <button
+              type="button"
+              className="btn btn--ghost cart-layout__clear"
+              onClick={onClearCart}
+            >
+              Svuota carrello
+            </button>
+          </div>
+
+          <ul className="cart-lines">
+            {lines.map((line) => {
+              const key = cartLineKey(line.productId, line.variantId);
+              const sub = totals.lineSubtotals.get(key);
+              return (
+                <li key={key} className="cart-line">
+                  <div className="cart-line__info">
+                    <div className="cart-line__title-row">
+                      <strong className="cart-line__name">{line.name}</strong>
+                      <span className="cart-line__unit">{unitPriceLabel(line.unitPriceCents)}</span>
+                    </div>
+                    <span className="cart-line__format">{line.format}</span>
+                    <span className="cart-line__price cart-line__price--desktop">
+                      {line.unitPriceCents == null
+                        ? 'Prezzo su richiesta'
+                        : `${formatEuros(line.unitPriceCents)} cad.`}
+                    </span>
+                  </div>
+                  <div className="cart-line__controls">
+                    <QuantityStepper
+                      value={line.qty}
+                      min={CART_QTY_MIN}
+                      max={CART_QTY_MAX}
+                      compact
+                      onChange={(q) => updateQty(line.productId, line.variantId, q)}
+                    />
+                    <div className="cart-line__sub">
+                      {sub == null ? 'Subtot. da confermare' : formatEuros(sub)}
+                    </div>
+                    <button
+                      type="button"
+                      className="cart-line__remove"
+                      onClick={() => remove(line.productId, line.variantId)}
+                      aria-label={`Rimuovi ${line.name}`}
+                    >
+                      Rimuovi
+                    </button>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+
+        <aside className="cart-layout__checkout" aria-label="Totale e invio ordine">
+          {summaryBlock('aside')}
+
+          <fieldset className="cart-fields">
+            <legend>Dati utili per la consegna (opzionali)</legend>
+            <label>
+              Note
+              <textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                rows={3}
               />
-              <div className="cart-line__sub">
-                {sub == null ? 'Subtot. da confermare' : formatEuros(sub)}
-              </div>
-              <button
-                type="button"
-                className="cart-line__remove"
-                onClick={() => remove(line.productId, line.variantId)}
-                aria-label={`Rimuovi ${line.name}`}
-              >
-                Rimuovi
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+            </label>
+            <label>
+              Nome
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                autoComplete="name"
+              />
+            </label>
+            <label>
+              Telefono
+              <input
+                type="tel"
+                value={phone}
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                  if (fieldError) setFieldError(cartContactValidationError(e.target.value));
+                }}
+                autoComplete="tel"
+                aria-invalid={fieldError ? true : undefined}
+              />
+            </label>
+            <label>
+              Indirizzo consegna
+              <textarea
+                value={deliveryAddress}
+                onChange={(e) => setDeliveryAddress(e.target.value)}
+                rows={2}
+                autoComplete="street-address"
+              />
+            </label>
+          </fieldset>
 
-      <div className="cart-toolbar">
-        <button type="button" className="btn btn--ghost cart-toolbar__clear" onClick={onClearCart}>
-          Svuota carrello
-        </button>
-      </div>
+          {fieldError && (
+            <p className="cart-hint cart-hint--error" role="alert">
+              {fieldError}
+            </p>
+          )}
 
-      <div className="cart-summary">
-        <p>
-          <strong>Totale indicativo prodotti:</strong>{' '}
-          {totals.totalCents != null
-            ? formatEuros(totals.totalCents)
-            : 'Da confermare'}
-        </p>
-        {totals.hasUnknownPrices && (
-          <p className="cart-hint">
-            Alcune voci non hanno prezzo in listino: l&apos;importo finale sarà concordato con
-            l&apos;azienda.
+          <div className="cart-actions cart-actions--stack">{orderActions}</div>
+
+          {waUrl && (
+            <p className="cart-wa-note">
+              Si aprirà WhatsApp con un messaggio precompilato: <strong>devi inviarlo</strong>{' '}
+              per completare la richiesta. L&apos;ordine non è confermato automaticamente.
+            </p>
+          )}
+
+          {copyStatus && (
+            <p className="cart-hint" role="status">
+              {copyStatus}
+            </p>
+          )}
+
+          <p className="cart-disclaimer">
+            {siteConfig.orderDisclaimer}{' '}
+            <a href="/privacy">Informativa privacy</a>.
           </p>
-        )}
-        <p className="cart-hint">Spedizione e pagamento: da concordare.</p>
+        </aside>
       </div>
 
-      <fieldset className="cart-fields">
-        <legend>Dati utili per la consegna (opzionali)</legend>
-        <label>
-          Note
-          <textarea
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            rows={3}
-          />
-        </label>
-        <label>
-          Nome
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" />
-        </label>
-        <label>
-          Telefono
-          <input
-            type="tel"
-            value={phone}
-            onChange={(e) => {
-              setPhone(e.target.value);
-              if (fieldError) setFieldError(cartContactValidationError(e.target.value));
-            }}
-            autoComplete="tel"
-            aria-invalid={fieldError ? true : undefined}
-          />
-        </label>
-        <label>
-          Indirizzo consegna
-          <textarea
-            value={deliveryAddress}
-            onChange={(e) => setDeliveryAddress(e.target.value)}
-            rows={2}
-            autoComplete="street-address"
-          />
-        </label>
-      </fieldset>
-
-      {fieldError && (
-        <p className="cart-hint cart-hint--error" role="alert">
-          {fieldError}
-        </p>
-      )}
-
-      <p className="cart-disclaimer">
-        {siteConfig.orderDisclaimer}{' '}
-        <a href="/privacy">Informativa privacy</a>.
-      </p>
-
-      <div className="cart-actions">{actionButtons}</div>
-
-      <div className="cart-actions-sticky" aria-label="Azioni ordine">
-        {actionButtons}
-      </div>
-
-      {waUrl && (
-        <p className="cart-wa-note">
-          Si aprirà WhatsApp con un messaggio precompilato: <strong>devi inviarlo</strong> per
-          completare la richiesta. L&apos;ordine non è confermato automaticamente.
-        </p>
-      )}
-
-      {copyStatus && (
-        <p className="cart-hint" role="status">
-          {copyStatus}
-        </p>
-      )}
-
-      <div className="cart-preview-actions">
-        <button
-          type="button"
-          className="btn btn--secondary"
-          onClick={() => setPreviewOpen(true)}
-        >
-          Anteprima messaggio
-        </button>
+      <div className="cart-actions-sticky" aria-label="Azioni ordine rapide">
+        {stickyActions}
       </div>
 
       <OrderMessagePreviewModal

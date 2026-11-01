@@ -2,6 +2,15 @@ import type { Product } from '@/domain/catalog/catalog.schema';
 import { lineTotalCents, sumCents } from '@/domain/order/money';
 import type { CartLine } from '@/domain/cart/types';
 
+export const CART_QTY_MIN = 1;
+export const CART_QTY_MAX = 10;
+
+export function clampCartQty(qty: number): number {
+  const n = Math.floor(Number(qty));
+  if (!Number.isFinite(n)) return CART_QTY_MIN;
+  return Math.min(CART_QTY_MAX, Math.max(CART_QTY_MIN, n));
+}
+
 export function cartLineKey(productId: string, variantId: string): string {
   return `${productId}:${variantId}`;
 }
@@ -15,7 +24,8 @@ export function createCartLine(
   variantId: string,
   qty: number,
 ): CartLine | null {
-  if (!canAddProductToCart(product) || qty < 1) return null;
+  const safeQty = clampCartQty(qty);
+  if (!canAddProductToCart(product) || safeQty < CART_QTY_MIN) return null;
   const variant = product.variants.find((v) => v.id === variantId);
   if (!variant) return null;
 
@@ -25,7 +35,7 @@ export function createCartLine(
     name: product.name,
     format: variant.label,
     unitPriceCents: variant.priceCents,
-    qty,
+    qty: safeQty,
   };
 }
 
@@ -37,7 +47,7 @@ export function addLine(lines: CartLine[], line: CartLine): CartLine[] {
   if (!existing) return [...lines, line];
   return lines.map((l) =>
     cartLineKey(l.productId, l.variantId) === key
-      ? { ...l, qty: l.qty + line.qty }
+      ? { ...l, qty: clampCartQty(l.qty + line.qty) }
       : l,
   );
 }
@@ -51,8 +61,9 @@ export function setLineQty(
   if (qty <= 0) {
     return removeLine(lines, productId, variantId);
   }
+  const safeQty = clampCartQty(qty);
   return lines.map((l) =>
-    l.productId === productId && l.variantId === variantId ? { ...l, qty } : l,
+    l.productId === productId && l.variantId === variantId ? { ...l, qty: safeQty } : l,
   );
 }
 
@@ -117,6 +128,7 @@ export function syncCartWithCatalog(
         name: product.name,
         format: variant.label,
         unitPriceCents: variant.priceCents,
+        qty: clampCartQty(line.qty),
       };
     })
     .filter((l): l is CartLine => l !== null);

@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, type FC } from 'react';
+import { createPortal } from 'react-dom';
 import './orderMessagePreviewModal.css';
 
 type Props = {
@@ -10,6 +11,19 @@ type Props = {
 export const OrderMessagePreviewModal: FC<Props> = ({ open, message, onClose }) => {
   const titleId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
+  const messageRef = useRef<HTMLPreElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const pre = messageRef.current;
+    if (pre) {
+      pre.style.height = 'auto';
+      const maxPx = Math.min(window.innerHeight * 0.55, 480);
+      const natural = pre.scrollHeight;
+      pre.style.height = `${Math.min(Math.max(natural, 128), maxPx)}px`;
+    }
+  }, [open, message]);
+
   useEffect(() => {
     if (!open) return;
 
@@ -31,9 +45,9 @@ export const OrderMessagePreviewModal: FC<Props> = ({ open, message, onClose }) 
     };
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open || typeof document === 'undefined') return null;
 
-  return (
+  return createPortal(
     <div className="cart-modal-root">
       <button
         type="button"
@@ -61,17 +75,22 @@ export const OrderMessagePreviewModal: FC<Props> = ({ open, message, onClose }) 
             ×
           </button>
         </header>
-        <p className="cart-modal__lead">
-          Testo che verrà inviato via WhatsApp o email. Puoi modificarlo nei campi sopra prima
-          dell&apos;invio.
-        </p>
-        <pre className="cart-modal__body">{message}</pre>
+        <div className="cart-modal__content">
+          <p className="cart-modal__lead">
+            Testo che verrà inviato via WhatsApp o email. Puoi modificarlo nei campi sopra prima
+            dell&apos;invio.
+          </p>
+          <pre ref={messageRef} className="cart-modal__body">
+            {message}
+          </pre>
+        </div>
         <div className="cart-modal__footer">
           <button type="button" className="btn btn--primary" onClick={onClose}>
             Chiudi
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };

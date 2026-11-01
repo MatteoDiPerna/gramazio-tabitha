@@ -61,6 +61,8 @@
   --z-fab: 90;
   --z-header: 100;
   --z-overlay: 110;
+  /** Modal/dialog sopra header, footer e FAB (sotto site-loader) */
+  --z-modal: 10000;
 
   --bp-sm: 480px;
   --bp-md: 768px;

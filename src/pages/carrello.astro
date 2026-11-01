@@ -11,9 +11,11 @@ const heroLead = 'Componi la richiesta e inviala via WhatsApp o email';
 <BaseLayout
   title="Riepilogo ordine"
   description="Componi la richiesta d'ordine e inviala via WhatsApp o email."
+  hideWhatsAppFab
+  bodyClass="page-carrello"
 >
   <PageHero title={heroTitle} lead={heroLead} size="compact" />
-  <PageContainer centered prose>
+  <PageContainer class="page--cart">
     <CartPage client:load />
   </PageContainer>
 </BaseLayout>

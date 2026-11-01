@@ -252,14 +252,44 @@ a:hover {
   text-align: center;
 }
 
-.page.page--centered .cart-actions,
-.page.page--centered .cart-preview-actions {
+.page.page--centered .cart-actions {
   justify-content: center;
 }
 
 .page.page--centered .cart-line,
 .page.page--centered .cart-fields {
   text-align: left;
+}
+
+.page.page--cart {
+  max-width: var(--content-max);
+  text-align: left;
+}
+
+.page.page--cart .cart-empty,
+.page.page--cart .cart-loading {
+  text-align: center;
+}
+
+body.page-carrello .page-hero--compact {
+  margin-bottom: var(--space-sm);
+  padding: calc(var(--header-height) + var(--space-md)) 0 var(--space-sm);
+}
+
+body.page-carrello .page-hero--compact .page-hero__title {
+  margin-bottom: var(--space-xs);
+}
+
+body.page-carrello .page.page--cart {
+  padding-block: var(--space-sm) var(--space-md);
+}
+
+body.page-carrello .footer {
+  margin-top: var(--space-sm);
+}
+
+body.page-carrello main {
+  padding-bottom: 0;
 }
 
 .page-title {

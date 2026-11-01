@@ -4,6 +4,8 @@ import {
   addLine,
   canAddProductToCart,
   cartItemCount,
+  clampCartQty,
+  CART_QTY_MAX,
   computeCartTotals,
   createCartLine,
   removeLine,
@@ -58,6 +60,16 @@ describe('cart logic', () => {
     const t = computeCartTotals(lines);
     expect(t.totalCents).toBe(2000);
     expect(t.hasUnknownPrices).toBe(true);
+  });
+
+  it('clamps quantity between 1 and 10', () => {
+    expect(clampCartQty(0)).toBe(1);
+    expect(clampCartQty(13)).toBe(CART_QTY_MAX);
+    const line = createCartLine(sampleProduct, '500ml', 99);
+    expect(line?.qty).toBe(CART_QTY_MAX);
+    let lines = addLine([], line!);
+    lines = setLineQty(lines, 'olio-evo-bio', '500ml', 20);
+    expect(lines[0].qty).toBe(CART_QTY_MAX);
   });
 
   it('updates and removes qty', () => {

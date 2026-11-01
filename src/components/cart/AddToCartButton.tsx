@@ -40,7 +40,7 @@ export const AddToCartButton: FC<Props> = ({
 
   return (
     <div className={compact ? 'add-cart add-cart--compact' : 'add-cart'}>
-      <QuantityStepper value={qty} min={1} onChange={setQty} compact={compact} />
+      <QuantityStepper value={qty} min={1} max={10} onChange={setQty} compact={compact} />
       <button type="button" className="btn btn--primary" onClick={onAdd}>
         Aggiungi all&apos;ordine
       </button>

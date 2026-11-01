@@ -19,6 +19,10 @@ interface Props {
   noindex?: boolean;
   /** Extra JSON-LD nodes (e.g. Product) */
   jsonLdNodes?: Record<string, unknown>[];
+  /** Nasconde FAB WhatsApp (es. pagina carrello con CTA ordine) */
+  hideWhatsAppFab?: boolean;
+  /** Classe aggiuntiva su `<body>` */
+  bodyClass?: string;
 }
 
 const {
@@ -29,6 +33,8 @@ const {
   ogType = 'website',
   noindex = false,
   jsonLdNodes = [],
+  hideWhatsAppFab = false,
+  bodyClass,
 } = Astro.props;
 
 /** Imposta `SITE_NOINDEX=1` in build per staging non indicizzato. */
@@ -76,7 +82,7 @@ const jsonLd = jsonLdGraph(...graphNodes);
     <script type="application/ld+json" set:html={jsonLd} />
     <ClientRouter />
   </head>
-  <body>
+  <body class:list={[bodyClass]}>
     <SiteLoader />
     <a class="skip-link" href="#main">Vai al contenuto</a>
     <Header />
@@ -84,6 +90,6 @@ const jsonLd = jsonLdGraph(...graphNodes);
       <slot />
     </main>
     <Footer />
-    <WhatsAppFab />
+    {!hideWhatsAppFab && <WhatsAppFab />}
   </body>
 </html>
